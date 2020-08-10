@@ -47,7 +47,7 @@ def make_caviar_command(CAVIAR_PATH, ld_path, z_path, c=2, o='tmp/caviar'):
     return cmd
 
 
-def run_caviar(B, se, LD, prefix_path):
+def run_caviar(B, se, LD):
     """
     run caviar, return list of caviar POST dataframes
     use this downstream for eCAVIAR and finemapping evaluation

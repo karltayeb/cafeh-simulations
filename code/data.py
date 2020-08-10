@@ -34,6 +34,8 @@ def make_plink_cmd(gene, save_path):
 
 
 def load_genotype(gene, subset=None):
+    if not os.path.isdir('.tmp/1k_genomes'):
+        os.makedirs('.tmp/1k_genomes')
     genotype_path = '.tmp/1k_genomes/{}.raw'.format(gene)
     if not os.path.isfile(genotype_path):
         print('getting genotype')
