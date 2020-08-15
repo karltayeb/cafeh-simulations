@@ -20,7 +20,7 @@ def make_plink_cmd(gene, save_path):
     tss = get_tss(gene)
     cmd = ' '.join(
         ['plink',
-         '--bfile', 'data/1k_genomes/1kg.{}'.format(get_chr(gene)),
+         '--bfile', '/work-zfs/abattle4/marios/GTEx_v8/coloc/GTEx_all_genotypes',
          '--chr', get_chr(gene)[3:],
          '--from-bp', str(np.maximum(tss-1e6, 0)),
          '--to-bp', str(tss+1e6),
