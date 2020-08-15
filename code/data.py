@@ -2,17 +2,21 @@ from types import SimpleNamespace
 import subprocess
 import copy
 import json
+import yaml
 import os
 import numpy as np
 import pandas as pd
 
+
+config = yaml.load(open('config.yml', 'r'))
+
 def get_chr(gene):
-    gene2chr = json.load(open('data/gene2chr', 'r'))
+    gene2chr = json.load(open(config['gene2chr_path'], 'r'))
     return gene2chr.get(gene, None)
 
 
 def get_tss(gene):
-    gene2chr = json.load(open('data/gene2tss', 'r'))
+    gene2chr = json.load(open(config['gene2tss_path'], 'r'))
     return gene2chr.get(gene, None)
 
 
@@ -20,7 +24,7 @@ def make_plink_cmd(gene, save_path):
     tss = get_tss(gene)
     cmd = ' '.join(
         ['plink',
-         '--bfile', '/work-zfs/abattle4/marios/GTEx_v8/coloc/GTEx_all_genotypes',
+         '--bfile', config['genotype_binary_path'],
          '--chr', get_chr(gene)[3:],
          '--from-bp', str(np.maximum(tss-1e6, 0)),
          '--to-bp', str(tss+1e6),
@@ -30,20 +34,40 @@ def make_plink_cmd(gene, save_path):
          '--keep-allele-order',
          '--snps-only',
          '--out', save_path])
+    print(cmd)
     return cmd
 
+def make_plink_beagle_cmd(gene, save_path):
+    tss = get_tss(gene)
+    cmd = ' '.join(
+        ['plink',
+         '--bfile', config['genotype_binary_path'],
+         '--chr', get_chr(gene)[3:],
+         '--from-bp', str(np.maximum(tss-1e6, 0)),
+         '--to-bp', str(tss+1e6),
+         '--maf', '0.01',
+         '--geno', '0.1',
+         '--recode', 'beagle',
+         '--keep-allele-order',
+         '--snps-only',
+         '--out', save_path])
+    print(cmd)
+    return cmd
 
 def load_genotype(gene, subset=None):
     if not os.path.isdir('.tmp/genotype'):
         os.makedirs('.tmp/genotype')
     genotype_path = '.tmp/genotype/{}.raw'.format(gene)
+    map_path = '.tmp/genotype/ENSG00000116329.11.chr-{}.map'.format(get_chr(gene)[3:])
     if not os.path.isfile(genotype_path):
         print('getting genotype')
         subprocess.run(make_plink_cmd(gene, genotype_path[:-4]), shell=True)
+        subprocess.run(make_plink_beagle_cmd(gene, genotype_path[:-4]), shell=True)
+
     genotype = pd.read_csv(genotype_path, sep=' ').set_index('IID').iloc[:, 5:]
     if subset is not None:
         tss = get_tss(gene)
-        pos = np.array([x.split('_')[1] for x in genotype.columns.values])
+        pos = pd.read_csv(map_path, sep='\t').iloc[:, 1].values
         idx = np.argsort(np.abs(pos - tss))[:1000]
         genotype = genotype.iloc[:, idx]
 

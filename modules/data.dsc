@@ -6,7 +6,7 @@
 # $Y: expression t x n
 # $LD: LD matrix (correlation between genotypes)
 
-full_genotype: data.py + Python(gene_list = np.loadtxt(gene_list_path, dtype=str); X=center_mean_impute(load_genotype(np.random.choice(gene_list), subset)).values)
+full_genotype: data.py + Python(gene_list = np.loadtxt(gene_list_path, dtype=str); X=center_mean_impute(load_genotype(gene_list[DSC_REPLICATE], subset)).values)
   tag: "full"
   gene_list_path: 'data/sim_genes.txt'
   subset: None
