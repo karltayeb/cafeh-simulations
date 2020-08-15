@@ -23,6 +23,7 @@ DSC:
 
   run:
     default: simulate * (cafeh, fit_susie, caviar, ecaviar, coloc)
+    run_simulations: simulate
     # cafeh_genotype: full_genotype * one_study_sim * fit_cafeh_genotype
     # cafeh_summary: full_genotype * one_study_sim * genotype2ld * individual2summary * fit_cafeh_genotype
     # susie_summary: full_genotype * two_study_sim * genotype2ld * individual2summary * fit_susie_summary
