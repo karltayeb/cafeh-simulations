@@ -34,18 +34,18 @@ def make_plink_cmd(gene, save_path):
 
 
 def load_genotype(gene, subset=None):
-    if not os.path.isdir('.tmp/1k_genomes'):
-        os.makedirs('.tmp/1k_genomes')
-    genotype_path = '.tmp/1k_genomes/{}.raw'.format(gene)
+    if not os.path.isdir('.tmp/genotype'):
+        os.makedirs('.tmp/genotype')
+    genotype_path = '.tmp/genotype/{}.raw'.format(gene)
     if not os.path.isfile(genotype_path):
         print('getting genotype')
         subprocess.run(make_plink_cmd(gene, genotype_path[:-4]), shell=True)
     genotype = pd.read_csv(genotype_path, sep=' ').set_index('IID').iloc[:, 5:]
-    gentoype = genotype.rename(columns={x: x.split('_')[0] for x in genotype.columns})
-
     if subset is not None:
-        snp_subset = np.random.choice(genotype.shape[1], subset, replace=False)
-        genotype = genotype.iloc[:, snp_subset]
+        tss = get_tss(gene)
+        pos = np.array([x.split('_')[1] for x in genotype.columns.values])
+        idx = np.argsort(np.abs(pos - tss))[:1000]
+        genotype = genotype.iloc[:, idx]
 
     # clean up
     subprocess.run('rm {}*'.format(genotype_path[:-4]), shell=True)
