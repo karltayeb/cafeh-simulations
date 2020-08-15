@@ -9,6 +9,7 @@ import pandas as pd
 
 
 config = yaml.load(open('config.yml', 'r'))
+gene_list = np.loadtxt(config['sim_gene_path'], dtype=str)
 
 def get_chr(gene):
     gene2chr = json.load(open(config['gene2chr_path'], 'r'))

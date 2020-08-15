@@ -23,7 +23,7 @@ tissue_specific_sim(n_causal_per_study_sim):
   n_study: 1, 2, 5, 10, 20
   n_causal_per_study: 1, 2, 3, 4, 5
 
-tissue_specific_sim(n_causal_per_study_sim):
+general_sim(n_causal_per_study_sim):
   # demonstrate relative performance at a range of settings
   prop_colocalizing: 0.5
   n_study: 1, 2, 5, 10

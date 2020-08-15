@@ -137,9 +137,6 @@ def run_caviar(B, se, LD):
         print(cmd)
         subprocess.run(cmd, shell=True)
 
-    # load posterior results
-    subprocess.run('ls -lh {}*'.format(prefix), shell=True)
-
     results = []
     for i in range(z.shape[0]):
         post = pd.read_csv('{}_{}_post'.format(prefix, i), sep='\t')
@@ -153,7 +150,7 @@ def run_caviar(B, se, LD):
         results.append(SimpleNamespace(posterior=post, credible_set=cs))
 
     # clean up temporary files
-    #subprocess.run('rm -r {}*'.format(prefix), shell=True)
+    subprocess.run('rm -r {}*'.format(prefix), shell=True)
     return results
 
 
