@@ -24,7 +24,7 @@ def make_plink_cmd(gene, save_path):
          '--chr', get_chr(gene)[3:],
          '--from-bp', str(np.maximum(tss-1e6, 0)),
          '--to-bp', str(tss+1e6),
-         '--maf', '0.1',
+         '--maf', '0.01',
          '--geno', '0.1',
          '--recode', 'A',
          '--keep-allele-order',

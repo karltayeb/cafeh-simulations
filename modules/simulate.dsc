@@ -13,25 +13,25 @@ n_causal_per_study_sim: simulation.py \
   pve: 0.05, 0.1, 0.2, 0.4
   X: $X
   $sim: sim
+  $true_effects: sim['true_effects']
   $Y: sim['expression']
   $K: sim['K']
 
-single_sim(n_causal_per_study_sim):
-  n_study: 20
-  n_causal_per_study: 3
-  pve: 0.1
-
-one_study_sim(n_causal_per_study_sim):
-  n_study: 1
-  prop_colocalizing: 1.0
+tissue_specific_sim(n_causal_per_study_sim):
+  # want to show that cafeh does not have a lot of false postives as tissues increase
+  prop_colocalizing: 0.0
+  n_study: 1, 2, 5, 10, 20
   n_causal_per_study: 1, 2, 3, 4, 5
 
-two_study_sim(n_causal_per_study_sim):
-  n_study: 2
+tissue_specific_sim(n_causal_per_study_sim):
+  # demonstrate relative performance at a range of settings
   prop_colocalizing: 0.5
+  n_study: 1, 2, 5, 10
   n_causal_per_study: 1, 2, 3, 4, 5
 
-increase_study_sim(n_causal_per_study_sim):
-  n_study: 2, 5, 10, 20, 50
+global_effect_sim(n_causal_per_study_sim):
+  # test at lower pve to show power increases w/ n_study
+  prop_colocalizing: 1.0
+  n_study: 1, 2, 5, 10
   n_causal_per_study: 1, 2, 3
-  pve: 0.05, 0.1
+  pve: 0.01, 0.05, 0.1

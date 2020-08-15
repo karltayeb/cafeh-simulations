@@ -63,12 +63,20 @@ def sim_n_causal_per_study(X, n_study, prop_colocalizing, n_causal_per_study, pv
     pve: percent variance explained by genotype
     """
     n_variants = X.shape[1]
-    causal_snps = np.random.choice(n_variants, get_n_causal(n_causal_per_study, prop_colocalizing))
 
-    results = []
-    for t in range(n_study):
-        causal_in_study = np.random.choice(causal_snps, n_causal_per_study, replace=False)
-        results.append(sim_expression_single_study(X, causal_in_study, pve, effect_distribution))
+    if prop_colocalizing > 0:
+        causal_snps = np.random.choice(n_variants, get_n_causal(n_causal_per_study, prop_colocalizing))
+        results = []
+        for t in range(n_study):
+            causal_in_study = np.random.choice(causal_snps, n_causal_per_study, replace=False)
+            results.append(sim_expression_single_study(X, causal_in_study, pve, effect_distribution))
+    else:
+        # special case with no colocalization: give each study its own set of causal snps
+        causal_snps = np.random.choice(n_variants, n_causal_per_study * n_study)
+        results = []
+        for t in range(n_study):
+            causal_in_study = causal_snps[t::n_causal_per_study]
+            results.append(sim_expression_single_study(X, causal_in_study, pve, effect_distribution))
 
     expression = np.atleast_2d(np.array([x[0] for x in results]))
     true_effects = np.atleast_2d(np.array([x[1] for x in results]))

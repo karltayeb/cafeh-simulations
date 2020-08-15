@@ -19,7 +19,9 @@ DSC:
       #SBATCH --output={cur_dir}/{job_name}.out
       #SBATCH --error={cur_dir}/{job_name}.err
       cd {cur_dir}
-      module load R/3.5.1 2> /dev/null
+      conda activate cafeh-sim-env
+      module load R
+      module load plink
     partition: "SBATCH --partition=broadwl"
     account: ""
     submit_cmd: sbatch {job_file}
@@ -42,32 +44,45 @@ default:
   cpus_per_instance: 1
   mem_per_instance: 2G
   time_per_instance: 5m
- 
-full_data:
+
+full_genotype:
+  time_per_instance: 2m
+
+individual2summary:
+  time_per_instance: 2m
+
+genotype2ld:
+  time_per_instance: 2m
+
+n_causal_per_study_sim:
+  time_per_instance: 5m
+
+fit_cafeh_genotype:
   time_per_instance: 10m
-
-susie_rss:
-  time_per_instance: 61m
   instances_per_job: 80
 
-susie_rss_add_z:
-  time_per_instance: 61m
+fit_cafeh_summary:
+  time_per_instance: 10m
   instances_per_job: 80
 
-susie_bhat:
-  time_per_instance: 61m
+fit_caviar:
+  time_per_instance: 10m
   instances_per_job: 80
 
-susie_bhat_add_z:
-  time_per_instance: 61m
+fit_ecaviar:
+  time_per_instance: 10m
   instances_per_job: 80
 
-finemap:
-  time_per_instance: 31m
+fit_coloc:
+  time_per_instance: 10m
+  instances_per_job: 80
 
-finemap_add_z:
-  time_per_instance: 31m
+score_coloc_cafeh:
+  time_per_instance: 2m
 
+score_finemapping_cafeh:
+  time_per_instance: 2m
+  
 caviar:
   cpus_per_instance: 2
   time_per_instance: 6h

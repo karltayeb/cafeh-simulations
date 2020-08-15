@@ -1,4 +1,6 @@
+from types import SimpleNamespace
 import numpy as np
+import pandas as pd
 
 p_coloc = lambda active, t1, t2: 1 - \
     np.exp(np.sum(np.log(1e-10 + 1 - active[t1] * active[t2])))
@@ -57,3 +59,14 @@ def score_finemapping_cafeh(credible_sets, purity, true_effects):
         'n_top_causal': top_causal.sum(),
         'n_causal': causal_snps.size
     }
+
+def score_finemapping_caviar(caviar_out, true_effects):
+    pip = pd.concat([c.posterior.pip for c in caviar_out], axis=1).T.values
+    credible_sets = {i: caviar_out[i].credible_set for i in range(len(caviar_out))}
+
+    n_variants = true_effects.shape[1]
+    causal_snps = {i: np.arange(n_variants)[te != 0] for i, te in enumerate(true_effects)}
+    n_causal_in_cs = np.array([np.isin(credible_sets[i], causal_snps[i]) for i in causal_snps])
+    n_causal = np.array([causal_snps[i].size for i in causal_snps])
+    return SimpleNamespace(
+        study_pip=pip, credible_sets=credible_sets, n_causal_in_cs=n_causal, n_causal=n_causal)

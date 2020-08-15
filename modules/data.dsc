@@ -30,7 +30,3 @@ individual2summary: data.py + Python(sumstats = get_cafeh_summary_stats(Y.T, X))
   $B: sumstats['beta']
   $se: sumstats['se']
   $S: sumstats['S']
-
-random_data: Python(X = numpy.random.random((100, 100)))
-  @CONF: python_modules = (numpy)
-  $X: X2

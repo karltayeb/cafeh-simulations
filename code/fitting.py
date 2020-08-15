@@ -10,18 +10,20 @@ import os
 from itertools import combinations
 from types import SimpleNamespace
 
-def get_param_dict(model):
+def get_param_dict(model, compress=True):
     param_dict = {}
-    model._compress_model()
+    if compress:
+        model._compress_model()
     for key in model.__dict__:
         if key not in ['LD', 'B', 'X', 'Y', 'precompute', 'records']:
             param_dict[key] = model.__dict__[key]
-    model._decompress_model()
+    if compress:
+        model._decompress_model()
     return param_dict
 
-def fit_cafeh_genotype(X, Y, K=10):
+def fit_cafeh_genotype(X, Y, K, p0k):
     cafehg = CAFEHG(X=X, Y=Y, K=K)
-    cafehg.prior_activity = np.ones(K) * 0.01
+    cafehg.prior_activity = np.ones(K) * p0k
     print(cafehg.X.shape)
     print(cafehg.Y.shape)
     print(cafehg.dims)
@@ -29,15 +31,70 @@ def fit_cafeh_genotype(X, Y, K=10):
     forward_fit_procedure(cafehg)
     return cafehg
 
-def fit_cafeh_summary(LD, B, S, K=10):
-    cafeh = CAFEH(LD=LD, B=B, S=S, K=K)
-    forward_fit_procedure(cafeh)
-    return cafeh
+
+def fit_cafeh_summary_simple(LD, B, S, K, p0k):
+    model = CAFEHSimple(LD=LD, B=B, S=S, K=K)
+    model.prior_activity = np.ones(K) * p0k
+    forward_fit_procedure(model)
+    return model
+
+def fit_cafeh_summary(LD, B, S, K, p0k):
+    model = CAFEH(LD=LD, B=B, S=S, K=K)
+    model.prior_activity = np.ones(K) * p0k
+    forward_fit_procedure(model)
+    return model
+
+def fit_susie_genotype(X, Y, K, p0k):
+    expected_effects = []
+    study_pip = []
+    credible_sets = []
+    purity = []
+    params = []
+
+    for y in Y:
+        model = CAFEHG(X=X, Y=y[None], K=K)
+        model.prior_activity = np.ones(K) * p0k
+        forward_fit_procedure(model)
+
+        expected_effects.append(model.expected_effects)
+        study_pip.append(model.get_study_pip().values.flatten())
+        credible_sets.append(model.credible_sets)
+        purity.append(model.purity)
+        params.append(get_param_dict(model))
+
+    expected_effects = np.array(expected_effects)
+    study_pip = np.array(study_pip)
+    return SimpleNamespace(
+        expected_effects=expected_effects, study_pip=study_pip, credible_sets=credible_sets,
+        purity=purity, params=params)
+
+def fit_susie_summary(LD, B, S, K, p0k):
+    expected_effects = []
+    study_pip = []
+    credible_sets = []
+    purity = []
+    params = []
+
+    for i in range(B.shape[0]):
+        model = CAFEH(LD=LD, B=B[[i]], S=S[[i]], K=K)
+        model.prior_activity = np.ones(K) * p0k
+        forward_fit_procedure(model)
+        expected_effects.append(model.expected_effects)
+        study_pip.append(model.get_study_pip().values.flatten())
+        credible_sets.append(model.credible_sets)
+        purity.append(model.purity)
+        params.append(get_param_dict(model))
+
+    expected_effects = np.array(expected_effects)
+    study_pip = np.array(study_pip)
+    return SimpleNamespace(
+        expected_effects=expected_effects, study_pip=study_pip, credible_sets=credible_sets,
+        purity=purity, params=params)
 
 ############
 #  CAVIAR  #
 ############
-def make_caviar_command(CAVIAR_PATH, ld_path, z_path, c=2, o='tmp/caviar'):
+def make_caviar_command(CAVIAR_PATH, ld_path, z_path, c=2, o='.tmp/caviar'):
     cmd = ' '.join(
         [CAVIAR_PATH,
          '-l', ld_path,
@@ -56,7 +113,12 @@ def run_caviar(B, se, LD):
     if not os.path.isdir(prefix_path):
         os.makedirs(prefix_path)
 
+    # seed hack so that tmp files dont get overwritten
+    import time
+    np.random.seed(int((time.time() * 1e6) % (2**32 -1)))
     prefix = prefix_path + ''.join(np.random.choice(10, 20).astype(str))
+    np.random.seed(DSC_SEED)
+
     z = B/se
     # save caviar summary stats: zscore, LD
     for i, z_i in enumerate(z):
@@ -76,6 +138,8 @@ def run_caviar(B, se, LD):
         subprocess.run(cmd, shell=True)
 
     # load posterior results
+    subprocess.run('ls -lh {}*'.format(prefix), shell=True)
+
     results = []
     for i in range(z.shape[0]):
         post = pd.read_csv('{}_{}_post'.format(prefix, i), sep='\t')
@@ -89,7 +153,7 @@ def run_caviar(B, se, LD):
         results.append(SimpleNamespace(posterior=post, credible_set=cs))
 
     # clean up temporary files
-    subprocess.run('rm -r {}*'.format(prefix), shell=True)
+    #subprocess.run('rm -r {}*'.format(prefix), shell=True)
     return results
 
 

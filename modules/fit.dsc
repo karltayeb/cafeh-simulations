@@ -1,13 +1,52 @@
-capture: Python(pickle.dump(X, open('./tmp/X', 'wb')); pickle.dump(Y, open('./tmp/Y', 'wb')); a=X)
-  @CONF: python_modules = (numpy)
-  X: $X
-  Y: $Y
-  $a: a
-
-fit_cafeh_genotype: fitting.py + Python(model = fit_cafeh_genotype(X=X.T, Y=Y, K=K); params = get_param_dict(model))
+fit_cafeh_genotype: fitting.py + Python(model = fit_cafeh_genotype(X.T, Y, K, p0k); params = get_param_dict(model))
   X: $X
   Y: $Y
   K: $K
+  p0k: 0.01
+  $expected_effects: model.expected_effects
+  $pip: model.get_pip()
+  $study_pip: model.get_study_pip().values
+  $pi: model.pi
+  $active: model.active
+  $credible_sets: model.credible_sets
+  $purity: model.purity
+  $params: params
+
+fit_susie_genotype: fitting.py + Python(results = fit_susie_genotype(X.T, Y, K, p0k))
+  X: $X
+  Y: $Y
+  K: 5
+  p0k: 1.0
+  $expected_effects: results.expected_effects
+  $study_pip: results.study_pip
+  $credible_sets: results.credible_sets
+  $purity: results.purity
+  $params: results.params
+
+fit_susie_genotype_ss(fit_susie_genotype):
+  p0k: 0.01
+
+fit_cafeh_summary: fitting.py + Python(model = fit_cafeh_summary(LD, B, S, K, p0k); params = get_param_dict(model))
+  LD: $LD
+  B: $B
+  S: $S
+  K: 5
+  p0k: 0.01
+  $expected_effects: model.expected_effects
+  $pip: model.get_pip()
+  $study_pip: model.get_study_pip().values
+  $pi: model.pi
+  $active: model.active
+  $credible_sets: model.credible_sets
+  $purity: model.purity
+  $params: params
+
+fit_cafeh_summary_simple: fitting.py + Python(model = fit_cafeh_summary_simple(LD, B, S, K, p0k); params = get_param_dict(model, compress=False))
+  LD: $LD
+  B: $B
+  S: $S
+  K: 5
+  p0k: 0.01
   $expected_effects: model.expected_effects
   $pip: model.get_pip()
   $study_pip: model.get_study_pip().values
@@ -18,20 +57,20 @@ fit_cafeh_genotype: fitting.py + Python(model = fit_cafeh_genotype(X=X.T, Y=Y, K
   $params: params
 
 
-fit_cafeh_summary: fitting.py + Python(model = fit_cafeh_summary(LD, B, S, K=K); params = get_param_dict(model))
+fit_susie_summary: fitting.py + Python(results = fit_susie_summary(LD, B, S, K, p0k))
   LD: $LD
   B: $B
   S: $S
   K: $K
-  $expected_effects: model.expected_effects
-  $pip: model.get_pip()
-  $study_pip: model.get_study_pip().values
-  $pi: model.pi
-  $active: model.active
-  $credible_sets: model.credible_sets
-  $purity: model.purity
-  $params: params
+  p0k: 1.0
+  $expected_effects: results.expected_effects
+  $study_pip: results.study_pip
+  $credible_sets: results.credible_sets
+  $purity: results.purity
+  $params: results.params
 
+fit_susie_summary_ss(fit_susie_summary):
+  p0k: 0.01
 
 fit_caviar: fitting.py + Python(caviar_out = run_caviar(B, se, LD))
   LD: $LD
