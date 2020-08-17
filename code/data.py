@@ -59,7 +59,7 @@ def load_genotype(gene, subset=None):
     if not os.path.isdir('.tmp/genotype'):
         os.makedirs('.tmp/genotype')
     genotype_path = '.tmp/genotype/{}.raw'.format(gene)
-    map_path = '.tmp/genotype/ENSG00000116329.11.chr-{}.map'.format(get_chr(gene)[3:])
+    map_path = '.tmp/genotype/{}.chr-{}.map'.format(gene, get_chr(gene)[3:])
     if not os.path.isfile(genotype_path):
         print('getting genotype')
         subprocess.run(make_plink_cmd(gene, genotype_path[:-4]), shell=True)
