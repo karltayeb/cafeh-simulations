@@ -9,6 +9,9 @@ import subprocess
 import os
 from itertools import combinations
 from types import SimpleNamespace
+import yaml
+
+config = yaml.load(open('config.yml', 'r'))
 
 def get_param_dict(model, compress=True):
     param_dict = {}
@@ -131,7 +134,7 @@ def run_caviar(B, se, LD):
     post = []
     for i in range(z.shape[0]):
         cmd = make_caviar_command(
-            CAVIAR_PATH, '{}LD'.format(prefix),
+            config['caviar_path'], '{}LD'.format(prefix),
             '{}z{}'.format(prefix, i), c=2,
             o='{}_{}'.format(prefix, i))
         print(cmd)

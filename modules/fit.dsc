@@ -84,7 +84,6 @@ fit_caviar: fitting.py + Python(caviar_out = run_caviar(B, se, LD))
   LD: $LD
   B: $B
   se: $se
-  CAVIAR_PATH: '/Users/karltayeb/Research/software/caviar/CAVIAR-C++/CAVIAR'
   $caviar_out: caviar_out
 
 
