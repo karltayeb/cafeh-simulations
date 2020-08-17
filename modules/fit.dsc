@@ -1,4 +1,5 @@
 fit_cafeh_genotype: fitting.py + Python(model = fit_cafeh_genotype(X.T, Y, K, p0k); params = get_param_dict(model))
+  model: 'cafeh_genotype'
   X: $X
   Y: $Y
   K: $K
@@ -13,6 +14,7 @@ fit_cafeh_genotype: fitting.py + Python(model = fit_cafeh_genotype(X.T, Y, K, p0
   $params: params
 
 fit_susie_genotype: fitting.py + Python(results = fit_susie_genotype(X.T, Y, K, p0k))
+  model: 'susie_genotype'
   X: $X
   Y: $Y
   K: 5
@@ -24,13 +26,15 @@ fit_susie_genotype: fitting.py + Python(results = fit_susie_genotype(X.T, Y, K, 
   $params: results.params
 
 fit_susie_genotype_ss(fit_susie_genotype):
+  model: 'susie_genotype_ss'
   p0k: 0.01
 
 fit_cafeh_summary: fitting.py + Python(model = fit_cafeh_summary(LD, B, S, K, p0k); params = get_param_dict(model))
+  model: 'cafeh_summary'
   LD: $LD
   B: $B
   S: $S
-  K: 5
+  K: $K
   p0k: 0.01
   $expected_effects: model.expected_effects
   $pip: model.get_pip()
@@ -42,10 +46,11 @@ fit_cafeh_summary: fitting.py + Python(model = fit_cafeh_summary(LD, B, S, K, p0
   $params: params
 
 fit_cafeh_summary_simple: fitting.py + Python(model = fit_cafeh_summary_simple(LD, B, S, K, p0k); params = get_param_dict(model, compress=False))
+  model: 'cafeh_summary'
   LD: $LD
   B: $B
   S: $S
-  K: 5
+  K: $K
   p0k: 0.01
   $expected_effects: model.expected_effects
   $pip: model.get_pip()
@@ -58,6 +63,7 @@ fit_cafeh_summary_simple: fitting.py + Python(model = fit_cafeh_summary_simple(L
 
 
 fit_susie_summary: fitting.py + Python(results = fit_susie_summary(LD, B, S, K, p0k))
+  model: 'susie_summary'
   LD: $LD
   B: $B
   S: $S
@@ -70,9 +76,11 @@ fit_susie_summary: fitting.py + Python(results = fit_susie_summary(LD, B, S, K, 
   $params: results.params
 
 fit_susie_summary_ss(fit_susie_summary):
+  model: 'susie_summary_ss'
   p0k: 0.01
 
 fit_caviar: fitting.py + Python(caviar_out = run_caviar(B, se, LD))
+  model: 'caviar'
   LD: $LD
   B: $B
   se: $se
@@ -81,11 +89,13 @@ fit_caviar: fitting.py + Python(caviar_out = run_caviar(B, se, LD))
 
 
 fit_ecaviar: fitting.py + Python(ecaviar_out = ecaviar_from_caviar(caviar_out))
+  model: 'ecaviar'
   caviar_out: $caviar_out
   $ecaviar_out: ecaviar_out
 
 
 fit_coloc: fitting.py + Python(coloc_out = run_coloc(B, se))
+  model: 'coloc'
   B: $B
   se: $se
   $coloc_out: coloc_out

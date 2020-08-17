@@ -7,7 +7,7 @@
 
 DSC:
   define:
-    simulations: tissue_specific_sim, global_effect_sim
+    simulations: tissue_specific_sim, general_sim, global_effect_sim
     simulate: small_genotype * genotype2ld * simulations * individual2summary
 
     fit_cafeh: fit_cafeh_genotype, fit_cafeh_summary, fit_cafeh_summary_simple
@@ -19,7 +19,7 @@ DSC:
     caviar: fit_caviar * score_finemapping_caviar
     ecaviar: fit_caviar * fit_ecaviar # * score_coloc_ecaviar
 
-    coloc: fit_coloc # * score_coloc_coloc
+    coloc: fit_coloc * score_coloc_coloc
 
   run:
     default: simulate * (cafeh, fit_susie, caviar, ecaviar, coloc)

@@ -1,12 +1,32 @@
-score_coloc_cafeh: scoring.py + Python(results = score_coloc_cafeh(active, true_effects, thresh))
+score_coloc_cafeh: scoring.py + Python(results = score_coloc_cafeh(active, true_coloc, thresh))
   thresh: 0.99
   active: $active
-  true_effects: $true_effects
+  true_coloc: $true_coloc
+  $p_coloc: results['p_coloc']
   $TP: results['true_positive']
   $FP: results['false_positive']
   $TN: results['true_negative']
   $FN: results['false_negative']
 
+score_coloc_coloc: scoring.py + Python(results = score_coloc_coloc(coloc_out, true_coloc, thresh))
+  thresh: 0.99
+  coloc_out: $coloc_out
+  true_coloc: $true_coloc
+  $p_coloc: results['p_coloc']
+  $TP: results['true_positive']
+  $FP: results['false_positive']
+  $TN: results['true_negative']
+  $FN: results['false_negative']
+
+score_coloc_ecaviar: scoring.py + Python(results = score_coloc_ecaviar(ecaviar_out, true_coloc, thresh))
+  thresh: 0.99
+  ecaviar_out: $ecaviar_out
+  true_coloc: $true_coloc
+  $p_coloc: results['p_coloc']
+  $TP: results['true_positive']
+  $FP: results['false_positive']
+  $TN: results['true_negative']
+  $FN: results['false_negative']
 
 score_finemapping_cafeh: scoring.py + Python(results = score_finemapping_cafeh(credible_sets, purity, true_effects))
   credible_sets: $credible_sets
@@ -26,3 +46,6 @@ score_finemapping_caviar: scoring.py + Python(results = score_finemapping_caviar
   $credible_sets: results.credible_sets
   $n_causal_in_cs: results.n_causal_in_cs
   $n_causal: results.n_causal
+
+
+

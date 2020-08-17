@@ -5,25 +5,54 @@ import pandas as pd
 p_coloc = lambda active, t1, t2: 1 - \
     np.exp(np.sum(np.log(1e-10 + 1 - active[t1] * active[t2])))
 
-def score_coloc_cafeh(active, true_effects, thresh=0.9):
+def score_coloc_cafeh(active, true_coloc, thresh=0.9):
     """
     compute true/false positive/negative frequency
     from q(s) for all components
     """
     n_studies = active.shape[0]
     tril = np.tril_indices(n_studies, k=-1)
-    true_coloc = (true_effects @ true_effects.T != 0)[tril]
-
     model_coloc = np.concatenate(
         [[p_coloc(active, t1, t2) for t1 in range(t2)]
          for t2 in range(n_studies)])
-    model_coloc = model_coloc > thresh
     return {
-        'true_positive': (true_coloc & model_coloc).sum(),
-        'false_positive': (~true_coloc & model_coloc).sum(),
-        'true_negative': (~true_coloc & ~model_coloc).sum(),
-        'false_negative': (true_coloc & ~model_coloc).sum()
+        'p_coloc': model_coloc,
+        'true_positive': (true_coloc & (model_coloc > thresh)).sum(),
+        'false_positive': (~true_coloc & (model_coloc > thresh)).sum(),
+        'true_negative': (~true_coloc & ~(model_coloc > thresh)).sum(),
+        'false_negative': (true_coloc & ~(model_coloc > thresh)).sum()
     }
+
+
+def score_coloc_coloc(coloc_out, true_coloc, thresh=0.9):
+    n_study = np.unique(
+        np.array([np.array(k) for k in coloc_out])).size
+    tril = np.tril_indices(n_study, k=-1)
+    p_coloc = np.concatenate(
+        [[coloc_out[(t1, t2)].pph4 for t1 in range(t2)] for t2 in range(n_study)])
+    return {
+        'p_coloc': p_coloc,
+        'true_positive': (true_coloc & (p_coloc > thresh)).sum(),
+        'false_positive': (~true_coloc & (p_coloc > thresh)).sum(),
+        'true_negative': (~true_coloc & ~(p_coloc > thresh)).sum(),
+        'false_negative': (true_coloc & ~(p_coloc > thresh)).sum()
+    }
+
+
+def score_coloc_ecaviar(ecaviar_out, true_coloc, thresh=0.9):
+    n_study = np.unique(
+        np.array([np.array(k) for k in ecaviar_out])).size
+    tril = np.tril_indices(n_study, k=-1)
+    p_coloc = np.concatenate(
+        [[ecaviar_out[(t1, t2)] for t1 in range(t2)] for t2 in range(n_study)])
+    return {
+        'p_coloc': p_coloc,
+        'true_positive': (true_coloc & (p_coloc > thresh)).sum(),
+        'false_positive': (~true_coloc & (p_coloc > thresh)).sum(),
+        'true_negative': (~true_coloc & ~(p_coloc > thresh)).sum(),
+        'false_negative': (true_coloc & ~(p_coloc > thresh)).sum()
+    }
+
 
 def score_finemapping_cafeh(credible_sets, purity, true_effects):
     """

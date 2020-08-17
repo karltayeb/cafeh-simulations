@@ -14,6 +14,7 @@ n_causal_per_study_sim: simulation.py \
   X: $X
   $sim: sim
   $true_effects: sim['true_effects']
+  $true_coloc: sim['true_coloc']
   $Y: sim['expression']
   $K: sim['K']
 
@@ -28,6 +29,13 @@ general_sim(n_causal_per_study_sim):
   prop_colocalizing: 0.5
   n_study: 1, 2, 5, 10
   n_causal_per_study: 1, 2, 3, 4, 5
+
+single_sim(n_causal_per_study_sim):
+  # demonstrate relative performance at a range of settings
+  prop_colocalizing: 0.5
+  n_study: 5
+  n_causal_per_study: 3
+  pve: 0.1
 
 global_effect_sim(n_causal_per_study_sim):
   # test at lower pve to show power increases w/ n_study

@@ -163,7 +163,7 @@ def ecaviar_from_caviar(results):
     out = {}
     for i, j in combinations(range(l), 2):
         CLPP = results[0].posterior.pip * results[1].posterior.pip
-        out[(i, j)] = CLPP
+        out[(i, j)] = CLPP.values.max()
     return out
 
 ############
@@ -187,8 +187,9 @@ def run_coloc(beta, se):
     lnabf = compute_lnabf(beta, se)
     out = {}
     for i, j in combinations(range(lnabf.shape[0]), 2):
-        out[(i, j)] = SimpleNamespace(**{'pph{}'.format(i): x
-            for i, x in enumerate(coloc(lnabf[i], lnabf[j]))})
+        out[(i, j)] = SimpleNamespace(
+            **{'pph{}'.format(i): x for i, x in enumerate(
+                coloc(lnabf[i], lnabf[j]))})
     return out
 
 

@@ -85,9 +85,12 @@ def sim_n_causal_per_study(X, n_study, prop_colocalizing, n_causal_per_study, pv
     # trim down to the causal snps we actually used
     causal_snps = np.arange(n_variants)[np.any(true_effects != 0, 0)]
 
+    tril = np.tril_indices(n_study, k=-1)
+    true_coloc = (true_effects @ true_effects.T != 0)[tril]
     return {
         'expression': expression,
         'true_effects': true_effects,
+        'true_coloc': true_coloc,
         'residual_variance': residual_variance,
         'causal_snps': causal_snps,
         'n_causal': causal_snps.size,
