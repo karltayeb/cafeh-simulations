@@ -12,11 +12,9 @@ DSC:
 
     # cafeh 
     fit_cafeh: fit_cafeh_genotype, fit_cafeh_summary, fit_cafeh_summary_simple
-    cafeh: fit_cafeh * score_coloc_cafeh
 
     # susie
     fit_susie: (fit_susie_genotype, fit_susie_summary, fit_susie_genotype_ss, fit_susie_summary_ss)
-    susie: fit_susie
 
     # caviar
     caviar: fit_caviar * (score_finemapping_caviar, fit_ecaviar*score_coloc_ecaviar)
@@ -25,7 +23,7 @@ DSC:
     coloc: fit_coloc * score_coloc_coloc
 
   run:
-    default: simulate * (cafeh, susie, caviar, coloc)
+    default: simulate * (fit_cafeh * score_coloc_cafeh, fit_susie, caviar, coloc)
     run_simulations: simulate
     # cafeh_genotype: full_genotype * one_study_sim * fit_cafeh_genotype
     # cafeh_summary: full_genotype * one_study_sim * genotype2ld * individual2summary * fit_cafeh_genotype
