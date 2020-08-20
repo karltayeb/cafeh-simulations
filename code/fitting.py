@@ -24,7 +24,7 @@ def get_param_dict(model, compress=True):
         model._decompress_model()
     return param_dict
 
-def fit_cafeh_genotype(X, Y, K, p0k, fit):
+def fit_cafeh_genotype(X, Y, K, p0k, fit, **kwargs):
     model = CAFEHG(X=X, Y=Y, K=K)
     model.prior_activity = np.ones(K) * p0k
     print(model.X.shape)
@@ -32,31 +32,31 @@ def fit_cafeh_genotype(X, Y, K, p0k, fit):
     print(model.dims)
 
     if fit == 'forward':
-        forward_fit_procedure(model)
+        forward_fit_procedure(model, **kwargs)
     elif fit == 'weight_ard_active':
-        weight_ard_active_fit_procedure(model)
+        weight_ard_active_fit_procedure(model, **kwargs)
     return model
 
 
-def fit_cafeh_summary_simple(LD, B, S, K, p0k, fit):
+def fit_cafeh_summary_simple(LD, B, S, K, p0k, fit, **kwargs):
     model = CAFEHSimple(LD=LD, B=B, S=S, K=K)
     model.prior_activity = np.ones(K) * p0k
     if fit == 'forward':
-        forward_fit_procedure(model)
+        forward_fit_procedure(model, **kwargs)
     elif fit == 'weight_ard_active':
-        weight_ard_active_fit_procedure(model)
+        weight_ard_active_fit_procedure(model, **kwargs)
     return model
 
-def fit_cafeh_summary(LD, B, S, K, p0k, fit):
+def fit_cafeh_summary(LD, B, S, K, p0k, fit, **kwargs):
     model = CAFEH(LD=LD, B=B, S=S, K=K)
     model.prior_activity = np.ones(K) * p0k
     if fit == 'forward':
-        forward_fit_procedure(model)
+        forward_fit_procedure(model, **kwargs)
     elif fit == 'weight_ard_active':
-        weight_ard_active_fit_procedure(model)
+        weight_ard_active_fit_procedure(model, **kwargs)
     return model
 
-def fit_susie_genotype(X, Y, K, p0k, fit):
+def fit_susie_genotype(X, Y, K, p0k, fit, **kwargs):
     expected_effects = []
     study_pip = []
     credible_sets = []
@@ -67,9 +67,9 @@ def fit_susie_genotype(X, Y, K, p0k, fit):
         model = CAFEHG(X=X, Y=y[None], K=K)
         model.prior_activity = np.ones(K) * p0k
         if fit == 'forward':
-            forward_fit_procedure(model)
+            forward_fit_procedure(model, **kwargs)
         elif fit == 'weight_ard_active':
-            weight_ard_active_fit_procedure(model)
+            weight_ard_active_fit_procedure(model, **kwargs)
         expected_effects.append(model.expected_effects)
         study_pip.append(model.get_study_pip().values.flatten())
         credible_sets.append(model.credible_sets)
@@ -82,7 +82,7 @@ def fit_susie_genotype(X, Y, K, p0k, fit):
         expected_effects=expected_effects, study_pip=study_pip, credible_sets=credible_sets,
         purity=purity, params=params)
 
-def fit_susie_summary(LD, B, S, K, p0k, fit):
+def fit_susie_summary(LD, B, S, K, p0k, fit, **kwargs):
     expected_effects = []
     study_pip = []
     credible_sets = []
@@ -93,9 +93,9 @@ def fit_susie_summary(LD, B, S, K, p0k, fit):
         model = CAFEH(LD=LD, B=B[[i]], S=S[[i]], K=K)
         model.prior_activity = np.ones(K) * p0k
         if fit == 'forward':
-            forward_fit_procedure(model)
+            forward_fit_procedure(model, **kwargs)
         elif fit == 'weight_ard_active':
-            weight_ard_active_fit_procedure(model)
+            weight_ard_active_fit_procedure(model, **kwargs)
         expected_effects.append(model.expected_effects)
         study_pip.append(model.get_study_pip().values.flatten())
         credible_sets.append(model.credible_sets)
