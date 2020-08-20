@@ -1,7 +1,7 @@
 from cafeh.cafeh_ss import CAFEH
 from cafeh.cafeh_ss_simple import CAFEHSimple
 from cafeh.independent_model_ss import CAFEHG
-from cafeh.fitting import forward_fit_procedure
+from cafeh.fitting import forward_fit_procedure, weight_ard_active_fit_procedure
 from coloc import coloc
 import numpy as np
 import pandas as pd
@@ -24,30 +24,39 @@ def get_param_dict(model, compress=True):
         model._decompress_model()
     return param_dict
 
-def fit_cafeh_genotype(X, Y, K, p0k):
-    cafehg = CAFEHG(X=X, Y=Y, K=K)
-    cafehg.prior_activity = np.ones(K) * p0k
-    print(cafehg.X.shape)
-    print(cafehg.Y.shape)
-    print(cafehg.dims)
+def fit_cafeh_genotype(X, Y, K, p0k, fit):
+    model = CAFEHG(X=X, Y=Y, K=K)
+    model.prior_activity = np.ones(K) * p0k
+    print(model.X.shape)
+    print(model.Y.shape)
+    print(model.dims)
 
-    forward_fit_procedure(cafehg)
-    return cafehg
+    if fit == 'forward':
+        forward_fit_procedure(model)
+    elif fit == 'weight_ard_active':
+        weight_ard_active_fit_procedure(model)
+    return model
 
 
-def fit_cafeh_summary_simple(LD, B, S, K, p0k):
+def fit_cafeh_summary_simple(LD, B, S, K, p0k, fit):
     model = CAFEHSimple(LD=LD, B=B, S=S, K=K)
     model.prior_activity = np.ones(K) * p0k
-    forward_fit_procedure(model)
+    if fit == 'forward':
+        forward_fit_procedure(model)
+    elif fit == 'weight_ard_active':
+        weight_ard_active_fit_procedure(model)
     return model
 
-def fit_cafeh_summary(LD, B, S, K, p0k):
+def fit_cafeh_summary(LD, B, S, K, p0k, fit):
     model = CAFEH(LD=LD, B=B, S=S, K=K)
     model.prior_activity = np.ones(K) * p0k
-    forward_fit_procedure(model)
+    if fit == 'forward':
+        forward_fit_procedure(model)
+    elif fit == 'weight_ard_active':
+        weight_ard_active_fit_procedure(model)
     return model
 
-def fit_susie_genotype(X, Y, K, p0k):
+def fit_susie_genotype(X, Y, K, p0k, fit):
     expected_effects = []
     study_pip = []
     credible_sets = []
@@ -55,10 +64,12 @@ def fit_susie_genotype(X, Y, K, p0k):
     params = []
 
     for y in Y:
-        model = CAFEHG(X=X, Y=y[None], K=K)
+        model = model(X=X, Y=y[None], K=K)
         model.prior_activity = np.ones(K) * p0k
-        forward_fit_procedure(model)
-
+        if fit == 'forward':
+            forward_fit_procedure(model)
+        elif fit == 'weight_ard_active':
+            weight_ard_active_fit_procedure(model)
         expected_effects.append(model.expected_effects)
         study_pip.append(model.get_study_pip().values.flatten())
         credible_sets.append(model.credible_sets)
@@ -71,7 +82,7 @@ def fit_susie_genotype(X, Y, K, p0k):
         expected_effects=expected_effects, study_pip=study_pip, credible_sets=credible_sets,
         purity=purity, params=params)
 
-def fit_susie_summary(LD, B, S, K, p0k):
+def fit_susie_summary(LD, B, S, K, p0k, fit):
     expected_effects = []
     study_pip = []
     credible_sets = []
@@ -81,7 +92,10 @@ def fit_susie_summary(LD, B, S, K, p0k):
     for i in range(B.shape[0]):
         model = CAFEH(LD=LD, B=B[[i]], S=S[[i]], K=K)
         model.prior_activity = np.ones(K) * p0k
-        forward_fit_procedure(model)
+        if fit == 'forward':
+            forward_fit_procedure(model)
+        elif fit == 'weight_ard_active':
+            weight_ard_active_fit_procedure(model)
         expected_effects.append(model.expected_effects)
         study_pip.append(model.get_study_pip().values.flatten())
         credible_sets.append(model.credible_sets)
@@ -197,7 +211,7 @@ def run_coloc(beta, se):
 
 
 def load_model_from_history(X, Y, params):
-    model = CAFEHG(X.T, Y, K=10)
+    model = model(X.T, Y, K=10)
     model.__dict__.update(params)
     model._decompress_model()
     return model

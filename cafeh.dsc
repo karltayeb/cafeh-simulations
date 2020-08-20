@@ -7,7 +7,8 @@
 
 DSC:
   define:
-    simulations: tissue_specific_sim, general_sim, global_effect_sim
+    #simulations: tissue_specific_sim, general_sim, global_effect_sim
+    simulations: general_sim
     simulate: small_genotype * genotype2ld * simulations * individual2summary
 
     # cafeh 
