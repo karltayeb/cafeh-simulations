@@ -1,4 +1,4 @@
-fit_cafeh_genotype: fitting.py + Python(model = fit_cafeh_genotype(X.T, Y, K, p0k); params = get_param_dict(model))
+fit_cafeh_genotype: fitting.py + Python(model = fit_cafeh_genotype(X.T, Y, K, p0k, fit); params = get_param_dict(model))
   model: 'cafeh_genotype'
   X: $X
   Y: $Y
@@ -14,7 +14,7 @@ fit_cafeh_genotype: fitting.py + Python(model = fit_cafeh_genotype(X.T, Y, K, p0
   $purity: model.purity
   $params: params
 
-fit_susie_genotype: fitting.py + Python(results = fit_susie_genotype(X.T, Y, K, p0k))
+fit_susie_genotype: fitting.py + Python(results = fit_susie_genotype(X.T, Y, K, p0k, fit))
   model: 'susie_genotype'
   X: $X
   Y: $Y
@@ -31,7 +31,7 @@ fit_susie_genotype_ss(fit_susie_genotype):
   model: 'susie_genotype_ss'
   p0k: 0.01
 
-fit_cafeh_summary: fitting.py + Python(model = fit_cafeh_summary(LD, B, S, K, p0k); params = get_param_dict(model))
+fit_cafeh_summary: fitting.py + Python(model = fit_cafeh_summary(LD, B, S, K, p0k, fit); params = get_param_dict(model))
   model: 'cafeh_summary'
   LD: $LD
   B: $B
@@ -48,7 +48,7 @@ fit_cafeh_summary: fitting.py + Python(model = fit_cafeh_summary(LD, B, S, K, p0
   $purity: model.purity
   $params: params
 
-fit_cafeh_summary_simple: fitting.py + Python(model = fit_cafeh_summary_simple(LD, B, S, K, p0k); params = get_param_dict(model, compress=False))
+fit_cafeh_summary_simple: fitting.py + Python(model = fit_cafeh_summary_simple(LD, B, S, K, p0k, fit); params = get_param_dict(model, compress=False))
   model: 'cafeh_summary_simple'
   LD: $LD
   B: $B
@@ -66,12 +66,12 @@ fit_cafeh_summary_simple: fitting.py + Python(model = fit_cafeh_summary_simple(L
   $params: params
 
 
-fit_susie_summary: fitting.py + Python(results = fit_susie_summary(LD, B, S, K, p0k))
+fit_susie_summary: fitting.py + Python(results = fit_susie_summary(LD, B, S, K, p0k, fit))
   model: 'susie_summary'
   LD: $LD
   B: $B
   S: $S
-  K: $K
+  K: 5
   p0k: 1.0
   fit: "weight_ard_active"
   $expected_effects: results.expected_effects
