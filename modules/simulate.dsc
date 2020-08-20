@@ -10,7 +10,7 @@ n_causal_per_study_sim: simulation.py \
   prop_colocalizing: 0.5
   n_causal_per_study: 3
   effect_distribution: 'normal'
-  pve: 0.05, 0.1, 0.2
+  pve: 0.01, 0.05, 0.1, 0.2
   X: $X
   $sim: sim
   $true_effects: sim['true_effects']
