@@ -64,7 +64,7 @@ def fit_susie_genotype(X, Y, K, p0k, fit):
     params = []
 
     for y in Y:
-        model = model(X=X, Y=y[None], K=K)
+        model = CAFEHG(X=X, Y=y[None], K=K)
         model.prior_activity = np.ones(K) * p0k
         if fit == 'forward':
             forward_fit_procedure(model)
