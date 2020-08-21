@@ -2,6 +2,7 @@ score_coloc_cafeh: scoring.py + Python(results = score_coloc_cafeh(active, true_
   thresh: 0.99
   active: $active
   true_coloc: $true_coloc
+  filter_purity: True, False
   $p_coloc: results['p_coloc']
   $TP: results['true_positive']
   $FP: results['false_positive']

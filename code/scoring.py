@@ -5,16 +5,22 @@ import pandas as pd
 p_coloc = lambda active, t1, t2: 1 - \
     np.exp(np.sum(np.log(1e-10 + 1 - active[t1] * active[t2])))
 
-def score_coloc_cafeh(active, true_coloc, thresh=0.9):
+def score_coloc_cafeh(active, purity, true_coloc, thresh=0.9, filter_purity=False):
     """
     compute true/false positive/negative frequency
     from q(s) for all components
     """
+    if filter_purity:
+        pure = np.array([purity[k] > 0.5 for k in purity])
+        active = active * pure[None]
+
+    p_coloc = lambda t1, t2: 1 - \
+        np.exp(np.sum(np.log(1e-10 + 1 - active[t1] * active[t2])))
+
     n_studies = active.shape[0]
     tril = np.tril_indices(n_studies, k=-1)
     model_coloc = np.concatenate(
-        [[p_coloc(active, t1, t2) for t1 in range(t2)]
-         for t2 in range(n_studies)])
+        [[p_coloc(t1, t2) for t1 in range(t2)] for t2 in range(n_study)])
     return {
         'p_coloc': model_coloc,
         'true_positive': (true_coloc & (model_coloc > thresh)).sum(),
@@ -44,7 +50,7 @@ def score_coloc_ecaviar(ecaviar_out, true_coloc, thresh=0.9):
         np.array([np.array(k) for k in ecaviar_out])).size
     tril = np.tril_indices(n_study, k=-1)
     p_coloc = np.concatenate(
-        [[ecaviar_out[(t1, t2)] for t1 in range(t2)] for t2 in range(n_study)])
+        [[ecaviar_out[(t1, t2).max()] for t1 in range(t2)] for t2 in range(n_study)])
     return {
         'p_coloc': p_coloc,
         'true_positive': (true_coloc & (p_coloc > thresh)).sum(),

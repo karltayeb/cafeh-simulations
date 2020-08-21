@@ -179,8 +179,8 @@ def ecaviar_from_caviar(results):
     l = len(results)
     out = {}
     for i, j in combinations(range(l), 2):
-        CLPP = results[0].posterior.pip * results[1].posterior.pip
-        out[(i, j)] = CLPP.values.max()
+        CLPP = results[i].posterior.pip * results[j].posterior.pip
+        out[(i, j)] = CLPP.values
     return out
 
 ############
