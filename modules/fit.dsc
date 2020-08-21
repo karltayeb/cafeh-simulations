@@ -41,6 +41,7 @@ fit_cafeh_summary: fitting.py + Python(model = fit_cafeh_summary(LD, B, S, K, p0
   K: $K
   p0k: 0.01, 0.1, 0.5
   fit: "weight_ard_active"
+  update_variance: False
   $expected_effects: model.expected_effects
   $pip: model.get_pip()
   $study_pip: model.get_study_pip().values
@@ -58,6 +59,7 @@ fit_cafeh_summary_simple: fitting.py + Python(model = fit_cafeh_summary_simple(L
   K: $K
   p0k: 0.01, 0.1, 0.5
   fit: "weight_ard_active"
+  update_variance: False
   $expected_effects: model.expected_effects
   $pip: model.get_pip()
   $study_pip: model.get_study_pip().values
@@ -75,6 +77,7 @@ fit_susie_summary: fitting.py + Python(results = fit_susie_summary(LD, B, S, K, 
   S: $S
   K: 5
   p0k: 1.0
+  update_variance: False
   fit: "weight_ard_active"
   $expected_effects: results.expected_effects
   $study_pip: results.study_pip
