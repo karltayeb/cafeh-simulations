@@ -17,8 +17,8 @@ def score_coloc_cafeh(active, purity, true_coloc, thresh=0.9, filter_purity=Fals
     p_coloc = lambda t1, t2: 1 - \
         np.exp(np.sum(np.log(1e-10 + 1 - active[t1] * active[t2])))
 
-    n_studies = active.shape[0]
-    tril = np.tril_indices(n_studies, k=-1)
+    n_study = active.shape[0]
+    tril = np.tril_indices(n_study, k=-1)
     model_coloc = np.concatenate(
         [[p_coloc(t1, t2) for t1 in range(t2)] for t2 in range(n_study)])
     return {
