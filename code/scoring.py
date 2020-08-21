@@ -50,7 +50,7 @@ def score_coloc_ecaviar(ecaviar_out, true_coloc, thresh=0.9):
         np.array([np.array(k) for k in ecaviar_out])).size
     tril = np.tril_indices(n_study, k=-1)
     p_coloc = np.concatenate(
-        [[ecaviar_out[(t1, t2).max()] for t1 in range(t2)] for t2 in range(n_study)])
+        [[ecaviar_out[(t1, t2)].max() for t1 in range(t2)] for t2 in range(n_study)])
     return {
         'p_coloc': p_coloc,
         'true_positive': (true_coloc & (p_coloc > thresh)).sum(),
