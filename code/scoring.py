@@ -22,11 +22,7 @@ def score_coloc_cafeh(active, purity, true_coloc, thresh=0.9, filter_purity=Fals
     model_coloc = np.concatenate(
         [[p_coloc(t1, t2) for t1 in range(t2)] for t2 in range(n_study)])
     return {
-        'p_coloc': model_coloc,
-        'true_positive': (true_coloc & (model_coloc > thresh)).sum(),
-        'false_positive': (~true_coloc & (model_coloc > thresh)).sum(),
-        'true_negative': (~true_coloc & ~(model_coloc > thresh)).sum(),
-        'false_negative': (true_coloc & ~(model_coloc > thresh)).sum()
+        'p_coloc': model_coloc
     }
 
 
@@ -37,11 +33,7 @@ def score_coloc_coloc(coloc_out, true_coloc, thresh=0.9):
     p_coloc = np.concatenate(
         [[coloc_out[(t1, t2)].pph4 for t1 in range(t2)] for t2 in range(n_study)])
     return {
-        'p_coloc': p_coloc,
-        'true_positive': (true_coloc & (p_coloc > thresh)).sum(),
-        'false_positive': (~true_coloc & (p_coloc > thresh)).sum(),
-        'true_negative': (~true_coloc & ~(p_coloc > thresh)).sum(),
-        'false_negative': (true_coloc & ~(p_coloc > thresh)).sum()
+        'p_coloc': p_coloc
     }
 
 
@@ -52,11 +44,7 @@ def score_coloc_ecaviar(ecaviar_out, true_coloc, thresh=0.9):
     p_coloc = np.concatenate(
         [[ecaviar_out[(t1, t2)].max() for t1 in range(t2)] for t2 in range(n_study)])
     return {
-        'p_coloc': p_coloc,
-        'true_positive': (true_coloc & (p_coloc > thresh)).sum(),
-        'false_positive': (~true_coloc & (p_coloc > thresh)).sum(),
-        'true_negative': (~true_coloc & ~(p_coloc > thresh)).sum(),
-        'false_negative': (true_coloc & ~(p_coloc > thresh)).sum()
+        'p_coloc': p_coloc
     }
 
 
