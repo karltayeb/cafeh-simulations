@@ -1,6 +1,6 @@
-fit_cafeh_genotype: fitting.py + Python(model = fit_cafeh_genotype(X.T, Y, K, p0k, fit, update_variance=update_variance); params = get_param_dict(model))
+fit_cafeh_genotype: fitting.py + Python(model = fit_cafeh_genotype(X_norm.T, Y, K, p0k, fit, update_variance=update_variance); params = get_param_dict(model))
   model: 'cafeh_genotype'
-  X: $X
+  X_norm: $X_norm
   Y: $Y
   K: $K
   p0k: 0.01, 0.1, 0.5
@@ -15,9 +15,9 @@ fit_cafeh_genotype: fitting.py + Python(model = fit_cafeh_genotype(X.T, Y, K, p0
   $purity: model.purity
   $params: params
 
-fit_susie_genotype: fitting.py + Python(results = fit_susie_genotype(X.T, Y, K, p0k, fit, update_variance=update_variance))
+fit_susie_genotype: fitting.py + Python(results = fit_susie_genotype(X_norm.T, Y, K, p0k, fit, update_variance=update_variance))
   model: 'susie_genotype'
-  X: $X
+  X_norm: $X_norm
   Y: $Y
   K: 5
   p0k: 1.0
