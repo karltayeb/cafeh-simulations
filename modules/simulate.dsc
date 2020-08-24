@@ -28,7 +28,13 @@ general_sim(n_causal_per_study_sim):
   # demonstrate relative performance at a range of settings
   prop_colocalizing: 0.5
   n_study: 2, 5, 10
-  n_causal_per_study: 1, 2, 3
+  n_causal_per_study: 1, 2, 3, 4, 5
+
+large_n_sim(n_causal_per_study_sim):
+  # demonstrate relative performance at a range of settings
+  prop_colocalizing: 0.5
+  n_study: 20, 50
+  n_causal_per_study: 1, 2, 3, 4, 5
 
 global_effect_sim(n_causal_per_study_sim):
   # test at lower pve to show power increases w/ n_study

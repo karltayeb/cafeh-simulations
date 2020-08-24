@@ -3,7 +3,7 @@ fit_cafeh_genotype: fitting.py + Python(model = fit_cafeh_genotype(X.T, Y, K, p0
   X: $X
   Y: $Y
   K: $K
-  p0k: 0.01, 0.1, 0.5
+  p0k: 0.01, 0.5
   standardize: True, False
   fit: "weight_ard_active"
   update_variance: True, False
@@ -42,7 +42,7 @@ fit_cafeh_summary: fitting.py + Python(model = fit_cafeh_summary(LD, B, se, S, K
   se: $se
   S: $S
   K: $K
-  p0k: 0.01, 0.1, 0.5
+  p0k: 0.01
   standardize: True, False
   fit: "weight_ard_active"
   update_variance: False
@@ -62,8 +62,8 @@ fit_cafeh_summary_simple: fitting.py + Python(model = fit_cafeh_summary_simple(L
   se: $se
   S: $S
   K: $K
-  p0k: 0.01, 0.1, 0.5
-  standardize: True, False
+  p0k: 0.01
+  standardize: False
   fit: "weight_ard_active"
   update_variance: False
   $expected_effects: model.expected_effects
