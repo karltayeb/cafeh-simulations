@@ -27,7 +27,7 @@ normalize: data.py + Python(X_norm = X / X.std(0) if normalize else X)
   X: $X
   $X_norm: X_norm
 
-individual2summary: data.py + Python(sumstats = get_cafeh_summary_stats(Y.T, X_norms))
+individual2summary: data.py + Python(sumstats = get_cafeh_summary_stats(Y.T, X_norm))
   @CONF: python_modules = (numpy)
   X_norm: $X_norm
   Y: $Y
