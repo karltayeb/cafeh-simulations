@@ -22,9 +22,8 @@ normalize: data.py + Python(X = center_mean_impute(genotype).values; X / X.std(0
   genotype: $genotype
   $X: X
 
-genotype2ld: Python(LD = numpy.corrcoef(X, rowvar=False))
-  @CONF: python_modules = (numpy)
-  X: $X
+genotype2ld: data.py + Python(LD = np.corrcoef(center_mean_impute(genotype).values, rowvar=False))
+  genotype: $genotype
   $LD: LD
 
 individual2summary: data.py + Python(sumstats = get_cafeh_summary_stats(Y.T, X))
