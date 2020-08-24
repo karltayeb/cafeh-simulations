@@ -2,9 +2,6 @@ from types import SimpleNamespace
 import numpy as np
 import pandas as pd
 
-p_coloc = lambda active, t1, t2: 1 - \
-    np.exp(np.sum(np.log(1e-10 + 1 - active[t1] * active[t2])))
-
 def score_coloc_cafeh(active, purity, true_coloc, thresh=0.9, filter_purity=False):
     """
     compute true/false positive/negative frequency
@@ -14,19 +11,15 @@ def score_coloc_cafeh(active, purity, true_coloc, thresh=0.9, filter_purity=Fals
         pure = np.array([purity[k] > 0.5 for k in purity])
         active = active * pure[None]
 
-    p_coloc = lambda t1, t2: 1 - \
+    compute_p_coloc = lambda t1, t2: 1 - \
         np.exp(np.sum(np.log(1e-10 + 1 - active[t1] * active[t2])))
 
     n_study = active.shape[0]
     tril = np.tril_indices(n_study, k=-1)
-    model_coloc = np.concatenate(
-        [[p_coloc(t1, t2) for t1 in range(t2)] for t2 in range(n_study)])
+    p_coloc = np.concatenate(
+        [[compute_p_coloc(t1, t2) for t1 in range(t2)] for t2 in range(n_study)])
     return {
-        'p_coloc': model_coloc,
-        'true_positive': (true_coloc & (model_coloc > thresh)).sum(),
-        'false_positive': (~true_coloc & (model_coloc > thresh)).sum(),
-        'true_negative': (~true_coloc & ~(model_coloc > thresh)).sum(),
-        'false_negative': (true_coloc & ~(model_coloc > thresh)).sum()
+        'p_coloc': p_coloc
     }
 
 
@@ -37,11 +30,7 @@ def score_coloc_coloc(coloc_out, true_coloc, thresh=0.9):
     p_coloc = np.concatenate(
         [[coloc_out[(t1, t2)].pph4 for t1 in range(t2)] for t2 in range(n_study)])
     return {
-        'p_coloc': p_coloc,
-        'true_positive': (true_coloc & (p_coloc > thresh)).sum(),
-        'false_positive': (~true_coloc & (p_coloc > thresh)).sum(),
-        'true_negative': (~true_coloc & ~(p_coloc > thresh)).sum(),
-        'false_negative': (true_coloc & ~(p_coloc > thresh)).sum()
+        'p_coloc': p_coloc
     }
 
 
@@ -52,11 +41,7 @@ def score_coloc_ecaviar(ecaviar_out, true_coloc, thresh=0.9):
     p_coloc = np.concatenate(
         [[ecaviar_out[(t1, t2)].max() for t1 in range(t2)] for t2 in range(n_study)])
     return {
-        'p_coloc': p_coloc,
-        'true_positive': (true_coloc & (p_coloc > thresh)).sum(),
-        'false_positive': (~true_coloc & (p_coloc > thresh)).sum(),
-        'true_negative': (~true_coloc & ~(p_coloc > thresh)).sum(),
-        'false_negative': (true_coloc & ~(p_coloc > thresh)).sum()
+        'p_coloc': p_coloc
     }
 
 

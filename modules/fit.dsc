@@ -1,9 +1,10 @@
-fit_cafeh_genotype: fitting.py + Python(model = fit_cafeh_genotype(X_norm.T, Y, K, p0k, fit, update_variance=update_variance); params = get_param_dict(model))
+fit_cafeh_genotype: fitting.py + Python(model = fit_cafeh_genotype(X.T, Y, K, p0k, standardize, fit, update_variance=update_variance); params = get_param_dict(model))
   model: 'cafeh_genotype'
-  X_norm: $X_norm
+  X: $X
   Y: $Y
   K: $K
   p0k: 0.01, 0.1, 0.5
+  standardize: True, False
   fit: "weight_ard_active"
   update_variance: True, False
   $expected_effects: model.expected_effects
@@ -15,12 +16,13 @@ fit_cafeh_genotype: fitting.py + Python(model = fit_cafeh_genotype(X_norm.T, Y, 
   $purity: model.purity
   $params: params
 
-fit_susie_genotype: fitting.py + Python(results = fit_susie_genotype(X_norm.T, Y, K, p0k, fit, update_variance=update_variance))
+fit_susie_genotype: fitting.py + Python(results = fit_susie_genotype(X.T, Y, K, p0k, standardize, fit, update_variance=update_variance))
   model: 'susie_genotype'
-  X_norm: $X_norm
+  X: $X
   Y: $Y
   K: 5
   p0k: 1.0
+  standardize: True, False
   fit: "weight_ard_active"
   update_variance: True, False
   $expected_effects: results.expected_effects
@@ -33,13 +35,15 @@ fit_susie_genotype_ss(fit_susie_genotype):
   model: 'susie_genotype_ss'
   p0k: 0.01
 
-fit_cafeh_summary: fitting.py + Python(model = fit_cafeh_summary(LD, B, S, K, p0k, fit); params = get_param_dict(model))
+fit_cafeh_summary: fitting.py + Python(model = fit_cafeh_summary(LD, B, se, S, K, p0k, standardize, fit); params = get_param_dict(model))
   model: 'cafeh_summary'
   LD: $LD
   B: $B
+  se: $se
   S: $S
   K: $K
   p0k: 0.01, 0.1, 0.5
+  standardize: True, False
   fit: "weight_ard_active"
   update_variance: False
   $expected_effects: model.expected_effects
@@ -51,13 +55,15 @@ fit_cafeh_summary: fitting.py + Python(model = fit_cafeh_summary(LD, B, S, K, p0
   $purity: model.purity
   $params: params
 
-fit_cafeh_summary_simple: fitting.py + Python(model = fit_cafeh_summary_simple(LD, B, S, K, p0k, fit); params = get_param_dict(model, compress=False))
+fit_cafeh_summary_simple: fitting.py + Python(model = fit_cafeh_summary_simple(LD, B, se, S, K, p0k, standardize, fit); params = get_param_dict(model, compress=False))
   model: 'cafeh_summary_simple'
   LD: $LD
   B: $B
+  se: $se
   S: $S
   K: $K
   p0k: 0.01, 0.1, 0.5
+  standardize: True, False
   fit: "weight_ard_active"
   update_variance: False
   $expected_effects: model.expected_effects
@@ -70,13 +76,15 @@ fit_cafeh_summary_simple: fitting.py + Python(model = fit_cafeh_summary_simple(L
   $params: params
 
 
-fit_susie_summary: fitting.py + Python(results = fit_susie_summary(LD, B, S, K, p0k, fit))
+fit_susie_summary: fitting.py + Python(results = fit_susie_summary(LD, B, se, S, K, p0k, standardize, fit))
   model: 'susie_summary'
   LD: $LD
   B: $B
+  se: $se
   S: $S
   K: 5
   p0k: 1.0
+  standardize: True, False
   update_variance: False
   fit: "weight_ard_active"
   $expected_effects: results.expected_effects
