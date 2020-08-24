@@ -22,13 +22,13 @@ genotype2ld: Python(LD = numpy.corrcoef(X, rowvar=False))
   X: $X
   $LD: LD
 
-normalize: data.py + Python(X_norm = X / X.std(0) if standardize_X else X)
-  standardize_X: True, False
+normalize: data.py + Python(X_norm = X / X.std(0) if normalize else X)
+  normalize: True, False
+  Y: $Y
   X: $X
   $X_norm: X_norm
 
 individual2summary: data.py + Python(sumstats = get_cafeh_summary_stats(Y.T, X_norm))
-  @CONF: python_modules = (numpy)
   X_norm: $X_norm
   Y: $Y
   $B: sumstats['beta']
