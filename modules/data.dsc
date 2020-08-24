@@ -6,16 +6,21 @@
 # $Y: expression t x n
 # $LD: LD matrix (correlation between genotypes)
 
-full_genotype: data.py + Python(X=center_mean_impute(load_genotype(gene_list[DSC_REPLICATE], subset)).values)
+full_genotype: data.py + Python(genotype=load_genotype(gene_list[DSC_REPLICATE], subset).values)
   tag: "full"
   subset: None
-  $X: X
-  $n_sample: X.shape[0]
-  $n_variants: X.shape[1]
+  $genotype: genotype
+  $n_sample: genotype.shape[0]
+  $n_variants: genotype.shape[1]
 
 small_genotype(full_genotype):
   tag: 'small_genotype'
   subset: 1000
+
+normalize: data.py + Python(X = center_mean_impute(genotype).values; X / X.std(0) if normalize else X)
+  normalize: True, False
+  genotype: $genotype
+  $X: X
 
 genotype2ld: Python(LD = numpy.corrcoef(X, rowvar=False))
   @CONF: python_modules = (numpy)

@@ -211,7 +211,7 @@ def run_coloc(beta, se):
 
 
 def load_model_from_history(X, Y, params):
-    model = model(X.T, Y, K=10)
+    model = CAFEHG(X.T, Y, K=10)
     model.__dict__.update(params)
     model._decompress_model()
     return model
