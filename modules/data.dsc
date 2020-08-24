@@ -22,8 +22,8 @@ genotype2ld: Python(LD = numpy.corrcoef(X, rowvar=False))
   X: $X
   $LD: LD
 
-normalize: data.py + Python(X_norm = X / X.std(0) if normalize else X)
-  normalize: True, False
+normalize: data.py + Python(X_norm = X / X.std(0) if standardize_X else X)
+  standardize_X: True, False
   X: $X
   $X_norm: X_norm
 
