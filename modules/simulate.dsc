@@ -34,9 +34,9 @@ block_study_sim: simulation.py \
   + Python(sim = sim_block_study(X, n_study, n_blocks, block_p, pve, effect_distribution))
   # demonstrate relative performance at a range of settings
   X: $X
-  n_study: 20, 50
+  n_study: 20
   block_p: 0.1
-  n_blocks: 5, 10, 20
+  n_blocks: 10
   pve: 0.01, 0.05, 0.1
   effect_distribution: 'normal'
   $sim: sim
