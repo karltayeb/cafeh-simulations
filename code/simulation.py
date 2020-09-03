@@ -97,3 +97,46 @@ def sim_n_causal_per_study(X, n_study, prop_colocalizing, n_causal_per_study, pv
         'n_causal': causal_snps.size,
         'K': int(np.ceil(causal_snps.size/10) * 10)
     }
+
+
+def sim_block_study(X, n_study, n_blocks, block_p, pve, effect_distribution):
+    """
+    each block has a causal snps, each study assigned to a main block
+    tissues within a block share the causal snp
+    tissues out of block have the causal snp with probability block_p
+    """
+    n_variants = X.shape[1]
+    n_causal = n_blocks
+
+    # draw block ids and causal snps
+    block_id = np.sort(np.random.choice(n_blocks, n_study))
+    causal_snps = np.random.choice(n_variants, n_causal, replace=False)
+    
+    # make block probability and causal snp matrix
+    causal_p = np.eye(n_blocks)
+    causal_p[causal_p == 0] = block_p
+
+    results = []
+    for t in range(n_study):
+        # sample causal snps for tissue
+        causal_in_study = causal_snps[np.random.binomial(1, causal_p[block_id[t]]) == 1]
+        results.append(sim_expression_single_study(X, causal_in_study, pve, effect_distribution))
+
+    expression = np.atleast_2d(np.array([x[0] for x in results]))
+    true_effects = np.atleast_2d(np.array([x[1] for x in results]))
+    residual_variance = np.array([x[2] for x in results])
+
+    # trim down to the causal snps we actually used
+    causal_snps = np.arange(n_variants)[np.any(true_effects != 0, 0)]
+
+    tril = np.tril_indices(n_study, k=-1)
+    true_coloc = (true_effects @ true_effects.T != 0)[tril]
+    return {
+        'expression': expression,
+        'true_effects': true_effects,
+        'true_coloc': true_coloc,
+        'residual_variance': residual_variance,
+        'causal_snps': causal_snps,
+        'n_causal': causal_snps.size,
+        'K': int(np.ceil(causal_snps.size/10) * 10)
+    }

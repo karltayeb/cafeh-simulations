@@ -28,13 +28,22 @@ general_sim(n_causal_per_study_sim):
   # demonstrate relative performance at a range of settings
   prop_colocalizing: 0.5
   n_study: 2, 5, 10
-  n_causal_per_study: 1, 2, 3, 4
+  n_causal_per_study: 1, 2, 3
 
-large_n_sim(n_causal_per_study_sim):
+block_study_sim: simulation.py \
+  + Python(sim = sim_block_study(X, n_study, n_blocks, block_p, pve, effect_distribution))
   # demonstrate relative performance at a range of settings
-  prop_colocalizing: 0.5
+  X: $X
   n_study: 20, 50
-  n_causal_per_study: 1, 2, 3, 4, 5
+  block_p: 0.1
+  n_blocks: 5, 10, 20
+  pve: 0.01, 0.05, 0.1
+  effect_distribution: 'normal'
+  $sim: sim
+  $true_effects: sim['true_effects']
+  $true_coloc: sim['true_coloc']
+  $Y: sim['expression']
+  $K: sim['K']
 
 global_effect_sim(n_causal_per_study_sim):
   # test at lower pve to show power increases w/ n_study
