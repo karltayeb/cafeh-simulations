@@ -15,7 +15,7 @@ fit_cafeh_genotype: fitting.py + Python(model = fit_cafeh_genotype(X.T, Y, K, p0
   $credible_sets: model.credible_sets
   $purity: model.purity
   $params: params
-  $model: model
+  $fit_model: model
 
 fit_susie_genotype: fitting.py + Python(results = fit_susie_genotype(X.T, Y, K, p0k, standardize, fit, update_variance=update_variance))
   model: 'susie_genotype'
@@ -55,7 +55,7 @@ fit_cafeh_summary: fitting.py + Python(model = fit_cafeh_summary(LD, B, se, S, K
   $credible_sets: model.credible_sets
   $purity: model.purity
   $params: params
-  $model: model
+  $fit_model: model
 
 fit_cafeh_summary_simple: fitting.py + Python(model = fit_cafeh_summary_simple(LD, B, se, S, K, p0k, standardize, fit); params = get_param_dict(model, compress=False))
   model: 'cafeh_summary_simple'
@@ -76,7 +76,7 @@ fit_cafeh_summary_simple: fitting.py + Python(model = fit_cafeh_summary_simple(L
   $credible_sets: model.credible_sets
   $purity: model.purity
   $params: params
-  $model: model
+  $fit_model: model
 
 
 fit_susie_summary: fitting.py + Python(results = fit_susie_summary(LD, B, se, S, K, p0k, standardize, fit))
