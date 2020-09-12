@@ -31,7 +31,7 @@ general_sim(n_causal_per_study_sim):
   n_causal_per_study: 1, 2, 3
 
 block_study_sim: simulation.py \
-  + Python(sim = sim_block_study(X, n_study, n_blocks, block_p, pve, effect_distribution))
+  + Python(sim = sim_block_study(X, n_study, n_blocks, n_causal_per_block, block_p, pve, effect_distribution))
   # demonstrate relative performance at a range of settings
   X: $X
   n_study: 20
