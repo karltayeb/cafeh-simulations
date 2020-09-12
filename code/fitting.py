@@ -152,7 +152,7 @@ def run_caviar(B, se, LD):
     prefix = prefix_path + ''.join(np.random.choice(10, 20).astype(str))
     np.random.seed(DSC_SEED)
 
-    z = B/se
+    z = B / se
     # save caviar summary stats: zscore, LD
     for i, z_i in enumerate(z):
         pd.Series(z_i).to_csv('{}z{}'.format(prefix, i), sep='\t', header=None)
@@ -231,5 +231,4 @@ def load_model_from_history(X, Y, params):
     model.__dict__.update(params)
     model._decompress_model()
     return model
-
 

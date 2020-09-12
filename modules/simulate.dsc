@@ -37,7 +37,8 @@ block_study_sim: simulation.py \
   n_study: 20
   block_p: 0.1
   n_blocks: 10
-  pve: 0.01, 0.05, 0.1
+  n_causal_per_block: 2
+  pve: 0.1, 0.05, 0.01
   effect_distribution: 'normal'
   $sim: sim
   $true_effects: sim['true_effects']

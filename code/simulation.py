@@ -99,7 +99,7 @@ def sim_n_causal_per_study(X, n_study, prop_colocalizing, n_causal_per_study, pv
     }
 
 
-def sim_block_study(X, n_study, n_blocks, block_p, pve, effect_distribution):
+def sim_block_study(X, n_study, n_blocks, n_causal_per_block, block_p, pve, effect_distribution):
     """
     each block has a causal snps, each study assigned to a main block
     tissues within a block share the causal snp
@@ -110,8 +110,8 @@ def sim_block_study(X, n_study, n_blocks, block_p, pve, effect_distribution):
 
     # draw block ids and causal snps
     block_id = np.sort(np.random.choice(n_blocks, n_study))
-    causal_snps = np.random.choice(n_variants, n_causal, replace=False)
-    
+    causal_snps = [np.random.choice(n_variants, n_causal, replace=False) for _ in n_causal_per_block]
+
     # make block probability and causal snp matrix
     causal_p = np.eye(n_blocks)
     causal_p[causal_p == 0] = block_p
@@ -119,7 +119,8 @@ def sim_block_study(X, n_study, n_blocks, block_p, pve, effect_distribution):
     results = []
     for t in range(n_study):
         # sample causal snps for tissue
-        causal_in_study = causal_snps[np.random.binomial(1, causal_p[block_id[t]]) == 1]
+        causal_idx = np.random.binomial(1, causal_p[block_id[t]]) == 1
+        causal_in_study = np.concatenate([cs[causal_idx] for cs in causal_snps])
         results.append(sim_expression_single_study(X, causal_in_study, pve, effect_distribution))
 
     expression = np.atleast_2d(np.array([x[0] for x in results]))
