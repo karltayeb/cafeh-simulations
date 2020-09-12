@@ -3,10 +3,10 @@ fit_cafeh_genotype: fitting.py + Python(model = fit_cafeh_genotype(X.T, Y, K, p0
   X: $X
   Y: $Y
   K: $K
-  p0k: 0.01, 0.5
-  standardize: True, False
+  p0k: 0.01
+  standardize: False
   fit: "weight_ard_active"
-  update_variance: True, False
+  update_variance: False
   $expected_effects: model.expected_effects
   $pip: model.get_pip()
   $study_pip: model.get_study_pip().values
@@ -23,9 +23,9 @@ fit_susie_genotype: fitting.py + Python(results = fit_susie_genotype(X.T, Y, K, 
   Y: $Y
   K: 5
   p0k: 1.0
-  standardize: True, False
+  standardize: False
   fit: "weight_ard_active"
-  update_variance: True, False
+  update_variance: False
   $expected_effects: results.expected_effects
   $study_pip: results.study_pip
   $credible_sets: results.credible_sets
@@ -44,7 +44,7 @@ fit_cafeh_summary: fitting.py + Python(model = fit_cafeh_summary(LD, B, se, S, K
   S: $S
   K: $K
   p0k: 0.01
-  standardize: True, False
+  standardize: False
   fit: "weight_ard_active"
   update_variance: False
   $expected_effects: model.expected_effects
@@ -87,7 +87,7 @@ fit_susie_summary: fitting.py + Python(results = fit_susie_summary(LD, B, se, S,
   S: $S
   K: 5
   p0k: 1.0
-  standardize: True, False
+  standardize: False
   update_variance: False
   fit: "weight_ard_active"
   $expected_effects: results.expected_effects
@@ -98,7 +98,7 @@ fit_susie_summary: fitting.py + Python(results = fit_susie_summary(LD, B, se, S,
 
 fit_susie_summary_ss(fit_susie_summary):
   model: 'susie_summary_ss'
-  p0k: 0.01, 0.1, 0.5
+  p0k: 0.01
 
 fit_caviar: fitting.py + Python(caviar_out = run_caviar(B, se, LD))
   model: 'caviar'
