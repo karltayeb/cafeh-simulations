@@ -36,7 +36,7 @@ block_study_sim: simulation.py \
   X: $X
   n_study: 20
   block_p: 0.1
-  n_blocks: 10
+  n_blocks: 5, 10
   n_causal_per_block: 1, 2, 3
   pve: 0.1, 0.05, 0.01
   effect_distribution: 'normal'
