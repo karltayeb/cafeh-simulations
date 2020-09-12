@@ -110,7 +110,8 @@ def sim_block_study(X, n_study, n_blocks, n_causal_per_block, block_p, pve, effe
 
     # draw block ids and causal snps
     block_id = np.sort(np.random.choice(n_blocks, n_study))
-    causal_snps = [np.random.choice(n_variants, n_causal, replace=False) for _ in n_causal_per_block]
+    causal_snps = [np.random.choice(n_variants, n_causal, replace=False)
+        for _ in range(n_causal_per_block)]
 
     # make block probability and causal snp matrix
     causal_p = np.eye(n_blocks)
