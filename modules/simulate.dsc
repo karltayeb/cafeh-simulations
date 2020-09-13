@@ -35,8 +35,8 @@ block_study_sim: simulation.py \
   # demonstrate relative performance at a range of settings
   X: $X
   n_study: 20
-  block_p: 0.1
-  n_blocks: 5, 10
+  block_p: 0.0
+  n_blocks: 5
   n_causal_per_block: 1, 2, 3
   pve: 0.1, 0.05, 0.01
   effect_distribution: 'normal'
