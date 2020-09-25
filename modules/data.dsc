@@ -14,8 +14,12 @@ full_genotype: data.py + Python(X=center_mean_impute(load_genotype(gene_list[DSC
   $n_variants: X.shape[1]
 
 small_genotype(full_genotype):
-  tag: 'small_genotype'
+  tag: '1k_genotype'
   subset: 1000
+
+medium_genotype(full_genotype):
+  tag: '2k_genotype'
+  subset: 2000
 
 genotype2ld: Python(LD = numpy.corrcoef(X, rowvar=False))
   @CONF: python_modules = (numpy)
