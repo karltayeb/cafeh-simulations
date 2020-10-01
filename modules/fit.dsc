@@ -4,8 +4,8 @@ fit_cafeh_genotype: fitting.py + Python(model = fit_cafeh_genotype(X.T, Y, K, p0
   Y: $Y
   K: $K
   p0k: 0.01
-  standardize: False
-  fit: "weight_ard_active"
+  standardize: True, False
+  fit: "weight_ard_active", "weight_active"
   max_iter: 50
   update_variance: False
   $expected_effects: model.expected_effects
@@ -23,8 +23,8 @@ fit_susie_genotype: fitting.py + Python(results = fit_susie_genotype(X.T, Y, K, 
   Y: $Y
   K: 5
   p0k: 1.0
-  standardize: False
-  fit: "weight_ard_active"
+  standardize: True, False
+  fit: "weight_ard_active", "weight_active"
   max_iter: 50
   update_variance: False
   $expected_effects: results.expected_effects
@@ -45,8 +45,8 @@ fit_cafeh_summary: fitting.py + Python(model = fit_cafeh_summary(LD, B, se, S, K
   S: $S
   K: $K
   p0k: 0.01
-  standardize: False
-  fit: "weight_ard_active"
+  standardize: True, False
+  fit: "weight_ard_active", "weight_active"
   max_iter: 50
   update_variance: False
   $expected_effects: model.expected_effects
@@ -66,8 +66,8 @@ fit_cafeh_summary_simple: fitting.py + Python(model = fit_cafeh_summary_simple(L
   S: $S
   K: $K
   p0k: 0.01
-  standardize: False
-  fit: "weight_ard_active"
+  standardize: True, False
+  fit: "weight_ard_active", "weight_active"
   max_iter: 50
   update_variance: False
   $expected_effects: model.expected_effects
@@ -87,9 +87,9 @@ fit_susie_summary: fitting.py + Python(results = fit_susie_summary(LD, B, se, S,
   S: $S
   K: 5
   p0k: 1.0
-  standardize: False
+  standardize: True, False
   update_variance: False
-  fit: "weight_ard_active"
+  fit: "weight_ard_active", "weight_active"
   max_iter: 50
   $expected_effects: results.expected_effects
   $study_pip: results.study_pip
