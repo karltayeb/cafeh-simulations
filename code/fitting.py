@@ -13,6 +13,14 @@ import yaml
 
 config = yaml.load(open('config.yml', 'r'))
 
+def _fit(model, fit, **kwargs):
+    if fit == 'forward':
+        forward_fit_procedure(model, **kwargs)
+    elif fit == 'weight_ard_active':
+        weight_ard_active_fit_procedure(model, **kwargs)
+    elif fit == 'weight_active':
+        weight_active_fit_procedure(model, **kwargs)
+
 def get_param_dict(model, compress=True):
     param_dict = {}
     if compress:
@@ -32,11 +40,7 @@ def fit_cafeh_genotype(X, Y, K, p0k, standardize, fit, **kwargs):
     print(model.X.shape)
     print(model.Y.shape)
     print(model.dims)
-
-    if fit == 'forward':
-        forward_fit_procedure(model, **kwargs)
-    elif fit == 'weight_ard_active':
-        weight_ard_active_fit_procedure(model, **kwargs)
+    _fit(model, fit, **kwargs)
     return model
 
 
@@ -46,10 +50,7 @@ def fit_cafeh_summary_simple(LD, B, se, S, K, p0k, standardize, fit, **kwargs):
         S = np.sqrt(B**2 / 838 + 1)
     model = CAFEHSimple(LD=LD, B=B, S=S, K=K)
     model.prior_activity = np.ones(K) * p0k
-    if fit == 'forward':
-        forward_fit_procedure(model, **kwargs)
-    elif fit == 'weight_ard_active':
-        weight_ard_active_fit_procedure(model, **kwargs)
+    _fit(model, fit, **kwargs)
     return model
 
 def fit_cafeh_summary(LD, B, se, S, K, p0k, standardize, fit, **kwargs):
@@ -59,10 +60,7 @@ def fit_cafeh_summary(LD, B, se, S, K, p0k, standardize, fit, **kwargs):
 
     model = CAFEH(LD=LD, B=B, S=S, K=K)
     model.prior_activity = np.ones(K) * p0k
-    if fit == 'forward':
-        forward_fit_procedure(model, **kwargs)
-    elif fit == 'weight_ard_active':
-        weight_ard_active_fit_procedure(model, **kwargs)
+    _fit(model, fit, **kwargs)
     return model
 
 def fit_susie_genotype(X, Y, K, p0k, standardize, fit, **kwargs):
@@ -78,10 +76,8 @@ def fit_susie_genotype(X, Y, K, p0k, standardize, fit, **kwargs):
     for y in Y:
         model = CAFEHG(X=X, Y=y[None], K=K)
         model.prior_activity = np.ones(K) * p0k
-        if fit == 'forward':
-            forward_fit_procedure(model, **kwargs)
-        elif fit == 'weight_ard_active':
-            weight_ard_active_fit_procedure(model, **kwargs)
+        _fit(model, fit, **kwargs)
+
         expected_effects.append(model.expected_effects)
         study_pip.append(model.get_study_pip().values.flatten())
         credible_sets.append(model.credible_sets)
@@ -108,10 +104,8 @@ def fit_susie_summary(LD, B, se, S, K, p0k, standardize, fit, **kwargs):
     for i in range(B.shape[0]):
         model = CAFEH(LD=LD, B=B[[i]], S=S[[i]], K=K)
         model.prior_activity = np.ones(K) * p0k
-        if fit == 'forward':
-            forward_fit_procedure(model, **kwargs)
-        elif fit == 'weight_ard_active':
-            weight_ard_active_fit_procedure(model, **kwargs)
+        _fit(model, fit, **kwargs)
+
         expected_effects.append(model.expected_effects)
         study_pip.append(model.get_study_pip().values.flatten())
         credible_sets.append(model.credible_sets)
@@ -174,10 +168,14 @@ def run_caviar(B, se, LD):
     for i in range(z.shape[0]):
         post = pd.read_csv('{}_{}_post'.format(prefix, i), sep='\t')
         post = post.rename(columns={
-            'SNP_ID': 'snp', 'Prob_in_pCausalSet': 'snp_in_cset_prob', 'Causal_Post._Prob.': 'pip'})
+            'SNP_ID': 'snp',
+            'Prob_in_pCausalSet': 'snp_in_cset_prob',
+            'Causal_Post._Prob.': 'pip'
+        })
         post = post.set_index('snp')
         try:
-            cs = pd.read_csv('{}_{}_set'.format(prefix, i), header=None).values.flatten()
+            cs = pd.read_csv('{}_{}_set'.format(
+                prefix, i), header=None).values.flatten()
         except pd.errors.EmptyDataError:
             cs = np.array([])
         results.append(SimpleNamespace(posterior=post, credible_set=cs))
