@@ -1,7 +1,7 @@
 from cafeh.cafeh_ss import CAFEH
 from cafeh.cafeh_ss_simple import CAFEHSimple
 from cafeh.independent_model_ss import CAFEHG
-from cafeh.fitting import forward_fit_procedure, weight_ard_active_fit_procedure
+from cafeh.fitting import forward_fit_procedure, weight_ard_active_fit_procedure, weight_active_fit_procedure
 from coloc import coloc
 import numpy as np
 import pandas as pd
