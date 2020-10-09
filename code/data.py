@@ -55,7 +55,7 @@ def make_plink_beagle_cmd(gene, save_path):
     print(cmd)
     return cmd
 
-def load_genotype(gene, subset=None):
+def load_genotype(gene, subset=None, random=False):
     if not os.path.isdir('.tmp/genotype'):
         os.makedirs('.tmp/genotype')
     genotype_path = '.tmp/genotype/{}.raw'.format(gene)
@@ -67,11 +67,14 @@ def load_genotype(gene, subset=None):
 
     genotype = pd.read_csv(genotype_path, sep=' ').set_index('IID').iloc[:, 5:]
     if subset is not None:
-        tss = get_tss(gene)
-        pos = pd.read_csv(map_path, sep='\t').iloc[:, 1].values
-        idx = np.argsort(np.abs(pos - tss))[:1000]
-        genotype = genotype.iloc[:, idx]
-
+        if not random:
+            tss = get_tss(gene, config)
+            pos = pd.read_csv(map_path, sep='\t').iloc[:, 1].values
+            idx = np.argsort(np.abs(pos - tss))[:subset]
+            genotype = genotype.iloc[:, idx]
+        else:
+            genotype = genotype.iloc[:, np.random.choice(
+                genotype.shape[1], subset, replace=False)]
     # clean up
     subprocess.run('rm {}*'.format(genotype_path[:-4]), shell=True)
     return genotype
