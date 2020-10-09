@@ -8,8 +8,9 @@
 DSC:
   define:
     #simulations: tissue_specific_sim, general_sim, global_effect_sim
+    get_genotype: small_genotype, small_genotype_random
     simulations: block_study_sim
-    simulate: small_genotype * genotype2ld * simulations * individual2summary 
+    simulate: get_genotype * genotype2ld * simulations * individual2summary 
 
     # cafeh 
     fit_cafeh: fit_cafeh_genotype, fit_cafeh_summary, fit_cafeh_summary_simple
