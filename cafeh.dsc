@@ -13,7 +13,7 @@ DSC:
     simulate: get_genotype * genotype2ld * simulations * individual2summary 
 
     # cafeh 
-    fit_cafeh: fit_cafeh_genotype, fit_cafeh_summary, fit_cafeh_summary_simple
+    fit_cafeh: fit_cafeh_genotype #, fit_cafeh_summary, fit_cafeh_summary_simple
 
     # susie
     fit_susie: (fit_susie_genotype, fit_susie_summary, fit_susie_genotype_ss, fit_susie_summary_ss)
