@@ -68,10 +68,12 @@ def load_genotype(gene, subset=None, random=False):
     genotype = pd.read_csv(genotype_path, sep=' ').set_index('IID').iloc[:, 5:]
     if subset is not None:
         if not random:
-            tss = get_tss(gene, config)
+            print('use variants near tss')
+            tss = get_tss(gene)
             pos = pd.read_csv(map_path, sep='\t').iloc[:, 1].values
             idx = np.argsort(np.abs(pos - tss))[:subset]
         else:
+            print('use random subset of variants near tss')
             idx = np.sort(np.random.choice(
                 genotype.shape[1], subset
             ))
