@@ -58,6 +58,8 @@ def fit_cafeh_genotype(X, Y, K, p0k, standardize, update_ard, update_active,
     if update_active:
         fit_args['update_active'] = True
         model.fit(**fit_args)
+
+    model.clear_precompute()
     return model
 
 
