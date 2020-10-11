@@ -52,8 +52,17 @@ def sim_expression_single_study(X, causal, pve, effect_distribution='normal'):
     if effect_distribution is 'constant':
         true_effects[causal] = 1.0
 
+    # sample effect sizes for normalized genotypes
+    true_effects = true_effects / np.std(X, 0)
     prediction = X @ true_effects
     residual_variance = compute_sigma2(prediction, pve)
+
+    # normalize so that residual variance is one
+    std = np.sqrt(residual_variance)
+    prediction = prediction / std
+    true_effects = true_effects / std
+    residual_variance = 1.0
+    
     expression = prediction + np.random.normal(
         size=prediction.size) * np.sqrt(residual_variance)
     return expression, true_effects, residual_variance
