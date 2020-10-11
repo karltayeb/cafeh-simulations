@@ -6,10 +6,10 @@
 # $Y: expression t x n
 # $LD: LD matrix (correlation between genotypes)
 
-full_genotype: data.py + Python(X=center_mean_impute(load_genotype(gene_list[DSC_REPLICATE], subset, random)).values)
+full_genotype: data.py + Python(X=center_mean_impute(load_genotype(gene_list[DSC_REPLICATE], subset, dense)).values)
   tag: "full"
   subset: None
-  random: False
+  dense: True
   $X: X
   $n_sample: X.shape[0]
   $n_variants: X.shape[1]
@@ -17,11 +17,12 @@ full_genotype: data.py + Python(X=center_mean_impute(load_genotype(gene_list[DSC
 small_genotype(full_genotype):
   tag: '1k_genotype'
   subset: 1000
+  dense: True
 
 small_genotype_random(full_genotype):
   tag: '1k_genotype_random'
   subset: 1000
-  random: True
+  dense: False
 
 medium_genotype(full_genotype):
   tag: '2k_genotype'
