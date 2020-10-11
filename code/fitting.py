@@ -35,8 +35,8 @@ def get_param_dict(model, compress=True):
 def fit_cafeh_genotype(X, Y, K, p0k, standardize, update_ard, update_active,
     update_variance, **kwargs):
     if standardize:
-        X = (X.T / X.T.std(0)).T
-        Y = (Y - Y.mean(1)[None]) / Y.std(1)[None]
+        X = (X - X.mean(1)[:, None]) / X.std(1)[:, None]
+        Y = (Y - Y.mean(1)[:, None]) / Y.std(1)[:, None]
 
     model = CAFEHG(X=X, Y=Y, K=K)
     model.prior_activity = np.ones(K) * p0k
