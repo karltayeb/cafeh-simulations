@@ -1,4 +1,4 @@
-fit_cafeh_genotype: fitting.py + Python(model = fit_cafeh_genotype(X.T, Y, K, p0k, standardize, update_ard, update_active, update_variance, max_iter=max_iter); params = get_param_dict(model))
+fit_cafeh_genotype: fitting.py + Python(model = fit_cafeh_genotype(X.T, Y, K, p0k, standardize, update_ard, update_active, update_variance); params = get_param_dict(model))
   model: 'cafeh_genotype'
   X: $X
   Y: $Y
