@@ -71,10 +71,12 @@ def load_genotype(gene, subset=None, random=False):
             tss = get_tss(gene, config)
             pos = pd.read_csv(map_path, sep='\t').iloc[:, 1].values
             idx = np.argsort(np.abs(pos - tss))[:subset]
-            genotype = genotype.iloc[:, idx]
         else:
-            genotype = genotype.iloc[:, np.random.choice(
-                genotype.shape[1], subset, replace=False)]
+            idx = np.sort(np.random.choice(
+                genotype.shape[1], subset
+            ))
+        genotype = genotype.iloc[:, idx]
+
     # clean up
     subprocess.run('rm {}*'.format(genotype_path[:-4]), shell=True)
     return genotype

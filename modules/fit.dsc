@@ -6,7 +6,7 @@ fit_cafeh_genotype: fitting.py + Python(model = fit_cafeh_genotype(X.T, Y, K, p0
   p0k: 0.01
   standardize: True, False
   update_ard: True, False
-  update_active: True, False
+  update_active: True
   update_variance: True, False
   $pip: model.get_pip()
   $study_pip: model.get_study_pip().values
@@ -104,7 +104,6 @@ fit_caviar: fitting.py + Python(caviar_out = run_caviar(B, se, LD))
   B: $B
   se: $se
   $caviar_out: caviar_out
-
 
 fit_ecaviar: fitting.py + Python(ecaviar_out = ecaviar_from_caviar(caviar_out))
   model: 'ecaviar'
