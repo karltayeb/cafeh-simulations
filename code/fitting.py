@@ -32,15 +32,32 @@ def get_param_dict(model, compress=True):
         model._decompress_model()
     return param_dict
 
-def fit_cafeh_genotype(X, Y, K, p0k, standardize, fit, **kwargs):
+def fit_cafeh_genotype(X, Y, K, p0k, standardize, update_ard, update_active,
+    update_variance, **kwargs):
     if standardize:
         X = (X.T / X.T.std(0)).T
+        Y = (Y - Y.mean(1)[None]) / Y.std(1)[None]
+
     model = CAFEHG(X=X, Y=Y, K=K)
     model.prior_activity = np.ones(K) * p0k
-    print(model.X.shape)
-    print(model.Y.shape)
-    print(model.dims)
-    _fit(model, fit, **kwargs)
+
+    fit_args = {
+        'update_weights': True,
+        'update_pi': True,
+        'update_variance': update_variance,
+        'ARD_weights': False,
+        'update_active': False,
+        'max_iter': 50
+    }
+    model.fit(**fit_args)
+
+    if update_ard:
+        fit_args['ARD_weights'] = True
+        model.fit(**fit_args)
+
+    if update_active:
+        fit_args['update_active'] = True
+        model.fit(**fit_args)
     return model
 
 
