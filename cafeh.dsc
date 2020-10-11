@@ -25,7 +25,8 @@ DSC:
     coloc: fit_coloc * score_coloc_coloc
 
   run:
-    default: simulate * (fit_cafeh * score_coloc_cafeh, fit_susie, caviar, coloc)
+    default: simulate * (fit_cafeh * score_coloc_cafeh, caviar, coloc)
+    #default: simulate * (fit_cafeh * score_coloc_cafeh, fit_susie, caviar, coloc)
     # cafeh_genotype: full_genotype * one_study_sim * fit_cafeh_genotype
     # cafeh_summary: full_genotype * one_study_sim * genotype2ld * individual2summary * fit_cafeh_genotype
     # susie_summary: full_genotype * two_study_sim * genotype2ld * individual2summary * fit_susie_summary
