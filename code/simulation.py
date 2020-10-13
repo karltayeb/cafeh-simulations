@@ -147,7 +147,7 @@ def sim_block_study(X, n_study, n_blocks, n_causal_per_block, block_p, pve, effe
     n_causal = n_blocks * n_causal_per_block
 
     R2 = np.corrcoef(X.T) ** 2 
-    causal_snps = select_causal_snps(R2, n_causal, max_r2).reshape(
+    causal_snps = select_causal_snps(R2, n_causal, min_r2, max_r2).reshape(
         n_causal_per_block, -1)
 
     # draw block ids and causal snps
