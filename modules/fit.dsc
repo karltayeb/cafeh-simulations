@@ -4,7 +4,7 @@ fit_cafeh_genotype: fitting.py + Python(model = fit_cafeh_genotype(X.T, Y, K, p0
   Y: $Y
   K: $K
   p0k: 0.01
-  standardize: True, False
+  standardize: False
   update_ard: True, False
   update_active: True
   update_variance: True, False
