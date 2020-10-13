@@ -137,7 +137,7 @@ def select_causal_snps(R2, n_causal, min_r2, max_r2):
     return causal_snps
 
 
-def sim_block_study(X, n_study, n_blocks, n_causal_per_block, block_p, pve, effect_distribution, max_r2):
+def sim_block_study(X, n_study, n_blocks, n_causal_per_block, block_p, pve, effect_distribution, min_r2, max_r2):
     """
     each block has a causal snps, each study assigned to a main block
     tissues within a block share the causal snp
