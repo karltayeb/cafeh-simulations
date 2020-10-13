@@ -151,7 +151,9 @@ def sim_block_study(X, n_study, n_blocks, n_causal_per_block, block_p, pve, effe
         n_causal_per_block, -1)
 
     # draw block ids and causal snps
-    block_id = np.sort(np.random.choice(n_blocks, n_study))
+    # ensure each block gets at least one tissue
+    block_id = np.sort(np.concatenate(
+        [np.arange(n_blocks), np.random.choice(n_blocks, n_study - n_blocks)]))
 
     # make block probability matrix
     causal_p = np.eye(n_blocks)
