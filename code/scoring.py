@@ -54,7 +54,7 @@ def score_finemapping_cafeh(credible_sets, purity, true_effects):
     causal_snps = np.where(np.any(true_effects != 0, 0))[0]
 
     # how many of these components are pure?
-    pure = np.array([purity[k] > 0.5 for k in range(len(purity))])
+    pure = np.array([purity[k] > 0.0 for k in range(len(purity))])
 
     # how many component contain a causal snp
     cs_contains_causal = np.array([np.any(np.isin(credible_sets[k], causal_snps))
