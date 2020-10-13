@@ -117,21 +117,45 @@ def sim_n_causal_per_study(X, n_study, prop_colocalizing, n_causal_per_study, pv
     }
 
 
-def sim_block_study(X, n_study, n_blocks, n_causal_per_block, block_p, pve, effect_distribution):
+def select_causal_snps(R2, n_causal, max_r2):
+    """
+    select n_causal snps such that the pairwise r2 < max_r2
+    """
+    causal_snps = []
+    
+    n = R2.shape[0]
+    p = np.ones(n) / n
+    while(len(causal_snps) < n_causal):
+        next_snp = np.random.choice(n, p=p)
+        p[next_snp] = 0
+        p = p * (R2[next_snp] < max_r2)
+        if p.sum() == 0:
+            print('restart')
+            causal_snps = []
+            p = np.ones(n) / n
+            continue
+        p = p / p.sum()
+        causal_snps.append(next_snp)
+    causal_snps = np.array(causal_snps)
+    return causal_snps
+
+def sim_block_study(X, n_study, n_blocks, n_causal_per_block, block_p, pve, effect_distribution, max_r2):
     """
     each block has a causal snps, each study assigned to a main block
     tissues within a block share the causal snp
     tissues out of block have the causal snp with probability block_p
     """
     n_variants = X.shape[1]
-    n_causal = n_blocks
+    n_causal = n_blocks * n_causal_per_block
+
+    R2 = np.corrcoef(X.T) ** 2 
+    causal_snps = select_causal_snps(R2, n_causal, max_r2).reshape(
+        n_causal_per_block, -1)
 
     # draw block ids and causal snps
     block_id = np.sort(np.random.choice(n_blocks, n_study))
-    causal_snps = [np.random.choice(n_variants, n_causal, replace=False)
-        for _ in range(n_causal_per_block)]
 
-    # make block probability and causal snp matrix
+    # make block probability matrix
     causal_p = np.eye(n_blocks)
     causal_p[causal_p == 0] = block_p
 

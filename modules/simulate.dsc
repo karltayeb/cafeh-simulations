@@ -31,7 +31,7 @@ general_sim(n_causal_per_study_sim):
   n_causal_per_study: 1, 2, 3
 
 block_study_sim: simulation.py \
-  + Python(sim = sim_block_study(X, n_study, n_blocks, n_causal_per_block, block_p, pve, effect_distribution))
+  + Python(sim = sim_block_study(X, n_study, n_blocks, n_causal_per_block, block_p, pve, effect_distribution, max_r2))
   # demonstrate relative performance at a range of settings
   X: $X
   n_study: 20
@@ -39,6 +39,23 @@ block_study_sim: simulation.py \
   n_blocks: 2, 5
   n_causal_per_block: 1, 2, 3
   pve: 0.1, 0.05, 0.01
+  effect_distribution: 'normal'
+  max_r2: 0.8
+  $sim: sim
+  $true_effects: sim['true_effects']
+  $true_coloc: sim['true_coloc']
+  $Y: sim['expression']
+  $K: sim['K']
+
+r2_between_blocks(block_study_sim):
+  # demonstrate relative performance at a range of settings
+  X: $X
+  n_study: 10, 20
+  block_p: 0.0
+  n_blocks: 2
+  n_causal_per_block: 1
+  pve: 0.1
+  max_r2: 0.6, 0.7, 0.8, 0.9, 0.95
   effect_distribution: 'normal'
   $sim: sim
   $true_effects: sim['true_effects']
