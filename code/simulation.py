@@ -117,10 +117,7 @@ def sim_n_causal_per_study(X, n_study, prop_colocalizing, n_causal_per_study, pv
     }
 
 
-def select_causal_snps(R2, n_causal, max_r2):
-    """
-    select n_causal snps such that the pairwise r2 < max_r2
-    """
+def select_causal_snps(R2, n_causal, min_r2, max_r2):
     causal_snps = []
     
     n = R2.shape[0]
@@ -128,7 +125,7 @@ def select_causal_snps(R2, n_causal, max_r2):
     while(len(causal_snps) < n_causal):
         next_snp = np.random.choice(n, p=p)
         p[next_snp] = 0
-        p = p * (R2[next_snp] < max_r2)
+        p = p * (R2[next_snp] < max_r2) * (R2[next_snp] > min_r2)
         if p.sum() == 0:
             print('restart')
             causal_snps = []
@@ -138,6 +135,7 @@ def select_causal_snps(R2, n_causal, max_r2):
         causal_snps.append(next_snp)
     causal_snps = np.array(causal_snps)
     return causal_snps
+
 
 def sim_block_study(X, n_study, n_blocks, n_causal_per_block, block_p, pve, effect_distribution, max_r2):
     """
