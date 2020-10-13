@@ -55,7 +55,7 @@ r2_between_blocks(block_study_sim):
   n_blocks: 2
   n_causal_per_block: 1
   pve: 0.1
-  max_r2: (0, 0.5) (0.5, 0.8), (0.8, 0.9), (0.9, 0.95), (0.95, 0.99)
+  max_r2: (0, 0.5), (0.5, 0.8), (0.8, 0.9), (0.9, 0.95), (0.95, 0.99)
   effect_distribution: 'normal'
   $sim: sim
   $true_effects: sim['true_effects']
