@@ -25,7 +25,7 @@ DSC:
     coloc: fit_coloc * score_coloc_coloc
 
   run:
-    default: simulate * (fit_cafeh * score_coloc_cafeh, caviar, coloc)
+    #default: simulate * (fit_cafeh * score_coloc_cafeh, caviar, coloc)
     vary_r2_pipeline: small_genotype * genotype2ld * r2_between_blocks * individual2summary * (fit_cafeh * score_coloc_cafeh, coloc)
     block_sim_pipeline: small_genotype * genotype2ld * block_study_sim * individual2summary * (fit_cafeh_genotype_suggested * score_coloc_cafeh, coloc, caviar, fit_susie_genotype_suggested)
 

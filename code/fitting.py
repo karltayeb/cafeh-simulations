@@ -172,6 +172,7 @@ def run_caviar(B, se, LD):
 
     #run caviar
     post = []
+    results = []
     for i in range(z.shape[0]):
         cmd = make_caviar_command(
             config['caviar_path'], '{}LD'.format(prefix),
@@ -179,9 +180,7 @@ def run_caviar(B, se, LD):
             o='{}_{}'.format(prefix, i))
         print(cmd)
         subprocess.run(cmd, shell=True)
-
-    results = []
-    for i in range(z.shape[0]):
+        
         post = pd.read_csv('{}_{}_post'.format(prefix, i), sep='\t')
         post = post.rename(columns={
             'SNP_ID': 'snp',
