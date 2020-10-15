@@ -40,8 +40,8 @@ block_study_sim: simulation.py \
   n_causal_per_block: 1, 2, 3
   pve: 0.1, 0.05, 0.01
   effect_distribution: 'normal'
-  r2_range: (0, 0.8)
-  $sim: sim
+  r2_range: (0, 0.6)
+  $residual_variance: sim['residual_variance']
   $true_effects: sim['true_effects']
   $true_coloc: sim['true_coloc']
   $Y: sim['expression']
@@ -56,12 +56,6 @@ r2_between_blocks(block_study_sim):
   n_causal_per_block: 1
   pve: 0.1
   r2_range: (0, 0.5), (0.5, 0.6), (0.6, 0.7), (0.7, 0.8), (0.8, 0.9)
-  effect_distribution: 'normal'
-  $sim: sim
-  $true_effects: sim['true_effects']
-  $true_coloc: sim['true_coloc']
-  $Y: sim['expression']
-  $K: sim['K']
 
 global_effect_sim(n_causal_per_study_sim):
   # test at lower pve to show power increases w/ n_study

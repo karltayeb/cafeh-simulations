@@ -14,25 +14,34 @@ fit_cafeh_genotype: fitting.py + Python(model = fit_cafeh_genotype(X.T, Y, K, p0
   $active: model.active
   $m: model
 
-fit_susie_genotype: fitting.py + Python(results = fit_susie_genotype(X.T, Y, K, p0k, standardize, fit, max_iter=max_iter, update_variance=update_variance))
+fit_cafeh_genotype_suggested(fit_cafeh_genotype):
+  standardize: True
+  update_ard: True
+  update_variance: True
+
+fit_susie_genotype: fitting.py + Python(results = fit_susie_genotype(X.T, Y, K, p0k, standardize, update_ard, update_active, update_variance))
   model: 'susie_genotype'
   X: $X
   Y: $Y
   K: 5
-  p0k: 1.0
-  standardize: True, False
-  fit: "weight_ard_active", "weight_active"
-  max_iter: 50
-  update_variance: False
+  p0k: 0.01, 1.0
+  standardize: False
+  update_ard: True, False
+  update_active: True
+  update_variance: True, False
+
   $expected_effects: results.expected_effects
   $study_pip: results.study_pip
   $credible_sets: results.credible_sets
   $purity: results.purity
   $params: results.params
 
-fit_susie_genotype_ss(fit_susie_genotype):
-  model: 'susie_genotype_ss'
-  p0k: 0.01
+fit_susie_genotype_suggested(fit_susie_genotype):
+  standardize: True
+  update_ard: True
+  update_variance: True
+  p0k: 0.01, 1.0
+
 
 fit_cafeh_summary: fitting.py + Python(model = fit_cafeh_summary(LD, B, se, S, K, p0k, standardize, fit, max_iter=max_iter); params = get_param_dict(model))
   model: 'cafeh_summary'
@@ -54,6 +63,7 @@ fit_cafeh_summary: fitting.py + Python(model = fit_cafeh_summary(LD, B, se, S, K
   $credible_sets: model.credible_sets
   $purity: model.purity
   $params: params
+
 
 fit_cafeh_summary_simple: fitting.py + Python(model = fit_cafeh_summary_simple(LD, B, se, S, K, p0k, standardize, fit, max_iter=max_iter); params = get_param_dict(model, compress=False))
   model: 'cafeh_summary_simple'

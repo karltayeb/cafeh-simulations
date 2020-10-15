@@ -13,13 +13,24 @@ import yaml
 
 config = yaml.load(open('config.yml', 'r'))
 
-def _fit(model, fit, **kwargs):
-    if fit == 'forward':
-        forward_fit_procedure(model, **kwargs)
-    elif fit == 'weight_ard_active':
-        weight_ard_active_fit_procedure(model, **kwargs)
-    elif fit == 'weight_active':
-        weight_active_fit_procedure(model, **kwargs)
+def _fit(model, update_ard, update_active, update_variance):
+    fit_args = {
+        'update_weights': True,
+        'update_pi': True,
+        'update_variance': update_variance,
+        'ARD_weights': False,
+        'update_active': False,
+        'max_iter': 50
+    }
+    model.fit(**fit_args)
+
+    if update_ard:
+        fit_args['ARD_weights'] = True
+        model.fit(**fit_args)
+
+    if update_active:
+        fit_args['update_active'] = True
+        model.fit(**fit_args)
 
 def get_param_dict(model, compress=True):
     param_dict = {}
@@ -41,27 +52,38 @@ def fit_cafeh_genotype(X, Y, K, p0k, standardize, update_ard, update_active,
     model = CAFEHG(X=X, Y=Y, K=K)
     model.prior_activity = np.ones(K) * p0k
 
-    fit_args = {
-        'update_weights': True,
-        'update_pi': True,
-        'update_variance': update_variance,
-        'ARD_weights': False,
-        'update_active': False,
-        'max_iter': 50
-    }
-    model.fit(**fit_args)
-
-    if update_ard:
-        fit_args['ARD_weights'] = True
-        model.fit(**fit_args)
-
-    if update_active:
-        fit_args['update_active'] = True
-        model.fit(**fit_args)
-
+    _fit(model, update_ard, update_active, update_variance)
     model.clear_precompute()
     return model
 
+def fit_susie_genotype(X, Y, K, p0k, standardize, update_ard, update_active,
+    update_variance, **kwargs):
+    expected_effects = []
+    study_pip = []
+    credible_sets = []
+    purity = []
+    params = []
+
+    if standardize:
+        X = (X.T / X.T.std(0)).T
+
+    for y in Y:
+        model = CAFEHG(X=X, Y=y[None], K=K)
+        model.prior_activity = np.ones(K) * p0k
+        _fit(model, update_ard, update_active, update_variance)
+        model.clear_precompute()
+
+        expected_effects.append(model.expected_effects)
+        study_pip.append(model.get_study_pip().values.flatten())
+        credible_sets.append(model.credible_sets)
+        purity.append(model.purity)
+        params.append(get_param_dict(model))
+
+    expected_effects = np.array(expected_effects)
+    study_pip = np.array(study_pip)
+    return SimpleNamespace(
+        expected_effects=expected_effects, study_pip=study_pip, credible_sets=credible_sets,
+        purity=purity, params=params)
 
 def fit_cafeh_summary_simple(LD, B, se, S, K, p0k, standardize, fit, **kwargs):
     if standardize:
@@ -82,32 +104,7 @@ def fit_cafeh_summary(LD, B, se, S, K, p0k, standardize, fit, **kwargs):
     _fit(model, fit, **kwargs)
     return model
 
-def fit_susie_genotype(X, Y, K, p0k, standardize, fit, **kwargs):
-    expected_effects = []
-    study_pip = []
-    credible_sets = []
-    purity = []
-    params = []
 
-    if standardize:
-        X = (X.T / X.T.std(0)).T
-
-    for y in Y:
-        model = CAFEHG(X=X, Y=y[None], K=K)
-        model.prior_activity = np.ones(K) * p0k
-        _fit(model, fit, **kwargs)
-
-        expected_effects.append(model.expected_effects)
-        study_pip.append(model.get_study_pip().values.flatten())
-        credible_sets.append(model.credible_sets)
-        purity.append(model.purity)
-        params.append(get_param_dict(model))
-
-    expected_effects = np.array(expected_effects)
-    study_pip = np.array(study_pip)
-    return SimpleNamespace(
-        expected_effects=expected_effects, study_pip=study_pip, credible_sets=credible_sets,
-        purity=purity, params=params)
 
 def fit_susie_summary(LD, B, se, S, K, p0k, standardize, fit, **kwargs):
     expected_effects = []
