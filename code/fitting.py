@@ -51,6 +51,7 @@ def fit_cafeh_genotype(X, Y, K, p0k, standardize, update_ard, update_active,
 
     model = CAFEHG(X=X, Y=Y, K=K)
     model.prior_activity = np.ones(K) * p0k
+    model.weight_precision_b = np.ones_like(m.weight_precision_b) * 0.001
 
     _fit(model, update_ard, update_active, update_variance)
     model.clear_precompute()
@@ -162,6 +163,8 @@ def run_caviar(B, se, LD):
     prefix = prefix_path + ''.join(np.random.choice(10, 20).astype(str))
     np.random.seed(DSC_SEED)
 
+
+
     z = B / se
     # save caviar summary stats: zscore, LD
     for i, z_i in enumerate(z):
@@ -180,7 +183,7 @@ def run_caviar(B, se, LD):
             o='{}_{}'.format(prefix, i))
         print(cmd)
         subprocess.run(cmd, shell=True)
-        
+
         post = pd.read_csv('{}_{}_post'.format(prefix, i), sep='\t')
         post = post.rename(columns={
             'SNP_ID': 'snp',
