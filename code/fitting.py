@@ -51,7 +51,7 @@ def fit_cafeh_genotype(X, Y, K, p0k, standardize, update_ard, update_active,
 
     model = CAFEHG(X=X, Y=Y, K=K)
     model.prior_activity = np.ones(K) * p0k
-    model.weight_precision_b = np.ones_like(m.weight_precision_b) * 0.001
+    model.weight_precision_b = np.ones_like(model.weight_precision_b) * 0.001
 
     _fit(model, update_ard, update_active, update_variance)
     model.clear_precompute()
