@@ -19,7 +19,7 @@ fit_cafeh_genotype_suggested(fit_cafeh_genotype):
   update_ard: True
   update_variance: True
 
-fit_cafeh_genotype_pairwise: fitting.py + Python(out = fit_cafeh_genotype_pairwise(X.T, Y, K, p0k, standardize, update_ard, update_active, update_variance); params = get_param_dict(model))
+fit_cafeh_genotype_pairwise: fitting.py + Python(out = fit_cafeh_genotype_pairwise(X.T, Y, K, p0k, standardize, update_ard, update_active, update_variance))
   model: 'cafeh_genotype'
   X: $X
   Y: $Y
