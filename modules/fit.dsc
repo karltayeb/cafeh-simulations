@@ -19,6 +19,18 @@ fit_cafeh_genotype_suggested(fit_cafeh_genotype):
   update_ard: True
   update_variance: True
 
+fit_cafeh_genotype_pairwise: fitting.py + Python(out = fit_cafeh_genotype_pairwise(X.T, Y, K, p0k, standardize, update_ard, update_active, update_variance); params = get_param_dict(model))
+  model: 'cafeh_genotype'
+  X: $X
+  Y: $Y
+  K: $K
+  p0k: 0.01
+  standardize: True
+  update_ard: True
+  update_active: True
+  update_variance: True
+  $p_coloc: out['p_coloc']
+
 fit_susie_genotype: fitting.py + Python(results = fit_susie_genotype(X.T, Y, K, p0k, standardize, update_ard, update_active, update_variance))
   model: 'susie_genotype'
   X: $X
@@ -119,7 +131,6 @@ fit_ecaviar: fitting.py + Python(ecaviar_out = ecaviar_from_caviar(caviar_out))
   model: 'ecaviar'
   caviar_out: $caviar_out
   $ecaviar_out: ecaviar_out
-
 
 fit_coloc: fitting.py + Python(coloc_out = run_coloc(B, se))
   model: 'coloc'

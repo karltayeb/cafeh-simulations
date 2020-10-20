@@ -38,3 +38,6 @@ DSC:
 
   exec_path: code
   output: output/cafeh-simulations
+
+
+  # dsc cafeh.dsc --target vary_r2_pipeline block_sim_pipeline  --replicate 10 -o output --host marcc.yml

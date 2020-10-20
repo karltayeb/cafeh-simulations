@@ -57,6 +57,28 @@ def fit_cafeh_genotype(X, Y, K, p0k, standardize, update_ard, update_active,
     model.clear_precompute()
     return model
 
+def fit_cafeh_genotype_pairwise(X, Y, K, p0k, standardize, update_ard, update_active,
+    update_variance, **kwargs):
+    n_study = Y.shape[0]
+
+    if standardize:
+        X = (X.T / X.T.std(0)).T
+
+    _p_coloc = lambda t1, t2, m: 1 - \
+        np.exp(np.sum(np.log(1e-10 + 1 - m.active[t1] * m.active[t2])))
+    p_coloc = {}
+    for i, j in combinations(np.arange(n_study), 2):
+        model = CAFEHG(X=X, Y=Y[[i, j]], K=K)
+        model.prior_activity = np.ones(K) * p0k
+        model.weight_precision_b = np.ones_like(model.weight_precision_b) * 0.001
+
+        _fit(model, update_ard, update_active, update_variance)
+        p_coloc[(i, j)] = _p_coloc(0, 1, model)
+
+    p_coloc = np.concatenate(
+            [[p_coloc[(t1, t2)] for t1 in range(t2)] for t2 in range(n_study)])
+    return {'p_coloc': p_coloc}
+
 def fit_susie_genotype(X, Y, K, p0k, standardize, update_ard, update_active,
     update_variance, **kwargs):
     expected_effects = []
