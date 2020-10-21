@@ -40,7 +40,7 @@ block_study_sim: simulation.py \
   n_causal_per_block: 1, 2, 3
   pve: 0.1, 0.05, 0.01
   effect_distribution: 'normal'
-  r2_range: (0, 0.6)
+  r2_range: (0, 0.8)
   $residual_variance: sim['residual_variance']
   $true_effects: sim['true_effects']
   $true_coloc: sim['true_coloc']
