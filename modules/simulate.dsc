@@ -55,7 +55,7 @@ single_causal_sim: simulation.py \
   block_p: 0.0
   n_blocks: 2
   n_causal_per_block: 1
-  pve: 0.05
+  pve: 0.01
   effect_distribution: 'normal'
   r2_range: (0, 0.9)
   $residual_variance: sim['residual_variance']
