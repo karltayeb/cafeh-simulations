@@ -29,7 +29,7 @@ DSC:
     vary_r2_pipeline: small_genotype * genotype2ld * r2_between_blocks * individual2summary * (fit_cafeh * score_coloc_cafeh, coloc)
     block_sim_pipeline: small_genotype * genotype2ld * block_study_sim * individual2summary * ((fit_cafeh_genotype_suggested, fit_cafeh_summary_suggested) * score_coloc_cafeh, coloc, caviar, (fit_susie_genotype_suggested, fit_susie_summary_suggested))
     single_variant_pipeline: small_genotype * genotype2ld * single_causal_sim * individual2summary * ((fit_cafeh_genotype_suggested, fit_cafeh_summary_suggested) * score_coloc_cafeh, coloc, caviar, (fit_susie_genotype_suggested, fit_susie_summary_suggested))
-    block_sim_pipeline_2: small_genotype * genotype2ld * block_study_sim_2 * individual2summary * ((fit_cafeh_genotype_suggested, fit_cafeh_summary_suggested) * score_coloc_cafeh, coloc, caviar, (fit_susie_genotype_suggested, fit_susie_summary_suggested))
+    block_sim_pipeline_2: small_genotype * genotype2ld * block_study_sim_2 * individual2summary * (fit_cafeh_genotype_suggested * score_coloc_cafeh, coloc, caviar, fit_susie_genotype_suggested)
     #default: simulate * (fit_cafeh * score_coloc_cafeh, fit_susie, caviar, coloc)
     # cafeh_genotype: full_genotype * one_study_sim * fit_cafeh_genotype
     # cafeh_summary: full_genotype * one_study_sim * genotype2ld * individual2summary * fit_cafeh_genotype
