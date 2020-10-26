@@ -47,6 +47,23 @@ block_study_sim: simulation.py \
   $Y: sim['expression']
   $K: sim['K']
 
+block_study_sim_2: simulation.py \
+  + Python(sim = sim_block_study(X, n_study, n_blocks, n_causal_per_block, block_p, pve, effect_distribution, *r2_range))
+  # demonstrate relative performance at a range of settings
+  X: $X
+  n_study: 5, 10, 20
+  block_p: 0.0
+  n_blocks: 2
+  n_causal_per_block: 1, 2, 3
+  pve: 0.1, 0.05, 0.01
+  effect_distribution: 'normal'
+  r2_range: (0, 0.8)
+  $residual_variance: sim['residual_variance']
+  $true_effects: sim['true_effects']
+  $true_coloc: sim['true_coloc']
+  $Y: sim['expression']
+  $K: sim['K']
+
 single_causal_sim: simulation.py \
   + Python(sim = sim_block_study(X, n_study, n_blocks, n_causal_per_block, block_p, pve, effect_distribution, *r2_range))
   # demonstrate relative performance at a range of settings
