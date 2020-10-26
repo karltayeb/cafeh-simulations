@@ -47,7 +47,7 @@ block_study_sim: simulation.py \
   $Y: sim['expression']
   $K: sim['K']
 
-block_study_sim_2: simulation.py \
+block_study_sim_two: simulation.py \
   + Python(sim = sim_block_study(X, n_study, n_blocks, n_causal_per_block, block_p, pve, effect_distribution, *r2_range))
   # demonstrate relative performance at a range of settings
   X: $X
