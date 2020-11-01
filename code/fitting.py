@@ -26,12 +26,6 @@ def _fit(model, update_ard, update_active, update_variance):
     model.weight_precision_b = np.ones_like(model.weight_precision_b) * 0.001
     model.fit(**fit_args)
 
-    model.weight_precision_b = np.ones_like(model.weight_precision_b) * 0.01
-    model.fit(**fit_args)
-
-    model.weight_precision_b = np.ones_like(model.weight_precision_b) * 0.1
-    model.fit(**fit_args)
-
     if update_ard:
         fit_args['ARD_weights'] = True
         model.fit(**fit_args)
