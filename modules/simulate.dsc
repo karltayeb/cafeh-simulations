@@ -51,11 +51,11 @@ increase_tissue_sim: simulation.py \
   + Python(sim = sim_block_study(X, n_study, n_blocks, n_causal_per_block, block_p, pve, effect_distribution, *r2_range))
   # demonstrate relative performance at a range of settings
   X: $X
-  n_study: 4, 8, 16, 32
+  n_study: 2, 4, 8, 16
   block_p: 0.0
   n_blocks: 2
   n_causal_per_block: 1
-  pve: 0.01
+  pve: 0.05
   effect_distribution: 'normal'
   r2_range: (0, 0.8)
   $residual_variance: sim['residual_variance']
