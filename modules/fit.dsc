@@ -17,7 +17,7 @@ fit_cafeh_genotype: fitting.py + Python(model = fit_cafeh_genotype(X.T, Y, K, p0
   $m: model
 
 fit_cafeh_genotype_suggested(fit_cafeh_genotype):
-  p0k: 0.01
+  p0k: 0.1
   standardize: True
   update_ard: True
   update_active: True
