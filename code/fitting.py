@@ -12,7 +12,7 @@ from types import SimpleNamespace
 import yaml
 
 config = yaml.load(open('config.yml', 'r'))
-
+        
 def _fit(model, update_ard, update_active, update_variance):
     fit_args = {
         'update_weights': True,
@@ -22,6 +22,14 @@ def _fit(model, update_ard, update_active, update_variance):
         'update_active': False,
         'max_iter': 50
     }
+    
+    model.weight_precision_b = np.ones_like(model.weight_precision_b) * 0.001
+    model.fit(**fit_args)
+
+    model.weight_precision_b = np.ones_like(model.weight_precision_b) * 0.01
+    model.fit(**fit_args)
+
+    model.weight_precision_b = np.ones_like(model.weight_precision_b) * 0.1
     model.fit(**fit_args)
 
     if update_ard:
