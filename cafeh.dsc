@@ -28,6 +28,7 @@ DSC:
     #default: simulate * (fit_cafeh * score_coloc_cafeh, caviar, coloc)
     vary_r2_pipeline: small_genotype * genotype2ld * r2_between_blocks * individual2summary * (fit_cafeh * score_coloc_cafeh, coloc)
     block_sim_pipeline: small_genotype * genotype2ld * block_study_sim * individual2summary * (fit_cafeh_genotype_suggested * score_coloc_cafeh, coloc, caviar, fit_susie_genotype_suggested)
+    one_block_pipeline: small_genotype * genotype2ld * one_block_sim * individual2summary * (fit_cafeh_genotype_suggested, fit_susie_genotype_suggested, caviar)
     increase_tissue_pipeline: small_genotype * genotype2ld * increase_tissue_sim * individual2summary * (fit_cafeh_genotype_suggested * score_coloc_cafeh, coloc, fit_susie_genotype_suggested)
     #default: simulate * (fit_cafeh * score_coloc_cafeh, fit_susie, caviar, coloc)
     # cafeh_genotype: full_genotype * one_study_sim * fit_cafeh_genotype
