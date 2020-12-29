@@ -33,6 +33,10 @@ genotype2ld: Python(LD = numpy.corrcoef(X, rowvar=False))
   X: $X
   $LD: LD
 
+ld2ldscore: Python(LD_corr = LD - (1-LD)/(N-2); LD_score = LD_corr.sum(1) - np.diag(LD_corr) + 1)
+  LD: $LD
+  $LD_score: LD_score
+
 individual2summary: data.py + Python(sumstats = get_cafeh_summary_stats(Y.T, X))
   X: $X
   Y: $Y
