@@ -47,6 +47,7 @@ block_study_sim: simulation.py \
   $true_coloc: sim['true_coloc']
   $Y: sim['expression']
   $K: sim['K']
+  $ldscore: sim['ldscore']
 
 ldscore_sim(block_study_sim):
   n_study: 2
@@ -54,8 +55,7 @@ ldscore_sim(block_study_sim):
   n_blocks:  1, 2
   n_causal_per_block: 1, 2
   pve: 0.1
-  r2_range: (0, 1.0)
-  ldscore_range: (-1e10, 0), (0, 10), (10, 100), (100, 1000), (1000, 1e10)
+  r2_range: (0, 0.5), (0.5, 0.7), (0.7, 0.8), (0.8, 0.9), (0.9, 1.0)
 
 increase_tissue_sim: simulation.py \
   + Python(sim = sim_block_study(X, n_study, n_blocks, n_causal_per_block, block_p, pve, effect_distribution, *r2_range))

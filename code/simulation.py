@@ -199,5 +199,6 @@ def sim_block_study(X, n_study, n_blocks, n_causal_per_block, block_p, pve, effe
         'residual_variance': residual_variance,
         'causal_snps': causal_snps,
         'n_causal': causal_snps.size,
-        'K': int(np.ceil(causal_snps.size/10) * 10)
+        'K': int(np.ceil(causal_snps.size/10) * 10),
+        'ldscore': ldscore
     }
