@@ -162,7 +162,7 @@ def sim_block_study(X, n_study, n_blocks, n_causal_per_block, block_p, pve, effe
     ldscore = R2_adj.sum(1) - np.diag(R2_adj) + 1
 
     active = (ldscore > min_ldscore) & (ldscore < max_ldscore)
-    causal_snps = select_causal_snps(R2, n_causal, min_r2, max_r2).reshape(
+    causal_snps = select_causal_snps(R2, n_causal, min_r2, max_r2, active).reshape(
         n_causal_per_block, -1)
 
     # draw block ids and causal snps
