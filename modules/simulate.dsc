@@ -50,7 +50,7 @@ block_study_sim: simulation.py \
   $ldscore: sim['ldscore']
 
 ldscore_sim(block_study_sim):
-  n_study: 2
+  n_study: 2, 10
   block_p: 0.0
   n_blocks:  1, 2
   n_causal_per_block: 1, 2

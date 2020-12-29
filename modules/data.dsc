@@ -28,6 +28,10 @@ medium_genotype(full_genotype):
   tag: '2k_genotype'
   subset: 2000
 
+large_genotype(full_genotype):
+  tag: '5k_genotype'
+  subset: 5000
+
 genotype2ld: Python(LD = numpy.corrcoef(X, rowvar=False))
   @CONF: python_modules = (numpy)
   X: $X

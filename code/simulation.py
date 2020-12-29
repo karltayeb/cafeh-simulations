@@ -119,16 +119,19 @@ def sim_n_causal_per_study(X, n_study, prop_colocalizing, n_causal_per_study, pv
 
 def select_causal_snps(R2, n_causal, min_r2, max_r2, active=None):
     """
-    active: boolean array True if variant can be causal
+    pick `n_causal` snps with pairwise R2 between `min_r2` and `max_r2`
+    `active`: boolean array True if variant can be causal
     """
     causal_snps = []
     
+    # initialize p
     n = R2.shape[0]
     if active is None:
         p = np.ones(n) / n
     else:
         p = active / active.sum()
 
+    # select variants
     while(len(causal_snps) < n_causal):
         next_snp = np.random.choice(n, p=p)
         p[next_snp] = 0
