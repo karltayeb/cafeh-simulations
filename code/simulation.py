@@ -158,7 +158,7 @@ def sim_block_study(X, n_study, n_blocks, n_causal_per_block, block_p, pve, effe
     n_causal = n_blocks * n_causal_per_block
 
     R2 = np.corrcoef(X.T) ** 2
-    R2_adj = R2 * (1 - R2) / (n_samples - 2)
+    R2_adj = R2 - (1 - R2) / (n_samples - 2)
     ldscore = R2_adj.sum(1) - np.diag(R2_adj) + 1
 
     active = (ldscore > min_ldscore) & (ldscore < max_ldscore)
