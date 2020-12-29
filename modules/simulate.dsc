@@ -41,7 +41,7 @@ block_study_sim: simulation.py \
   pve: 0.1, 0.05, 0.01
   effect_distribution: 'normal'
   r2_range: (0, 0.8)
-  ldscore_range: (-np.inf, np.inf)
+  ldscore_range: (-1e10, 1e10)
   $residual_variance: sim['residual_variance']
   $true_effects: sim['true_effects']
   $true_coloc: sim['true_coloc']
@@ -55,7 +55,7 @@ ldscore_sim(block_study_sim):
   n_causal_per_block: 1, 2
   pve: 0.1
   r2_range: (0, 1.0)
-  ldscore_range: (-np.inf, 0), (0, 10), (10, 100), (100, 1000), (1000, np.inf)
+  ldscore_range: (-1e10, 0), (0, 10), (10, 100), (100, 1000), (1000, 1e10)
 
 increase_tissue_sim: simulation.py \
   + Python(sim = sim_block_study(X, n_study, n_blocks, n_causal_per_block, block_p, pve, effect_distribution, *r2_range))
@@ -107,6 +107,3 @@ global_effect_sim(n_causal_per_study_sim):
   n_study: 2, 5, 10
   n_causal_per_study: 1, 2, 3
   pve: 0.005, 0.01, 0.05, 0.1
-
-
-ldscore_sim(block_study_sim):
