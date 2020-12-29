@@ -33,7 +33,8 @@ genotype2ld: Python(LD = numpy.corrcoef(X, rowvar=False))
   X: $X
   $LD: LD
 
-ld2ldscore: Python(LD_corr = LD - (1-LD)/(X.shape[0] -2); LD_score = LD_corr.sum(1) - np.diag(LD_corr) + 1)
+ld2ldscore: Python(LD_corr = LD - (1-LD)/(X.shape[0] -2); LD_score = LD_corr.sum(1) - numpy.diag(LD_corr) + 1)
+  @CONF: python_modules = (numpy)
   X: $X
   LD: $LD
   $LD_score: LD_score
