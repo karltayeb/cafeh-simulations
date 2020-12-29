@@ -117,11 +117,18 @@ def sim_n_causal_per_study(X, n_study, prop_colocalizing, n_causal_per_study, pv
     }
 
 
-def select_causal_snps(R2, n_causal, min_r2, max_r2):
+def select_causal_snps(R2, n_causal, min_r2, max_r2, active=None):
+    """
+    active: boolean array True if variant can be causal
+    """
     causal_snps = []
     
     n = R2.shape[0]
-    p = np.ones(n) / n
+    if active is None:
+        p = np.ones(n) / n
+    else:
+        p = active / active.sum()
+
     while(len(causal_snps) < n_causal):
         next_snp = np.random.choice(n, p=p)
         p[next_snp] = 0
@@ -137,16 +144,24 @@ def select_causal_snps(R2, n_causal, min_r2, max_r2):
     return causal_snps
 
 
-def sim_block_study(X, n_study, n_blocks, n_causal_per_block, block_p, pve, effect_distribution, min_r2, max_r2):
+def sim_block_study(X, n_study, n_blocks, n_causal_per_block, block_p, pve, effect_distribution, min_r2, max_r2, min_ldscore, max_ldscore):
     """
     each block has a causal snps, each study assigned to a main block
     tissues within a block share the causal snp
     tissues out of block have the causal snp with probability block_p
+
+    min_r2, max_r2: pairwise r2 values allowed for causal snps
+    min_lscore, max_ldscore: ldscore range allowed for causal variants
     """
     n_variants = X.shape[1]
+    n_samples = X.shape[0]
     n_causal = n_blocks * n_causal_per_block
 
-    R2 = np.corrcoef(X.T) ** 2 
+    R2 = np.corrcoef(X.T) ** 2
+    R2_adj = R2 * (1 - R2) / (n_samples - 2)
+    ldscore = R2_adj.sum(1) - np.diag(R2_adj) + 1
+
+    active = (ldscore > min_ldscore) & (ldscore < max_ldscore)
     causal_snps = select_causal_snps(R2, n_causal, min_r2, max_r2).reshape(
         n_causal_per_block, -1)
 
