@@ -26,7 +26,7 @@ DSC:
     coloc: fit_coloc * score_coloc_coloc
 
   run:
-    ld_small_pipeline: small_genotype * genotype2ld * (ld_sim_coloc, ld_sim_no_coloc) * individual2summary * (fit_cafeh_genotype_suggested * score_coloc_cafeh, coloc, caviar)
+    ld_small_pipeline: small_genotype * genotype2ld * ld_sim * individual2summary * (fit_cafeh_genotype_suggested * score_coloc_cafeh, coloc, caviar)
     ld_large_pipeline: full_genotype * ld_sim * individual2summary * (fit_cafeh_genotype_suggested * score_coloc_cafeh, coloc)
 
   exec_path: code
