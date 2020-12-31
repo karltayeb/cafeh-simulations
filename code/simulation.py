@@ -142,7 +142,7 @@ def select_causal_snps(R2, n_causal, min_r2, max_r2, active=None):
             causal_snps = []
             p = np.ones(n) / n
             retarts += 1
-            assert(restarts < 50)
+            assert(restarts < 1e3)
             continue
         p = p / p.sum()
         causal_snps.append(next_snp)
