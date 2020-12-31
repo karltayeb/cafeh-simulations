@@ -132,6 +132,7 @@ def select_causal_snps(R2, n_causal, min_r2, max_r2, active=None):
         p = active / active.sum()
 
     # select variants
+    restarts = 0
     while(len(causal_snps) < n_causal):
         next_snp = np.random.choice(n, p=p)
         p[next_snp] = 0
@@ -140,6 +141,8 @@ def select_causal_snps(R2, n_causal, min_r2, max_r2, active=None):
             print('restart')
             causal_snps = []
             p = np.ones(n) / n
+            retarts += 1
+            assert(restarts < 50)
             continue
         p = p / p.sum()
         causal_snps.append(next_snp)
