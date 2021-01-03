@@ -80,7 +80,7 @@ def load_genotype(gene, subset=None, dense=True):
         genotype = genotype.iloc[:, idx]
 
     # clean up
-    subprocess.run('rm {}*'.format(genotype_path[:-4]), shell=True)
+    # subprocess.run('rm {}*'.format(genotype_path[:-4]), shell=True)
     return genotype
 
 
