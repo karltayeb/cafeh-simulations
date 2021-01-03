@@ -6,7 +6,7 @@
 # $Y: expression t x n
 # $LD: LD matrix (correlation between genotypes)
 
-full_genotype: data.py + Python(gene=gene_list[DSC_replicate % 200]; X=center_mean_impute(load_genotype(gene, subset, dense)).values)
+full_genotype: data.py + Python(gene=gene_list[DSC_REPLICATE % 200]; X=center_mean_impute(load_genotype(gene, subset, dense)).values)
   tag: "full"
   subset: None
   dense: True
