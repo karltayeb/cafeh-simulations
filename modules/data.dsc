@@ -6,13 +6,14 @@
 # $Y: expression t x n
 # $LD: LD matrix (correlation between genotypes)
 
-full_genotype: data.py + Python(X=center_mean_impute(load_genotype(gene_list[DSC_REPLICATE], subset, dense)).values)
+full_genotype: data.py + Python(gene=gene_list[DSC_replicate % 200]; X=center_mean_impute(load_genotype(gene, subset, dense)).values)
   tag: "full"
   subset: None
   dense: True
   $X: X
   $n_sample: X.shape[0]
   $n_variants: X.shape[1]
+  $gene: gene
 
 small_genotype(full_genotype):
   tag: '1k_genotype'
@@ -45,7 +46,7 @@ ld2ldscore: Python(LD_corr = LD - (1-LD)/(X.shape[0] -2); LD_score = LD_corr.sum
 
 individual2summary: data.py + Python(sumstats = get_cafeh_summary_stats(Y.T, X))
   X: $X
-  Y: $Y
+  Y: $Ysmal
   $B: sumstats['beta']
   $se: sumstats['se']
   $S: sumstats['S']
