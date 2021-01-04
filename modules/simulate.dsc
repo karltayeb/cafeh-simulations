@@ -60,15 +60,14 @@ ldscore_sim(block_study_sim):
 ld_sim_coloc(block_study_sim):
   n_study: 2
   n_blocks: 1
-  pve: 0.1
+  pve: 0.05, 0.1
   n_causal_per_block: 1, 2, 3
 
 ld_sim_no_coloc(block_study_sim):
   n_study: 2
   n_blocks: 2
-  pve: 0.1
+  pve: 0.05, 0.1
   n_causal_per_block: 1, 2, 3
-  r2_range: (0, 0.5), (0.5, 0.7), (0.7, 0.8), (0.8, 0.9), (0.9, 1.0)
 
 increase_tissue_sim: simulation.py \
   + Python(sim = sim_block_study(X, n_study, n_blocks, n_causal_per_block, block_p, pve, effect_distribution, *r2_range))
