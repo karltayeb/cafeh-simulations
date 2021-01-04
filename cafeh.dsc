@@ -10,7 +10,7 @@ DSC:
     #simulations: tissue_specific_sim, general_sim, global_effect_sim
     get_genotype: small_genotype, small_genotype_random
     simulations: block_study_sim
-    ld_sim: ld_sim_coloc, ld_sim_no_coloc
+    coloc_sim: coloc_sim, no_coloc_sim
     simulate: get_genotype * genotype2ld * simulations * individual2summary 
 
     # cafeh 
