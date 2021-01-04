@@ -14,7 +14,8 @@ fit_cafeh_genotype: fitting.py + Python(model = fit_cafeh_genotype(X.T, Y, K, p0
   $study_pip: model.get_study_pip().values
   $pi: model.pi
   $active: model.active
-  $m: model
+
+  $fit_model: model
 
 fit_cafeh_genotype_suggested(fit_cafeh_genotype):
   p0k: 0.1

@@ -7,10 +7,6 @@ def score_coloc_cafeh(active):
     compute true/false positive/negative frequency
     from q(s) for all components
     """
-    if filter_purity:
-        pure = np.array([purity[k] > 0.5 for k in purity])
-        active = active * pure[None]
-
     compute_p_coloc = lambda t1, t2: 1 - \
         np.exp(np.sum(np.log(1e-10 + 1 - active[t1] * active[t2])))
 
