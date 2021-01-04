@@ -1,20 +1,13 @@
-score_coloc_cafeh: scoring.py + Python(results = score_coloc_cafeh(active, true_coloc, thresh))
-  thresh: 0.99
+score_coloc_cafeh: scoring.py + Python(results = score_coloc_cafeh(active))
   active: $active
-  true_coloc: $true_coloc
-  filter_purity: True, False
   $p_coloc: results['p_coloc']
 
-score_coloc_coloc: scoring.py + Python(results = score_coloc_coloc(coloc_out, true_coloc, thresh))
-  thresh: 0.99
+score_coloc_coloc: scoring.py + Python(results = score_coloc_coloc(coloc_out))
   coloc_out: $coloc_out
-  true_coloc: $true_coloc
   $p_coloc: results['p_coloc']
 
-score_coloc_ecaviar: scoring.py + Python(results = score_coloc_ecaviar(ecaviar_out, true_coloc, thresh))
-  thresh: 0.99
+score_coloc_ecaviar: scoring.py + Python(results = score_coloc_ecaviar(ecaviar_out))
   ecaviar_out: $ecaviar_out
-  true_coloc: $true_coloc
   $p_coloc: results['p_coloc']
 
 score_finemapping_cafeh: scoring.py + Python(results = score_finemapping_cafeh(credible_sets, purity, true_effects))
