@@ -2,7 +2,7 @@ from types import SimpleNamespace
 import numpy as np
 import pandas as pd
 
-def score_coloc_cafeh(active, purity, true_coloc, thresh=0.9, filter_purity=False):
+def score_coloc_cafeh(active):
     """
     compute true/false positive/negative frequency
     from q(s) for all components
@@ -23,7 +23,7 @@ def score_coloc_cafeh(active, purity, true_coloc, thresh=0.9, filter_purity=Fals
     }
 
 
-def score_coloc_coloc(coloc_out, true_coloc, thresh=0.9):
+def score_coloc_coloc(coloc_out):
     n_study = np.unique(
         np.array([np.array(k) for k in coloc_out])).size
     tril = np.tril_indices(n_study, k=-1)
@@ -34,7 +34,7 @@ def score_coloc_coloc(coloc_out, true_coloc, thresh=0.9):
     }
 
 
-def score_coloc_ecaviar(ecaviar_out, true_coloc, thresh=0.9):
+def score_coloc_ecaviar(ecaviar_out):
     n_study = np.unique(
         np.array([np.array(k) for k in ecaviar_out])).size
     tril = np.tril_indices(n_study, k=-1)
