@@ -46,7 +46,7 @@ ld2ldscore: Python(LD_corr = LD - (1-LD)/(X.shape[0] -2); LD_score = LD_corr.sum
 
 individual2summary: data.py + Python(sumstats = get_cafeh_summary_stats(Y.T, X))
   X: $X
-  Y: $Ysmal
+  Y: $Y
   $B: sumstats['beta']
   $se: sumstats['se']
   $S: sumstats['S']
