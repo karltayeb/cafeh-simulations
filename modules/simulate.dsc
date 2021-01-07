@@ -61,8 +61,7 @@ simple_no_coloc_sim(block_study_sim):
   pve: 0.05, 0.1
   n_causal_per_block: 1, 2, 3
 
-increase_tissue_sim: simulation.py \
-  + Python(sim = sim_block_study(X, n_study, n_blocks, n_causal_per_block, block_p, pve, effect_distribution, *r2_range))
+increase_tissue_sim(block_study_sim):
   # demonstrate relative performance at a range of settings
   X: $X
   n_study: 2, 4, 8, 16
