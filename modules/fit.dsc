@@ -1,20 +1,20 @@
-fit_cafeh_genotype: fitting.py + Python(model = fit_cafeh_genotype(X.T, Y, K, p0k, standardize, update_ard, update_active, update_variance); params = get_param_dict(model))
+fit_cafeh_genotype: fitting.py + Python(model = fit_cafeh_genotype(X.T, Y, K, p0k, w_prior_variance, standardize, update_ard, update_active, update_variance); params = get_param_dict(model))
   model: 'cafeh_genotype'
   X: $X
   Y: $Y
   K: $K
 
-  p0k: 0.01
-  standardize: False
+  p0k: 0.01, 0.1, 0.5
+  standardize: True, False
   update_ard: True, False
   update_active: True
   update_variance: True, False
+  w_prior_variance: 1, 0.1, 0.01, 0.001
 
   $pip: model.get_pip()
   $study_pip: model.get_study_pip().values
   $pi: model.pi
   $active: model.active
-
   $fit_model: model
 
 fit_cafeh_genotype_suggested(fit_cafeh_genotype):

@@ -45,7 +45,7 @@ def get_param_dict(model, compress=True):
         model._decompress_model()
     return param_dict
 
-def fit_cafeh_genotype(X, Y, K, p0k, standardize, update_ard, update_active,
+def fit_cafeh_genotype(X, Y, K, p0k, w_prior_variance, standardize, update_ard, update_active,
     update_variance, **kwargs):
     if standardize:
         X = (X - X.mean(1)[:, None]) / X.std(1)[:, None]
@@ -53,7 +53,7 @@ def fit_cafeh_genotype(X, Y, K, p0k, standardize, update_ard, update_active,
 
     model = CAFEHG(X=X, Y=Y, K=K)
     model.prior_activity = np.ones(K) * p0k
-    model.weight_precision_b = np.ones_like(model.weight_precision_b) * 0.001
+    model.weight_precision_b = np.ones_like(model.weight_precision_b) * w_prior_variance
 
     _fit(model, update_ard, update_active, update_variance)
     model.clear_precompute()
