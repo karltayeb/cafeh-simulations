@@ -23,7 +23,6 @@ def _fit(model, update_ard, update_active, update_variance):
         'max_iter': 50
     }
     
-    model.weight_precision_b = np.ones_like(model.weight_precision_b) * 0.001
     model.fit(**fit_args)
 
     if update_ard:
