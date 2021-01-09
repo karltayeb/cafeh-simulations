@@ -74,7 +74,7 @@ increase_tissue_sim(block_study_sim):
   block_p: 0.0
   n_blocks: 2
   n_causal_per_block: 1
-  pve: 0.01
+  pve: 0.01, 0.05, 0.1
   effect_distribution: 'normal'
   r2_range: (0, 0.8)
   $residual_variance: sim['residual_variance']
