@@ -6,11 +6,12 @@
 # $Y: expression t x n
 # $LD: LD matrix (correlation between genotypes)
 
-full_genotype: data.py + Python(gene=gene_list[DSC_REPLICATE % 200]; X=center_mean_impute(load_genotype(gene, subset, dense)).values)
+full_genotype: data.py + Python(gene=gene_list[DSC_REPLICATE % 200]; G=load_genotype(gene, subset, dense); X=center_mean_impute(G).values; afreq=(G.sum(0) / (~G.isna()).sum(0) / 2).values)
   tag: "full"
   subset: None
   dense: True
   $X: X
+  $afreq: afreq
   $n_sample: X.shape[0]
   $n_variants: X.shape[1]
   $gene: gene
