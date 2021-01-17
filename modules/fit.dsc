@@ -23,7 +23,7 @@ fit_cafeh_genotype_suggested(fit_cafeh_genotype):
   update_ard: True
   update_active: True
   update_variance: True
-  w_prior_variance: 0.001
+  w_prior_variance: 0.1
 
 fit_susie_genotype: fitting.py + Python(results = fit_susie_genotype(X.T, Y, K, p0k, w_prior_variance, standardize, update_ard, update_active, update_variance))
   model: 'susie_genotype'
@@ -31,12 +31,12 @@ fit_susie_genotype: fitting.py + Python(results = fit_susie_genotype(X.T, Y, K, 
   Y: $Y
   K: 5
 
-  p0k: 0.01, 1.0
+  p0k: 1.0
   standardize: False
   update_ard: True, False
   update_active: True
   update_variance: True, False
-  w_prior_variance: 0.001
+  w_prior_variance: 0.1
 
   $expected_effects: results.expected_effects
   $study_pip: results.study_pip
@@ -59,7 +59,7 @@ fit_cafeh_summary: fitting.py + Python(model = fit_cafeh_summary(LD, B, se, S, K
   se: $se
   S: $S
   K: $K
-  p0k: 0.01
+  p0k: 0.1
   standardize: False
   update_ard: True
   update_active: True
@@ -73,7 +73,7 @@ fit_cafeh_summary: fitting.py + Python(model = fit_cafeh_summary(LD, B, se, S, K
   $m: model
 
 fit_cafeh_summary_suggested(fit_cafeh_summary):
-  p0k: 0.01
+  p0k: 0.1
   standardize: True
   update_ard: True
   update_active: True
@@ -87,7 +87,7 @@ fit_susie_summary: fitting.py + Python(results = fit_susie_summary(LD, B, se, S,
   S: $S
   K: 5
 
-  p0k: 0.01
+  p0k: 1.0
   standardize: False
   update_ard: True
   update_active: True
@@ -102,7 +102,7 @@ fit_susie_summary: fitting.py + Python(results = fit_susie_summary(LD, B, se, S,
 
 
 fit_susie_summary_suggested(fit_susie_summary):
-  p0k: 0.01, 1.0
+  p0k: 1.0
   standardize: True
   update_ard: True
   update_active: True
@@ -113,7 +113,7 @@ fit_cafeh_genotype_pairwise: fitting.py + Python(out = fit_cafeh_genotype_pairwi
   X: $X
   Y: $Y
   K: $K
-  p0k: 0.01
+  p0k: 0.1
   standardize: True
   update_ard: True
   update_active: True
@@ -129,7 +129,7 @@ fit_cafeh_summary_simple: fitting.py + Python(model = fit_cafeh_summary_simple(L
   se: $se
   S: $S
   K: $K
-  p0k: 0.01
+  p0k: 0.1
   standardize: True, False
   fit: "weight_ard_active", "weight_active"
   max_iter: 50
@@ -149,7 +149,7 @@ fit_cafeh_summary_simple: fitting.py + Python(model = fit_cafeh_summary_simple(L
 
 fit_susie_summary_ss(fit_susie_summary):
   model: 'susie_summary_ss'
-  p0k: 0.01
+  p0k: 0.1
 
 fit_caviar: fitting.py + Python(caviar_out = run_caviar(B, se, LD))
   model: 'caviar'
