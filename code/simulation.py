@@ -114,6 +114,8 @@ def sim_block_study(X, afreq, ldscore, n_study, n_blocks, n_causal_per_block, bl
     n_samples = X.shape[0]
     n_causal = n_blocks * n_causal_per_block
 
+    R2 = np.corrcoef(X.T) ** 2
+
     active = (ldscore > min_ldscore) & (ldscore < max_ldscore)
     causal_snps = select_causal_snps(R2, n_causal, min_r2, max_r2, active).reshape(
         n_causal_per_block, -1)
