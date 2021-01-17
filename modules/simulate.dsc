@@ -5,10 +5,12 @@
 #---------------------------------------
 
 block_study_sim: simulation.py \
-  + Python(sim = sim_block_study(X, afreq, n_study, n_blocks, n_causal_per_block, block_p, pve, effect_distribution, *r2_range, *ldscore_range))
+  + Python(sim = sim_block_study(X, afreq, ldscore, n_study, n_blocks, n_causal_per_block, block_p, pve, effect_distribution, *r2_range, *ldscore_range))
   # demonstrate relative performance at a range of settings
   X: $X
   afreq: $afreq
+  ldscore: $ldscore
+  
   n_study: 2, 10
   block_p: 0.0
   n_blocks: 2
@@ -22,7 +24,6 @@ block_study_sim: simulation.py \
   $true_coloc: sim['true_coloc']
   $Y: sim['expression']
   $K: sim['K']
-  $ldscore: sim['ldscore']
 
 simple_coloc_sim(block_study_sim):
   n_study: 2
@@ -39,7 +40,7 @@ simple_no_coloc_sim(block_study_sim):
 simple_sim(block_study_sim):
   n_study: 4
   n_blocks: 2
-  pve: 0.05, 0.1
+  pve: 0.05, 0.1, 0.2
   n_causal_per_block: 1, 2, 3
 
 increase_tissue_sim(block_study_sim):

@@ -58,10 +58,10 @@ def sim_expression_single_study(X, afreq, causal, pve, effect_distribution='norm
     residual_variance = compute_sigma2(prediction, pve)
 
     # normalize so that residual variance is one
-    std = np.sqrt(residual_variance)
-    prediction = prediction / std
-    true_effects = true_effects / std
-    residual_variance = 1.0
+    # std = np.sqrt(residual_variance)
+    # prediction = prediction / std
+    # true_effects = true_effects / std
+    # residual_variance = 1.0
     
     expression = prediction + np.random.normal(
         size=prediction.size) * np.sqrt(residual_variance)
@@ -101,7 +101,7 @@ def select_causal_snps(R2, n_causal, min_r2, max_r2, active=None):
     return causal_snps
 
 
-def sim_block_study(X, afreq, n_study, n_blocks, n_causal_per_block, block_p, pve, effect_distribution, min_r2, max_r2, min_ldscore, max_ldscore):
+def sim_block_study(X, afreq, ldscore, n_study, n_blocks, n_causal_per_block, block_p, pve, effect_distribution, min_r2, max_r2, min_ldscore, max_ldscore):
     """
     each block has a causal snps, each study assigned to a main block
     tissues within a block share the causal snp
@@ -113,10 +113,6 @@ def sim_block_study(X, afreq, n_study, n_blocks, n_causal_per_block, block_p, pv
     n_variants = X.shape[1]
     n_samples = X.shape[0]
     n_causal = n_blocks * n_causal_per_block
-
-    R2 = np.corrcoef(X.T) ** 2
-    R2_adj = R2 - (1 - R2) / (n_samples - 2)
-    ldscore = R2_adj.sum(1) - np.diag(R2_adj) + 1
 
     active = (ldscore > min_ldscore) & (ldscore < max_ldscore)
     causal_snps = select_causal_snps(R2, n_causal, min_r2, max_r2, active).reshape(

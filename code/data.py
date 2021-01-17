@@ -83,6 +83,14 @@ def load_genotype(gene, subset=None, dense=True):
     # subprocess.run('rm {}*'.format(genotype_path[:-4]), shell=True)
     return genotype
 
+def compute_ldscore(X):
+    R2 = np.corrcoef(X.T) ** 2
+    R2_adj = R2 - (1 - R2) / (n_samples - 2)
+    ldscore = R2_adj.sum(1) - np.diag(R2_adj) + 1
+    return ldscore
+
+def compute_afreq(G):
+    return (G.sum(0) / (~G.isna()).sum(0) / 2).values
 
 def load_ld(gene, out):
     genotype = load_genotype(gene)

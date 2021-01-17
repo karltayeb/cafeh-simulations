@@ -6,12 +6,13 @@
 # $Y: expression t x n
 # $LD: LD matrix (correlation between genotypes)
 
-full_genotype: data.py + Python(gene=gene_list[DSC_REPLICATE % 200]; G=load_genotype(gene, subset, dense); X=center_mean_impute(G).values; afreq=(G.sum(0) / (~G.isna()).sum(0) / 2).values)
+full_genotype: data.py + Python(gene=gene_list[DSC_REPLICATE % 200]; G=load_genotype(gene, subset, dense); X=center_mean_impute(G).values; afreq=compute_afreq(G); ldscore=compute_ldscore(X))
   tag: "full"
   subset: None
   dense: True
   $X: X
   $afreq: afreq
+  $ldscore: ldscore
   $n_sample: X.shape[0]
   $n_variants: X.shape[1]
   $gene: gene
@@ -38,12 +39,6 @@ genotype2ld: Python(LD = numpy.corrcoef(X, rowvar=False))
   @CONF: python_modules = (numpy)
   X: $X
   $LD: LD
-
-ld2ldscore: Python(LD_corr = LD - (1-LD)/(X.shape[0] -2); LD_score = LD_corr.sum(1) - numpy.diag(LD_corr) + 1)
-  @CONF: python_modules = (numpy)
-  X: $X
-  LD: $LD
-  $LD_score: LD_score
 
 individual2summary: data.py + Python(sumstats = get_cafeh_summary_stats(Y.T, X))
   X: $X
