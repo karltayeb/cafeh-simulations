@@ -84,6 +84,7 @@ def load_genotype(gene, subset=None, dense=True):
     return genotype
 
 def compute_ldscore(X):
+    n_samples = X.shape[0]
     R2 = np.corrcoef(X.T) ** 2
     R2_adj = R2 - (1 - R2) / (n_samples - 2)
     ldscore = R2_adj.sum(1) - np.diag(R2_adj) + 1
