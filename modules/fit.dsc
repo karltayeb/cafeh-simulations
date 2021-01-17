@@ -25,7 +25,7 @@ fit_cafeh_genotype_suggested(fit_cafeh_genotype):
   update_variance: True
   w_prior_variance: 0.001
 
-fit_susie_genotype: fitting.py + Python(results = fit_susie_genotype(X.T, Y, K, p0k, standardize, update_ard, update_active, update_variance))
+fit_susie_genotype: fitting.py + Python(results = fit_susie_genotype(X.T, Y, K, p0k, w_prior_variance, standardize, update_ard, update_active, update_variance))
   model: 'susie_genotype'
   X: $X
   Y: $Y
@@ -36,6 +36,7 @@ fit_susie_genotype: fitting.py + Python(results = fit_susie_genotype(X.T, Y, K, 
   update_ard: True, False
   update_active: True
   update_variance: True, False
+  w_prior_variance: 0.001
 
   $expected_effects: results.expected_effects
   $study_pip: results.study_pip
@@ -51,19 +52,19 @@ fit_susie_genotype_suggested(fit_susie_genotype):
   update_variance: True
 
 
-fit_cafeh_summary: fitting.py + Python(model = fit_cafeh_summary(LD, B, se, S, K, p0k, standardize, update_ard, update_active); params = get_param_dict(model))
+fit_cafeh_summary: fitting.py + Python(model = fit_cafeh_summary(LD, B, se, S, K, p0k, w_prior_variance, standardize, update_ard, update_active); params = get_param_dict(model))
   model: 'cafeh_summary'
   LD: $LD
   B: $B
   se: $se
   S: $S
   K: $K
-
   p0k: 0.01
   standardize: False
   update_ard: True
   update_active: True
   update_variance: False # does nothing if true
+  w_prior_variance: 1.0
 
   $pip: model.get_pip()
   $study_pip: model.get_study_pip().values
@@ -78,7 +79,7 @@ fit_cafeh_summary_suggested(fit_cafeh_summary):
   update_active: True
   update_variance: True
 
-fit_susie_summary: fitting.py + Python(results = fit_susie_summary(LD, B, se, S, K, p0k, standardize, update_ard, update_active))
+fit_susie_summary: fitting.py + Python(results = fit_susie_summary(LD, B, se, S, K, p0k, w_prior_variance, standardize, update_ard, update_active))
   model: 'susie_summary'
   LD: $LD
   B: $B
@@ -91,6 +92,7 @@ fit_susie_summary: fitting.py + Python(results = fit_susie_summary(LD, B, se, S,
   update_ard: True
   update_active: True
   update_variance: False # does nothing if true
+  w_prior_variance: 1.0
 
   $expected_effects: results.expected_effects
   $study_pip: results.study_pip
@@ -106,7 +108,7 @@ fit_susie_summary_suggested(fit_susie_summary):
   update_active: True
   update_variance: True
 
-fit_cafeh_genotype_pairwise: fitting.py + Python(out = fit_cafeh_genotype_pairwise(X.T, Y, K, p0k, standardize, update_ard, update_active, update_variance))
+fit_cafeh_genotype_pairwise: fitting.py + Python(out = fit_cafeh_genotype_pairwise(X.T, Y, K, p0k, w_prior_variance, standardize, update_ard, update_active, update_variance))
   model: 'cafeh_genotype'
   X: $X
   Y: $Y
@@ -116,9 +118,11 @@ fit_cafeh_genotype_pairwise: fitting.py + Python(out = fit_cafeh_genotype_pairwi
   update_ard: True
   update_active: True
   update_variance: True
+  w_prior_variance: 1.0
+
   $p_coloc: out['p_coloc']
 
-fit_cafeh_summary_simple: fitting.py + Python(model = fit_cafeh_summary_simple(LD, B, se, S, K, p0k, standardize, fit, max_iter=max_iter); params = get_param_dict(model, compress=False))
+fit_cafeh_summary_simple: fitting.py + Python(model = fit_cafeh_summary_simple(LD, B, se, S, K, p0k, w_prior_variance, standardize, fit, max_iter=max_iter); params = get_param_dict(model, compress=False))
   model: 'cafeh_summary_simple'
   LD: $LD
   B: $B
@@ -130,6 +134,8 @@ fit_cafeh_summary_simple: fitting.py + Python(model = fit_cafeh_summary_simple(L
   fit: "weight_ard_active", "weight_active"
   max_iter: 50
   update_variance: False
+  w_prior_variance: 1.0
+
   $expected_effects: model.expected_effects
   $pip: model.get_pip()
   $study_pip: model.get_study_pip().values

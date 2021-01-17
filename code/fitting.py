@@ -48,7 +48,6 @@ def fit_cafeh_genotype(X, Y, K, p0k, w_prior_variance, standardize, update_ard, 
     update_variance, **kwargs):
     if standardize:
         X = (X - X.mean(1)[:, None]) / X.std(1)[:, None]
-        Y = (Y - Y.mean(1)[:, None]) / Y.std(1)[:, None]
 
     model = CAFEHG(X=X, Y=Y, K=K)
     model.prior_activity = np.ones(K) * p0k
@@ -59,7 +58,7 @@ def fit_cafeh_genotype(X, Y, K, p0k, w_prior_variance, standardize, update_ard, 
     return model
 
 
-def fit_cafeh_genotype_pairwise(X, Y, K, p0k, standardize, update_ard, update_active,
+def fit_cafeh_genotype_pairwise(X, Y, K, p0k, w_prior_variance, standardize, update_ard, update_active,
     update_variance, **kwargs):
     n_study = Y.shape[0]
 
@@ -72,8 +71,7 @@ def fit_cafeh_genotype_pairwise(X, Y, K, p0k, standardize, update_ard, update_ac
     for i, j in combinations(np.arange(n_study), 2):
         model = CAFEHG(X=X, Y=Y[[i, j]], K=K)
         model.prior_activity = np.ones(K) * p0k
-        model.weight_precision_b = np.ones_like(model.weight_precision_b) * 0.001
-
+        model.weight_precision_b = np.ones_like(model.weight_precision_b) *w_prior_variance
         _fit(model, update_ard, update_active, update_variance)
         p_coloc[(i, j)] = _p_coloc(0, 1, model)
 
@@ -82,7 +80,7 @@ def fit_cafeh_genotype_pairwise(X, Y, K, p0k, standardize, update_ard, update_ac
     return {'p_coloc': p_coloc}
 
 
-def fit_susie_genotype(X, Y, K, p0k, standardize, update_ard, update_active,
+def fit_susie_genotype(X, Y, K, p0k, w_prior_variance, standardize, update_ard, update_active,
     update_variance, **kwargs):
     expected_effects = []
     study_pip = []
@@ -96,6 +94,7 @@ def fit_susie_genotype(X, Y, K, p0k, standardize, update_ard, update_active,
     for y in Y:
         model = CAFEHG(X=X, Y=y[None], K=K)
         model.prior_activity = np.ones(K) * p0k
+        model.weight_precision_b = np.ones_like(model.weight_precision_b) *w_prior_variance
         _fit(model, update_ard, update_active, update_variance)
         model.clear_precompute()
 
@@ -112,20 +111,20 @@ def fit_susie_genotype(X, Y, K, p0k, standardize, update_ard, update_active,
         purity=purity, params=params)
 
 
-def fit_cafeh_summary(LD, B, se, S, K, p0k, standardize, update_ard, update_active, **kwargs):
+def fit_cafeh_summary(LD, B, se, S, K, p0k, w_prior_variance, standardize, update_ard, update_active, **kwargs):
     if standardize:
-        B = B / se
-        S = np.sqrt(B**2 / 838 + 1)
+        B = B / S
+        S = np.ones_like(S)
 
     model = CAFEH(LD=LD, B=B, S=S, K=K)
     model.prior_activity = np.ones(K) * p0k
-    model.weight_precision_b = np.ones_like(model.weight_precision_b) * 0.001
+    model.weight_precision_b = np.ones_like(model.weight_precision_b) *w_prior_variance
     _fit(model, update_ard, update_active, False)
     model.clear_precompute()
     return model
 
 
-def fit_susie_summary(LD, B, se, S, K, p0k, standardize, update_ard, update_active, **kwargs):
+def fit_susie_summary(LD, B, se, S, K, p0k, w_prior_variance, standardize, update_ard, update_active, **kwargs):
     expected_effects = []
     study_pip = []
     credible_sets = []
@@ -133,13 +132,13 @@ def fit_susie_summary(LD, B, se, S, K, p0k, standardize, update_ard, update_acti
     params = []
 
     if standardize:
-        B = B / se
-        S = np.sqrt(B**2 / 838 + 1)
+        B = B / S
+        S = np.ones_like(S)
 
     for i in range(B.shape[0]):
         model = CAFEH(LD=LD, B=B[[i]], S=S[[i]], K=K)
         model.prior_activity = np.ones(K) * p0k
-        model.weight_precision_b = np.ones_like(model.weight_precision_b) * 0.001
+        model.weight_precision_b = np.ones_like(model.weight_precision_b) * w_prior_variance
         _fit(model, update_ard, update_active, False)
         model.clear_precompute()
 
@@ -156,13 +155,14 @@ def fit_susie_summary(LD, B, se, S, K, p0k, standardize, update_ard, update_acti
         purity=purity, params=params)
 
 
-def fit_cafeh_summary_simple(LD, B, se, S, K, p0k, standardize, fit, **kwargs):
+def fit_cafeh_summary_simple(LD, B, se, S, K, p0k, w_prior_variance, standardize, fit, **kwargs):
     if standardize:
-        B = B / se
-        S = np.sqrt(B**2 / 838 + 1)
+        B = B / S
+        S = np.ones_like(S)
+
     model = CAFEHSimple(LD=LD, B=B, S=S, K=K)
     model.prior_activity = np.ones(K) * p0k
-    model.weight_precision_b = np.ones_like(model.weight_precision_b) * 0.001
+    model.weight_precision_b = np.ones_like(model.weight_precision_b) * w_prior_variance
     _fit(model, update_ard, update_active, update_variance)
     model.clear_precompute()
     return model
