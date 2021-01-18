@@ -11,8 +11,11 @@ from itertools import combinations
 from types import SimpleNamespace
 import yaml
 
-config = yaml.load(open('config.yml', 'r'))
-        
+try:
+    config = yaml.load(open('config.yml', 'r'))
+except Exception as e:
+    print(e)
+
 def _fit(model, update_ard, update_active, update_variance):
     fit_args = {
         'update_weights': True,
