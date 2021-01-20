@@ -47,7 +47,7 @@ fit_susie_genotype: fitting.py + Python(results = fit_susie_genotype(X.T, Y, K, 
 fit_susie_genotype_suggested(fit_susie_genotype):
   p0k: 1.0
   standardize: True
-  update_ard: True
+  update_ard: False
   update_active: True
   update_variance: True
 
