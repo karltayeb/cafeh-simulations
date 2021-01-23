@@ -51,6 +51,12 @@ fit_susie_genotype_suggested(fit_susie_genotype):
   update_active: True
   update_variance: True
 
+fit_susie_genotype_ss(fit_susie_genotype):
+  p0k: 0.1
+  standardize: True
+  update_ard: True
+  update_active: True
+  update_variance: True
 
 fit_cafeh_summary: fitting.py + Python(model = fit_cafeh_summary(LD, B, se, S, K, p0k, w_prior_variance, standardize, update_ard, update_active); params = get_param_dict(model))
   model: 'cafeh_summary'
