@@ -52,6 +52,7 @@ fit_susie_genotype_suggested(fit_susie_genotype):
   update_variance: True
 
 fit_susie_genotype_ss(fit_susie_genotype):
+  model: 'susie_genotype_ss'
   p0k: 0.1
   standardize: True
   update_ard: True

@@ -10,7 +10,7 @@ block_study_sim: simulation.py \
   X: $X
   afreq: $afreq
   ldscore: $ldscore
-  
+
   n_study: 2, 10
   block_p: 0.0
   n_blocks: 2
@@ -40,13 +40,13 @@ simple_no_coloc_sim(block_study_sim):
 simple_sim(block_study_sim):
   n_study: 4
   n_blocks: 2
-  pve: 0.05, 0.1, 0.2
+  pve: 0.01, 0.05, 0.1, 0.2
   n_causal_per_block: 1, 2, 3
 
 increase_tissue_sim(block_study_sim):
   # demonstrate relative performance at a range of settings
   X: $X
-  n_study: 2, 4, 8, 16
+  n_study: 4, 8, 16
   block_p: 0.0
   n_blocks: 2
   n_causal_per_block: 1, 2, 3
