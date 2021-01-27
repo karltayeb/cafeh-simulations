@@ -26,12 +26,12 @@ fit_cafeh_genotype_suggested(fit_cafeh_genotype):
   w_prior_variance: 0.1
 
 fit_cafeh_genotype_small_p(fit_cafeh_genotype):
-  p0k: 0.0001, 0.001
+  p0k: 0.00001, 0.0001, 0.001
   standardize: True
   update_ard: True
   update_active: True
   update_variance: True
-  w_prior_variance: 0.001, 0.01
+  w_prior_variance: 0.00001, 0.0001, 0.001, 0.01
 
 fit_susie_genotype: fitting.py + Python(results = fit_susie_genotype(X.T, Y, K, p0k, w_prior_variance, standardize, update_ard, update_active, update_variance))
   model: 'susie_genotype'
