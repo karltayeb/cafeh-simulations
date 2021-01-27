@@ -50,7 +50,7 @@ def _fit_soft_init(model, update_ard, update_active, update_variance):
     w_prior_variance = model.weight_precision_b
 
     wpv = 1e-6
-    while wpv < w_prior_variance[0]:
+    while wpv < np.max(w_prior_variance):
         model.weight_precision_b = np.ones_like(w_prior_variance) * wpv
         model.fit(**fit_args)
         wpv = wpv * 10
