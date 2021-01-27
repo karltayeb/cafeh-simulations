@@ -36,6 +36,36 @@ def _fit(model, update_ard, update_active, update_variance):
         fit_args['update_active'] = True
         model.fit(**fit_args)
 
+
+def _fit_soft_init(model, update_ard, update_active, update_variance):
+    fit_args = {
+        'update_weights': True,
+        'update_pi': True,
+        'update_variance': update_variance,
+        'ARD_weights': False,
+        'update_active': False,
+        'max_iter': 50
+    }
+    
+    w_prior_variance = model.weight_precision_b
+
+    wpv = 1e-6
+    while wpv < w_prior_variance[0]:
+        model.weight_precision_b = np.ones_like(w_prior_variance) * wpv
+        model.fit(**fit_args)
+        wpv = wpv * 10
+
+    model.weight_precision_b = w_prior_variance
+    model.fit(**fit_args)
+
+    if update_ard:
+        fit_args['ARD_weights'] = True
+        model.fit(**fit_args)
+
+    if update_active:
+        fit_args['update_active'] = True
+        model.fit(**fit_args)
+
 def get_param_dict(model, compress=True):
     param_dict = {}
     if compress:
@@ -57,6 +87,19 @@ def fit_cafeh_genotype(X, Y, K, p0k, w_prior_variance, standardize, update_ard, 
     model.weight_precision_b = np.ones_like(model.weight_precision_b) * w_prior_variance
 
     _fit(model, update_ard, update_active, update_variance)
+    model.clear_precompute()
+    return model
+
+def fit_cafeh_genotype_soft_init(X, Y, K, p0k, w_prior_variance, standardize, update_ard, update_active,
+    update_variance, **kwargs):
+    if standardize:
+        X = (X - X.mean(1)[:, None]) / X.std(1)[:, None]
+
+    model = CAFEHG(X=X, Y=Y, K=K)
+    model.prior_activity = np.ones(K) * p0k
+    model.weight_precision_b = np.ones_like(model.weight_precision_b) * w_prior_variance
+
+    _fit_soft_init(model, update_ard, update_active, update_variance)
     model.clear_precompute()
     return model
 
