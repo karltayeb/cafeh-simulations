@@ -68,3 +68,14 @@ r2_between_blocks(block_study_sim):
   n_causal_per_block: 1
   pve: 0.05, 0.1, 0.2
   r2_range: (0, 0.5), (0.5, 0.6), (0.6, 0.7), (0.7, 0.8), (0.8, 0.9), (0.9, 0.1)
+
+
+high_r2(block_study_sim):
+  # demonstrate relative performance at a range of settings
+  X: $X
+  n_study: 4
+  block_p: 0.0
+  n_blocks: 2
+  n_causal_per_block: 1
+  pve: 0.05
+  r2_range: (0.7, 0.8), (0.8, 0.9), (0.9, 0.1)
