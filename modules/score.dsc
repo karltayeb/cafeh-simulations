@@ -10,6 +10,10 @@ score_coloc_ecaviar: scoring.py + Python(results = score_coloc_ecaviar(ecaviar_o
   ecaviar_out: $ecaviar_out
   $p_coloc: results['p_coloc']
 
+score_coloc_finemap: scoring.py + Python(results = score_coloc_finemap(finemap_out))
+  finemap_out: $finemap_out
+  $p_coloc: results['p_coloc']
+
 score_finemapping_cafeh: scoring.py + Python(results = score_finemapping_cafeh(credible_sets, purity, true_effects))
   credible_sets: $credible_sets
   purity: $purity
@@ -19,7 +23,6 @@ score_finemapping_cafeh: scoring.py + Python(results = score_finemapping_cafeh(c
   $n_causal_in_cs: results['n_causal_in_cs']
   $n_causal: results['n_causal']
   $n_top_causal: results['n_top_causal']
-
 
 score_finemapping_caviar: scoring.py + Python(results = score_finemapping_caviar(caviar_out, true_effects))
   caviar_out: $caviar_out
