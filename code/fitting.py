@@ -388,4 +388,4 @@ def run_finemap(B, se, afreq, LD):
 
     # get pips
     subprocess.run('rm -r {}*'.format(prefix), shell=True)
-    return cmd
+    return results
