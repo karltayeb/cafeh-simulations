@@ -378,8 +378,8 @@ def run_finemap(B, se, afreq, LD):
     # get credible sets
     results = []
     for i in range(B.shape[0]):
-        p = '{}study{}.snp'.format(prefix, i)
-        df = pd.read_csv('../finemap_test/study0.snp', index_col=0, sep=' ')
+        p = prefix + 'study{}.snp'.format(i)
+        df = pd.read_csv(p, index_col=0, sep=' ')
         df.loc[:, 'snp'] = df.rsid.apply(lambda x: int(x[2:]) - 1)
         df = df.set_index('snp')
         df = df.sort_index()
