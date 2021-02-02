@@ -41,6 +41,20 @@ def score_coloc_ecaviar(ecaviar_out):
     }
 
 
+def score_coloc_finemap(finemap_out):
+    n_study = len(finemap_out)
+    out = {}
+    for i, j in combinations(range(n_study), 2):
+        CLPP = finemap_out[i].posterior.pip * results[j].posterior.prob
+        out[(i, j)] = CLPP.values
+
+    tril = np.tril_indices(n_study, k=-1)
+    p_coloc = np.concatenate(
+        [[out[(t1, t2)].max() for t1 in range(t2)] for t2 in range(n_study)])
+    return {
+        'p_coloc': p_coloc
+    }
+
 def score_finemapping_cafeh(credible_sets, purity, true_effects):
     """
     compute finemapping scores
