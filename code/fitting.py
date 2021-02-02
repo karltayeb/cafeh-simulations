@@ -344,7 +344,7 @@ def run_finemap(B, se, afreq, LD):
 
     t, n = B.shape
 
-    pd.DataFrame(LD).to_csv(prefix + 'ld', sep=' ', index=None, header=None)
+    pd.DataFrame(LD).to_csv(prefix + 'ld.ld', sep=' ', index=None, header=None)
     for study in range(t):
         d = {
             'rsid': ['rs{}'.format(i + 1) for i in range(n)],
@@ -363,7 +363,7 @@ def run_finemap(B, se, afreq, LD):
 
     master = {
         'z': [prefix + 'study{}.z'.format(i) for i in range(t)],
-        'ld': [prefix + 'ld' for _ in range(t)],
+        'ld': [prefix + 'ld.ld' for _ in range(t)],
         'snp': [prefix + 'study{}.snp'.format(i) for i in range(t)],
         'config': [prefix + 'study{}.config'.format(i) for i in range(t)],
         'cred': [prefix + 'study{}.cred'.format(i) for i in range(t)],
