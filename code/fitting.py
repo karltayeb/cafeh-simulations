@@ -326,3 +326,66 @@ def load_model_from_history(X, Y, params):
     model._decompress_model()
     return model
 
+
+############
+#  FINEMAP  #
+############
+
+def run_finemap(B, se, afreq, LD):
+    FINEMAP_PATH = config['finemap_path']
+    prefix_path = '.tmp/finemap/'
+    if not os.path.isdir(prefix_path):
+        os.makedirs(prefix_path)
+
+    # seed hack so that tmp files dont get overwritten
+    import time
+    np.random.seed(int((time.time() * 1e6) % (2**32 -1)))
+    prefix = prefix_path + ''.join(np.random.choice(10, 20).astype(str))
+
+    t, n = B.shape
+
+    pd.DataFrame(LD).to_csv(prefix + 'ld', sep=' ', index=None, header=None)
+    for study in range(t):
+        d = {
+            'rsid': ['rs{}'.format(i + 1) for i in range(n)],
+            'chromosome': np.ones(n),
+            'position': np.arange(n) + 1,
+            'allele1': ['T' for _ in range(n)],
+            'allele2': ['A' for _ in range(n)],
+            'maf': np.minimum(afreq, np.abs(afreq-1)),
+            'beta': B[study],
+            'se': se[study]
+        }
+
+        d = pd.DataFrame(d)
+        d.chromosome = d.chromosome.astype(int)
+        d.to_csv(prefix + 'study{}.z'.format(study), sep=' ', index=None)
+
+    master = {
+        'z': [prefix + 'study{}.z'.format(i) for i in range(t)],
+        'ld': [prefix + 'ld' for _ in range(t)],
+        'snp': [prefix + 'study{}.snp'.format(i) for i in range(t)],
+        'config': [prefix + 'study{}.config'.format(i) for i in range(t)],
+        'cred': [prefix + 'study{}.cred'.format(i) for i in range(t)],
+        'log': [prefix + 'study{}.log'.format(i) for i in range(t)],
+        'n_samples': [n for _ in range(t)],
+    }
+    pd.DataFrame(master).to_csv(prefix + 'master', sep=';', index=None)
+
+    cmd = './{} --in-files {}master --sss'.format(FINEMAP_PATH, prefix)
+    subprocess.run(cmd, shell=True)
+
+    # get credible sets
+    results = []
+    for i in range(B.shape[0]):
+        p = '{}study{}.snp'.format(prefix, i)
+        df = pd.read_csv('../finemap_test/study0.snp', index_col=0, sep=' ')
+        df.loc[:, 'snp'] = df.rsid.apply(lambda x: int(x[2:]) - 1)
+        df = df.set_index('snp')
+        df = df.sort_index()
+
+        results.append(SimpleNamespace(posterior=df))
+
+    # get pips
+    subprocess.run('rm -r {}*'.format(prefix), shell=True)
+    return cmd

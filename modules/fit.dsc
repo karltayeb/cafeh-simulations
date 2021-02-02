@@ -202,3 +202,12 @@ fit_coloc: fitting.py + Python(coloc_out = run_coloc(B, se))
   B: $B
   se: $se
   $coloc_out: coloc_out
+
+
+fit_finemap: fitting.py + Python(finemap_out = run_finemap(B, se, afreq, LD))
+  model: 'finemap'
+  LD: $LD
+  B: $B
+  se: $se
+  afreq: $afreq
+  $finemap_out: finemap_out
