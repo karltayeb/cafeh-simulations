@@ -101,3 +101,13 @@ def score_finemapping_caviar(caviar_out, true_effects):
     n_causal = np.array([causal_snps[i].size for i in causal_snps])
     return SimpleNamespace(
         study_pip=pip, credible_sets=credible_sets, n_causal_in_cs=n_causal, n_causal=n_causal)
+
+
+def score_finemapping_finemap(finemap_out, true_effects):
+    n_study = len(finemap_out)
+    out = {}
+
+    pip = pd.concat([c.posterior.prob
+        for c in finemap_out], axis=1).T.values
+    return SimpleNamespace(study_pip=pip)
+

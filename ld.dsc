@@ -27,7 +27,7 @@ DSC:
     coloc: fit_coloc * score_coloc_coloc
 
     #FINEMAP
-    finemap: fit_finemap * score_coloc_finemap
+    finemap: fit_finemap * (score_coloc_finemap, score_finemapping_finemap)
 
   run:
     small_coloc_pipeline: small_genotype * genotype2ld * coloc_sim * individual2summary * (fit_cafeh_genotype_suggested * score_coloc_cafeh, coloc, caviar)

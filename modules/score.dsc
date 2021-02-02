@@ -33,4 +33,8 @@ score_finemapping_caviar: scoring.py + Python(results = score_finemapping_caviar
   $n_causal: results.n_causal
 
 
+score_finemapping_finemap: scoring.py + Python(results = score_finemapping_finemap(finemap_out, true_effects))
+  finemap_out: $finemap_out
+  true_effects: $true_effects
+  $study_pip: results.study_pip
 
