@@ -1,6 +1,7 @@
 from types import SimpleNamespace
 import numpy as np
 import pandas as pd
+from itertools import combinations
 
 def score_coloc_cafeh(active):
     """
