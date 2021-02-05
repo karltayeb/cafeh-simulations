@@ -196,6 +196,10 @@ fit_caviar_z2(fit_caviar):
   model: 'caviar_z2'
   z_filter: 2
 
+fit_caviar_z3(fit_caviar):
+  model: 'caviar_z3'
+  z_filter: 3
+
 fit_ecaviar: fitting.py + Python(ecaviar_out = ecaviar_from_caviar(caviar_out))
   model: 'ecaviar'
   caviar_out: $caviar_out
