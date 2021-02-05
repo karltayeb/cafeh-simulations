@@ -226,7 +226,7 @@ def make_caviar_command(CAVIAR_PATH, ld_path, z_path, c=2, o='.tmp/caviar'):
     return cmd
 
 
-def run_caviar(B, se, LD):
+def run_caviar(B, se, LD, z_filter):
     """
     run caviar, return list of caviar POST dataframes
     use this downstream for eCAVIAR and finemapping evaluation
@@ -244,6 +244,11 @@ def run_caviar(B, se, LD):
 
 
     z = B / se
+
+    mask = z.max(0) > z_filter
+    z = z[:, mask]
+    LD = LD[mask][:, mask]
+
     # save caviar summary stats: zscore, LD
     for i, z_i in enumerate(z):
         pd.Series(z_i).to_csv('{}z{}'.format(prefix, i), sep='\t', header=None)

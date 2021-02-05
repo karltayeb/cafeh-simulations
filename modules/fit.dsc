@@ -142,6 +142,7 @@ fit_susie_summary_suggested(fit_susie_summary):
   update_active: True
   update_variance: True
 
+
 fit_cafeh_genotype_pairwise: fitting.py + Python(out = fit_cafeh_genotype_pairwise(X.T, Y, K, p0k, w_prior_variance, standardize, update_ard, update_active, update_variance))
   model: 'cafeh_genotype'
   X: $X
@@ -179,18 +180,21 @@ fit_cafeh_summary_simple: fitting.py + Python(model = fit_cafeh_summary_simple(L
   $purity: model.purity
   $params: params
 
-
-
 fit_susie_summary_ss(fit_susie_summary):
   model: 'susie_summary_ss'
   p0k: 0.1
 
-fit_caviar: fitting.py + Python(caviar_out = run_caviar(B, se, LD))
+fit_caviar: fitting.py + Python(caviar_out = run_caviar(B, se, LD, z_filter))
   model: 'caviar'
+  z_filter: 0
   LD: $LD
   B: $B
   se: $se
   $caviar_out: caviar_out
+
+fit_caviar_z2(fit_caviar):
+  model: 'caviar_z2'
+  z_filter: 2
 
 fit_ecaviar: fitting.py + Python(ecaviar_out = ecaviar_from_caviar(caviar_out))
   model: 'ecaviar'
@@ -202,7 +206,6 @@ fit_coloc: fitting.py + Python(coloc_out = run_coloc(B, se))
   B: $B
   se: $se
   $coloc_out: coloc_out
-
 
 fit_finemap: fitting.py + Python(finemap_out = run_finemap(B, se, afreq, LD))
   model: 'finemap'
