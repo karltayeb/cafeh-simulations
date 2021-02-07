@@ -23,6 +23,7 @@ DSC:
     # caviar
     caviar: fit_caviar * (score_finemapping_caviar, fit_ecaviar*score_coloc_ecaviar)
 
+    caviar_z2: fit_caviar_z2 * (score_finemapping_caviar, fit_ecaviar*score_coloc_ecaviar)
     # coloc
     coloc: fit_coloc * score_coloc_coloc
 
