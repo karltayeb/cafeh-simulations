@@ -246,6 +246,10 @@ def run_caviar(B, se, LD, z_filter):
     z = B / se
 
     mask = z.max(0) > z_filter
+
+    if mask.sum() > 6000:
+        assert(False)  # exit the program, too large to run
+
     z = z[:, mask]
     LD = LD[mask][:, mask]
 
