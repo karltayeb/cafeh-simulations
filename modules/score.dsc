@@ -14,6 +14,10 @@ score_coloc_finemap: scoring.py + Python(results = score_coloc_finemap(finemap_o
   finemap_out: $finemap_out
   $p_coloc: results['p_coloc']
 
+score_coloc_susie: scoring.py + Python(results = score_coloc_susie(study_pip))
+  study_pip: $study_pip
+  $p_coloc: results['p_coloc']
+
 score_finemapping_cafeh: scoring.py + Python(results = score_finemapping_cafeh(credible_sets, purity, true_effects))
   credible_sets: $credible_sets
   purity: $purity
