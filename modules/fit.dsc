@@ -78,8 +78,26 @@ fit_susie_genotype_suggested(fit_susie_genotype):
   update_active: True
   update_variance: True
 
+fit_susie_genotype_suggested_10(fit_susie_genotype):
+  model: 'susie_genotype_suggested_10'
+  K: 10
+  p0k: 1.0
+  standardize: True
+  update_ard: False
+  update_active: True
+  update_variance: True
+
 fit_susie_genotype_ss(fit_susie_genotype):
   model: 'susie_genotype_ss'
+  p0k: 0.1
+  standardize: True
+  update_ard: True
+  update_active: True
+  update_variance: True
+
+fit_susie_genotype_ss_10(fit_susie_genotype):
+  model: 'susie_genotype_ss_10'
+  K: 10
   p0k: 0.1
   standardize: True
   update_ard: True
