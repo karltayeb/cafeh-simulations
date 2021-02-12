@@ -241,8 +241,6 @@ def run_caviar(B, se, LD, z_filter):
     prefix = prefix_path + ''.join(np.random.choice(10, 20).astype(str))
     np.random.seed(DSC_SEED)
 
-
-
     z = B / se
 
     mask = np.abs(z).max(0) > z_filter
