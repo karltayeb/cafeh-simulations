@@ -47,7 +47,7 @@ def score_coloc_finemap(finemap_out):
     out = {}
     for i, j in combinations(range(n_study), 2):
         CLPP = finemap_out[i].posterior.prob * finemap_out[j].posterior.prob
-        out[(i, j)] = CLPP
+        out[(i, j)] = CLPP.values
 
     tril = np.tril_indices(n_study, k=-1)
     p_coloc = np.concatenate(
@@ -61,7 +61,7 @@ def score_coloc_susie(study_pip):
     out = {}
     for i, j in combinations(range(n_study), 2):
         CLPP = study_pip[i] * study_pip[j]
-        out[(i, j)] = CLPP.values
+        out[(i, j)] = CLPP
 
     tril = np.tril_indices(n_study, k=-1)
     p_coloc = np.concatenate(
