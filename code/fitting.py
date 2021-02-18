@@ -284,7 +284,7 @@ def run_caviar(B, se, LD, z_filter):
         results.append(SimpleNamespace(posterior=post, credible_set=cs))
 
     # clean up temporary files
-    subprocess.run('rm -r {}*'.format(prefix), shell=True)
+    # subprocess.run('rm -r {}*'.format(prefix), shell=True)
     return results
 
 
@@ -394,5 +394,5 @@ def run_finemap(B, se, afreq, LD):
         results.append(SimpleNamespace(posterior=df))
 
     # get pips
-    subprocess.run('rm -r {}*'.format(prefix), shell=True)
+    # subprocess.run('rm -r {}*'.format(prefix), shell=True)
     return results
