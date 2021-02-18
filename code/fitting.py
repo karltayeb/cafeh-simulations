@@ -136,11 +136,12 @@ def fit_susie_genotype(X, Y, K, p0k, w_prior_variance, standardize, update_ard, 
 
     if standardize:
         X = (X.T / X.T.std(0)).T
+        Y = Y / np.std(Y, 1)[:, None]
 
     for y in Y:
         model = CAFEHG(X=X, Y=y[None], K=K)
         model.prior_activity = np.ones(K) * p0k
-        model.weight_precision_b = np.ones_like(model.weight_precision_b) *w_prior_variance
+        model.weight_precision_b = np.ones_like(model.weight_precision_b) * w_prior_variance
         _fit(model, update_ard, update_active, update_variance)
         model.clear_precompute()
 

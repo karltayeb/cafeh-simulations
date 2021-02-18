@@ -56,14 +56,14 @@ fit_susie_genotype: fitting.py + Python(results = fit_susie_genotype(X.T, Y, K, 
   model: 'susie_genotype'
   X: $X
   Y: $Y
-  K: 5
+  K: 10
 
   p0k: 1.0
-  standardize: False
-  update_ard: True, False
-  update_active: True
-  update_variance: True, False
-  w_prior_variance: 0.1
+  standardize: True
+  update_ard: True
+  update_active: False
+  update_variance: True
+  w_prior_variance: 0.2
 
   $expected_effects: results.expected_effects
   $study_pip: results.study_pip
@@ -71,38 +71,10 @@ fit_susie_genotype: fitting.py + Python(results = fit_susie_genotype(X.T, Y, K, 
   $purity: results.purity
   $params: results.params
 
-fit_susie_genotype_suggested(fit_susie_genotype):
-  p0k: 1.0
-  standardize: True
-  update_ard: False
-  update_active: True
-  update_variance: True
-
-fit_susie_genotype_suggested_Kten(fit_susie_genotype):
-  model: 'susie_genotype_suggested_Kten'
-  K: 10
-  p0k: 1.0
-  standardize: True
-  update_ard: False
-  update_active: True
-  update_variance: True
-
 fit_susie_genotype_ss(fit_susie_genotype):
   model: 'susie_genotype_ss'
   p0k: 0.1
-  standardize: True
-  update_ard: True
   update_active: True
-  update_variance: True
-
-fit_susie_genotype_ss_Kten(fit_susie_genotype):
-  model: 'susie_genotype_ss_Kten'
-  K: 10
-  p0k: 0.1
-  standardize: True
-  update_ard: True
-  update_active: True
-  update_variance: True
 
 fit_cafeh_summary: fitting.py + Python(model = fit_cafeh_summary(LD, B, se, S, K, p0k, w_prior_variance, standardize, update_ard, update_active); params = get_param_dict(model))
   model: 'cafeh_summary'
