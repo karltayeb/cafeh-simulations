@@ -46,8 +46,7 @@ fit_cafeh_genotype_suggested(fit_cafeh_genotype):
 
 
 fit_cafeh_genotype_small_p(fit_cafeh_genotype):
-  p0k: 0.001
-
+  p0k: 0.001, 0.01
   standardize: True
   update_ard: True
   update_active: True
