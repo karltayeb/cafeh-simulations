@@ -85,3 +85,15 @@ high_r2(block_study_sim):
   n_causal_per_block: 1
   pve: 0.05, 0.1, 0.2, 0.4
   r2_range: (0.6, 0.7), (0.7, 0.8), (0.8, 0.9), (0.9, 0.1)
+
+
+increase_r2_sim(block_study_sim):
+  # demonstrate relative performance at a range of settings
+  rep: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
+  X: $X
+  n_study: 2
+  block_p: 0.0
+  n_blocks: 2
+  n_causal_per_block: 1
+  pve: 0.2
+  r2_range: (0, 0.5), (0.5, 0.6), (0.6, 0.7), (0.7, 0.8), (0.8, 0.9)
