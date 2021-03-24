@@ -1,6 +1,7 @@
 score_coloc_cafeh: scoring.py + Python(results = score_coloc_cafeh(active))
   active: $active
   $p_coloc: results['p_coloc']
+  $maxmin: results['maxmin']
 
 score_coloc_coloc: scoring.py + Python(results = score_coloc_coloc(coloc_out))
   coloc_out: $coloc_out

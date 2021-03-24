@@ -15,8 +15,14 @@ def score_coloc_cafeh(active):
     tril = np.tril_indices(n_study, k=-1)
     p_coloc = np.concatenate(
         [[compute_p_coloc(t1, t2) for t1 in range(t2)] for t2 in range(n_study)])
+
+
+    compute_maxmin = lambda t1, t2: active[[t1, t2]].min(0).max()
+    maxmin = np.concatenate(
+        [[compute_maxmin(t1, t2) for t1 in range(t2)] for t2 in range(n_study)])
     return {
-        'p_coloc': p_coloc
+        'p_coloc': p_coloc,
+        'maxmin': maxmin
     }
 
 
