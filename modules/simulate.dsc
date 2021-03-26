@@ -95,5 +95,5 @@ increase_r2_sim(block_study_sim):
   block_p: 0.0
   n_blocks: 2, 1
   n_causal_per_block: 1
-  pve: 0.2
+  pve: 0.1
   r2_range: (0, 0.5), (0.5, 0.6), (0.6, 0.7), (0.7, 0.8), (0.8, 0.9)
