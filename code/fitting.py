@@ -125,7 +125,6 @@ def fit_cafeh_genotype_pairwise(X, Y, K, p0k, w_prior_variance, standardize, upd
             [[p_coloc[(t1, t2)] for t1 in range(t2)] for t2 in range(n_study)])
     return {'p_coloc': p_coloc}
 
-
 def fit_susie_genotype(X, Y, K, p0k, w_prior_variance, standardize, update_ard, update_active,
     update_variance, **kwargs):
     expected_effects = []
@@ -323,7 +322,7 @@ def run_coloc(beta, se):
     out = {}
     for i, j in combinations(range(lnabf.shape[0]), 2):
         out[(i, j)] = SimpleNamespace(
-            **{'pph{}'.format(i): x for i, x in enumerate(
+            **{'pph{}'.format(k): x for k, x in enumerate(
                 coloc(lnabf[i], lnabf[j]))})
     return out
 
