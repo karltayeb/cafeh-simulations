@@ -49,6 +49,14 @@ def sim_expression_single_study(X, afreq, causal, pve, effect_distribution='norm
         true_effects[causal] = np.random.normal(
             size=np.atleast_1d(causal).size)
 
+    if effect_distribution is 'normal-mixture':
+        true_effects[causal] = np.random.normal(
+            size=np.atleast_1d(causal).size)
+        # rescale effects to be drawn from a mixture of normals
+        # x ~ 1/3 N(0, 0.1) + 1/3 N(0, 1) + 1/3 N(0, 10)
+        true_effects = true_effects * np.random.choice(np.sqrt([0.1, 1.0, 10]),
+            true_effects.size).reshape(true_effects.shape)
+
     if effect_distribution is 'constant':
         true_effects[causal] = 1.0
 

@@ -97,3 +97,12 @@ increase_r2_sim(block_study_sim):
   n_causal_per_block: 1
   pve: 0.1
   r2_range: (0, 0.5), (0.5, 0.6), (0.6, 0.7), (0.7, 0.8), (0.8, 0.9)
+
+
+normal_mixture_sim(block_study_sim):
+  n_study: 4
+  n_blocks: 2
+  pve: 0.01, 0.05, 0.1, 0.2
+  n_causal_per_block: 1, 2, 3
+  effect_distribution: 'normal-mixture'
+
