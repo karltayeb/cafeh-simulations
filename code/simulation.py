@@ -60,6 +60,9 @@ def sim_expression_single_study(X, afreq, causal, pve, effect_distribution='norm
     if effect_distribution is 'constant':
         true_effects[causal] = 1.0
 
+    else:
+        error()
+
     # sample effect size var \propto 1/p(1-p)
     true_effects = true_effects  / np.sqrt(afreq * (1 - afreq))
     prediction = X @ true_effects
