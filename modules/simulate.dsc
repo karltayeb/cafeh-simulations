@@ -124,3 +124,10 @@ normal_mixture_sim(block_study_sim):
   n_causal_per_block: 1, 2, 3
   effect_distribution: 'normal-mixture'
 
+point_mixture_sim(block_study_sim):
+  n_study: 4
+  n_blocks: 2
+  pve: 1.0
+  n_causal_per_block: 1, 2, 3
+  effect_distribution: 'point-mixture'
+
