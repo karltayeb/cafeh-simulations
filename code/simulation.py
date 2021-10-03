@@ -43,6 +43,10 @@ def sim_expression_single_study(X, afreq, causal, pve, effect_distribution='norm
     """
     X: m x n
     return simulated_expression, true_effects, residual_variance
+
+    SPECIAL: IF PVE = 0 just set residual variance to 1
+    this is useful for looking at the mixture case
+    where we need effect size to be interpretable
     """
     true_effects = np.zeros(X.shape[1])
     if effect_distribution == 'normal':
@@ -54,7 +58,14 @@ def sim_expression_single_study(X, afreq, causal, pve, effect_distribution='norm
             size=np.atleast_1d(causal).size)
         # rescale effects to be drawn from a mixture of normals
         # x ~ 1/3 N(0, 0.1) + 1/3 N(0, 1) + 1/3 N(0, 10)
-        true_effects = true_effects * np.random.choice(np.sqrt([0.1, 1.0, 10]),
+        true_effects = true_effects * np.random.choice(np.sqrt([0.01, 0.1, 1.0, 10]),
+            true_effects.size).reshape(true_effects.shape)
+
+    elif effect_distribution == 'point-mixture':
+        true_effects[causal] = 1.0
+        # rescale effects to be drawn from a mixture of normals
+        # x ~ 1/3 N(0, 0.1) + 1/3 N(0, 1) + 1/3 N(0, 10)
+        true_effects = true_effects * np.random.choice(np.sqrt([0.01, 0.1, 1.0, 10]),
             true_effects.size).reshape(true_effects.shape)
 
     elif effect_distribution == 'constant':
@@ -65,7 +76,11 @@ def sim_expression_single_study(X, afreq, causal, pve, effect_distribution='norm
     # sample effect size var \propto 1/p(1-p)
     true_effects = true_effects  / np.sqrt(afreq * (1 - afreq))
     prediction = X @ true_effects
-    residual_variance = compute_sigma2(prediction, pve)
+
+    if pve == 0:
+        residual_variance = 1.0
+    else:
+        residual_variance = compute_sigma2(prediction, pve)
 
     # normalize so that residual variance is one
     # std = np.sqrt(residual_variance)
