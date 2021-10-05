@@ -45,6 +45,15 @@ fit_cafeh_genotype_suggested(fit_cafeh_genotype):
   w_prior_variance: 0.1
 
 
+fit_cafeh_genotype_fixed_var(fit_cafeh_genotype):
+  p0k: 0.1
+  standardize: True
+  update_ard: True
+  update_active: True
+  update_variance: False
+  w_prior_variance: 0.1
+
+
 fit_cafeh_genotype_no_ard(fit_cafeh_genotype):
   model: 'cafeh_genotype_no_ard'
   p0k: 0.1
