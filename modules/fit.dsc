@@ -44,6 +44,14 @@ fit_cafeh_genotype_suggested(fit_cafeh_genotype):
   update_variance: True
   w_prior_variance: 0.1
 
+fit_cafeh_genotype_conservative(fit_cafeh_genotype):
+  p0k: 0.01
+  standardize: True
+  update_ard: True
+  update_active: True
+  update_variance: True
+  w_prior_variance: 0.001
+
 
 fit_cafeh_genotype_fixed_var(fit_cafeh_genotype):
   p0k: 0.1
@@ -60,7 +68,7 @@ fit_cafeh_genotype_small_w_var(fit_cafeh_genotype):
   update_ard: True
   update_active: True
   update_variance: True
-  w_prior_variance: 0.001, 0.0001, 0.00001
+  w_prior_variance: 0.001, 0.0001
 
 
 fit_cafeh_genotype_no_ard(fit_cafeh_genotype):
