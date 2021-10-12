@@ -17,25 +17,6 @@ fit_cafeh_genotype: fitting.py + Python(model = fit_cafeh_genotype(X.T, Y, K, p0
   $active: model.active
   $fit_model: model
 
-fit_cafeh_genotype_soft_init: fitting.py + Python(model = fit_cafeh_genotype_soft_init(X.T, Y, K, p0k, w_prior_variance, standardize, update_ard, update_active, update_variance); params = get_param_dict(model))
-  model: 'cafeh_genotype_soft_init'
-  X: $X
-  Y: $Y
-  K: $K
-
-  p0k: 0.001, 0.01, 0.1
-  standardize: True
-  update_ard: True
-  update_active: True
-  update_variance: True
-  w_prior_variance: 0.1
-
-  $pip: model.get_pip()
-  $study_pip: model.get_study_pip().values
-  $pi: model.pi
-  $active: model.active
-  $fit_model: model
-
 fit_cafeh_genotype_suggested(fit_cafeh_genotype):
   p0k: 0.1
   standardize: True
