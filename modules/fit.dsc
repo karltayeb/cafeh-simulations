@@ -53,7 +53,14 @@ fit_cafeh_genotype_conservative(fit_cafeh_genotype):
   update_variance: True
   w_prior_variance: 0.001
 
-
+fit_cafeh_param_grid(fit_cafeh_genotype):
+  model: 'cafeh_genotype_param_grid'
+  p0k: 0.001, 0.01, 0.1
+  standardize: True
+  update_ard: True
+  update_active: True
+  update_variance: True
+  w_prior_variance: 0.0001, 0.001, 0.01, 0.1
 
 fit_cafeh_genotype_fixed_var(fit_cafeh_genotype):
   p0k: 0.1
