@@ -160,8 +160,8 @@ def load_genotype_sv(gene, subset=None, dense=True):
     sv = sv.loc[idx]
 
     # filter down to variable variants
-    genotype = genotype.iloc[:, genotype.var(0) > 0]
-    sv = sv.iloc[:, sv.var(0) > 0]
+    genotype = genotype.loc[:, genotype.var(0) > 0]
+    sv = sv.loc[:, sv.var(0) > 0]
 
     # clean up
     # subprocess.run('rm {}*'.format(genotype_path[:-4]), shell=True)
