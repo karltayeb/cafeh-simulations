@@ -152,7 +152,7 @@ def load_genotype_sv(gene, subset=None, dense=True):
     sv = pd.read_csv(config['sv_raw_path'], sep='\t')#.loc[:, gene2sv.get('ENSG00000163513.17')]
     sv = sv.set_index('IID').iloc[:, 5:]
     sv.columns = ['_'.join(c.split('_')[:-1]) for c in sv.columns]
-    sv = sv.loc[:, sim_gene2sv.get(gene)]
+    sv = sv.loc[:, gene2sv.get(gene)]
 
     idx = np.intersect1d(sv.index, genotype.index)
 
