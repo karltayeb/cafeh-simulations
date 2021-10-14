@@ -38,6 +38,7 @@ fit_cafeh_genotype_snp_sv(fit_cafeh_genotype_suggested):
   data_source: 'SNP + SV'
   X: $X_snp_sv
 
+
 fit_cafeh_genotype_conservative(fit_cafeh_genotype):
   model: 'cafeh_genotype_conservative'
   p0k: 0.01
@@ -235,6 +236,34 @@ fit_ecaviar: fitting.py + Python(ecaviar_out = ecaviar_from_caviar(caviar_out))
   model: 'ecaviar'
   caviar_out: $caviar_out
   $ecaviar_out: ecaviar_out
+
+fit_coloc: fitting.py + Python(coloc_out = run_coloc(B, se))
+  model: 'coloc'
+  B: $B
+  se: $se
+  $coloc_out: coloc_out
+
+fit_coloc_sv(fit_coloc):
+  data_source: 'SV'
+  B: $B_sv
+  se: $se_sv
+
+fit_coloc_snp(fit_coloc):
+  data_source: 'SNP'
+  B: $B_snp
+  se: $se_snp
+
+fit_coloc_snp_sv(fit_coloc):
+  data_source: 'SNP + SV'
+  B: $B_snp_sv
+  se: $se_snp_sv
+
+
+fit_coloc: fitting.py + Python(coloc_out = run_coloc(B, se))
+  model: 'coloc'
+  B: $B
+  se: $se
+  $coloc_out: coloc_out
 
 fit_coloc: fitting.py + Python(coloc_out = run_coloc(B, se))
   model: 'coloc'
