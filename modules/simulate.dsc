@@ -139,6 +139,7 @@ allelic_het_mixture_sim(block_study_sim):
   effect_distribution: 'normal-mixture', 'point-mixture'
 
 block_study_sim_sv(block_study_sim):
+  sim_id: 'causal_sv'
   X: $X_sv
   afreq: $afreq_sv
   ldscore: $ldscore_sv
@@ -150,6 +151,7 @@ block_study_sim_sv(block_study_sim):
   effect_distribution: 'normal'
 
 block_study_sim_snp(block_study_sim):
+  sim_id: 'causal_snp'
   X: $X_snp
   afreq: $afreq_snp
   ldscore: $ldscore_snp
