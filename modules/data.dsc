@@ -63,21 +63,21 @@ individual2summary: data.py + Python(sumstats = get_cafeh_summary_stats(Y.T, X))
   $se: sumstats['se']
   $S: sumstats['S']
 
-individual2summary_sv(individual2summary)
+individual2summary_sv(individual2summary):
   X: $X_sv
   Y: $Y
   $B_sv: sumstats['beta']
   $se_sv: sumstats['se']
   $S_sv: sumstats['S']
 
-individual2summary_snp(individual2summary)
+individual2summary_snp(individual2summary):
   X: $X_snp
   Y: $Y
   $B_snp: sumstats['beta']
   $se_snp: sumstats['se']
   $S_snp: sumstats['S']
 
-individual2summary_snp_sv(individual2summary)
+individual2summary_snp_sv(individual2summary):
   X: $X_snp_sv
   Y: $Y
   $B_snp_sv: sumstats['beta']
