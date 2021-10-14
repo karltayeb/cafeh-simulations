@@ -148,7 +148,7 @@ def load_genotype_sv(gene, subset=None, dense=True):
 
 
     # load structural variants genotype
-    gene2sv = json.load(open(config['gene2sv_path', 'r']))
+    gene2sv = json.load(open(config['gene2sv_path'], 'r'))
     sv = pd.read_csv(config['sv_raw_path'], sep='\t')#.loc[:, gene2sv.get('ENSG00000163513.17')]
     sv = sv.set_index('IID').iloc[:, 5:]
     sv.columns = ['_'.join(c.split('_')[:-1]) for c in sv.columns]
