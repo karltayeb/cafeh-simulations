@@ -27,12 +27,15 @@ fit_cafeh_genotype_suggested(fit_cafeh_genotype):
 
 
 fit_cafeh_genotype_snp(fit_cafeh_genotype_suggested):
+  data_source: 'SNP'
   X: $X_snp
 
 fit_cafeh_genotype_sv(fit_cafeh_genotype_suggested):
+  data_source: 'SV'
   X: $X_sv
 
 fit_cafeh_genotype_snp_sv(fit_cafeh_genotype_suggested):
+  data_source: 'SNP + SV'
   X: $X_snp_sv
 
 fit_cafeh_genotype_conservative(fit_cafeh_genotype):
