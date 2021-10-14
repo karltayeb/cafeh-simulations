@@ -322,7 +322,7 @@ def run_coloc(beta, se):
     lnabf = compute_lnabf(beta, se)
     out = {}
     for i, j in combinations(range(lnabf.shape[0]), 2):
-            print("computing running coloc...")
+        print("computing running coloc...")
         out[(i, j)] = SimpleNamespace(
             **{'pph{}'.format(k): x for k, x in enumerate(
                 coloc(lnabf[i], lnabf[j]))})
