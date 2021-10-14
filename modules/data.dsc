@@ -56,6 +56,22 @@ genotype2ld: Python(LD = numpy.corrcoef(X, rowvar=False))
   X: $X
   $LD: LD
 
+genotype2ld_sv: Python(LD = numpy.corrcoef(X, rowvar=False))
+  @CONF: python_modules = (numpy)
+  X: $X_sv
+  $LD_sv: LD
+
+genotype2ld_snp: Python(LD = numpy.corrcoef(X, rowvar=False))
+  @CONF: python_modules = (numpy)
+  X: $X_snp
+  $LD_snp: LD
+
+genotype2ld_snp_sv: Python(LD = numpy.corrcoef(X, rowvar=False))
+  @CONF: python_modules = (numpy)
+  X: $X_snp_sv
+  $LD_snp_sv: LD
+
+
 individual2summary: data.py + Python(sumstats = get_cafeh_summary_stats(Y.T, X))
   X: $X
   Y: $Y
