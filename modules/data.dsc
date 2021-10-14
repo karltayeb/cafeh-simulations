@@ -35,7 +35,7 @@ large_genotype(full_genotype):
   tag: '5k_genotype'
   subset: 5000
 
-full_genotype_sv: data.py + Python(gene=sv_gene_list[DSC_REPLICATE % 200]; G=load_genotype_sv(gene, subset, dense); X=center_mean_impute(G[0]).values; X_sv=center_mean_impute(G[1])
+full_genotype_sv: data.py + Python(gene=sv_gene_list[DSC_REPLICATE % 200]; G=load_genotype_sv(gene, subset, dense); X=center_mean_impute(G[0]).values; X_sv=center_mean_impute(G[1]))
   tag: "full"
   subset: None
   dense: True
