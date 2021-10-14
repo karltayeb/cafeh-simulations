@@ -138,26 +138,24 @@ allelic_het_mixture_sim(block_study_sim):
   n_causal_per_block: 5, 10
   effect_distribution: 'normal-mixture', 'point-mixture'
 
-
-
-
-block_study_sim_sv: simulation.py \
-  + Python(sim = sim_block_study(X, afreq, ldscore, n_study, n_blocks, n_causal_per_block, block_p, pve, effect_distribution, *r2_range, *ldscore_range))
-  # demonstrate relative performance at a range of settings
+block_study_sim_sv(block_study_sim):
   X: $X_sv
   afreq: $afreq_sv
   ldscore: $ldscore_sv
 
-  n_study: 2, 10
-  block_p: 0.0
+  n_study: 4
   n_blocks: 2
+  pve: 0.2
   n_causal_per_block: 1, 2, 3
-  pve: 0.1, 0.05, 0.01
   effect_distribution: 'normal'
-  r2_range: (0, 0.8)
-  ldscore_range: (-1e10, 1e10)
-  $residual_variance: sim['residual_variance']
-  $true_effects: sim['true_effects']
-  $true_coloc: sim['true_coloc']
-  $Y: sim['expression']
-  $K: sim['K']
+
+block_study_sim_snp(block_study_sim):
+  X: $X_snp
+  afreq: $afreq_snp
+  ldscore: $ldscore_snp
+
+  n_study: 4
+  n_blocks: 2
+  pve: 0.2
+  n_causal_per_block: 1, 2, 3
+  effect_distribution: 'normal'
