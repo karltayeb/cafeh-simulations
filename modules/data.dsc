@@ -49,6 +49,7 @@ full_genotype_sv: data.py + Python(gene=sv_gene_list[DSC_REPLICATE % 200]; G=loa
   $n_variants: X.shape[1]
   $n_structural_variants: X_sv.shape[1]
   $gene: gene
+  $X_snp_sv: np.concat([X_snp, X_sv], axis=1)
 
 genotype2ld: Python(LD = numpy.corrcoef(X, rowvar=False))
   @CONF: python_modules = (numpy)
