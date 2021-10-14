@@ -154,13 +154,19 @@ def load_genotype_sv(gene, subset=None, dense=True):
     sv.columns = ['_'.join(c.split('_')[:-1]) for c in sv.columns]
     sv = sv.loc[:, gene2sv.get(gene)]
 
+    # subset to shared samples
     idx = np.intersect1d(sv.index, genotype.index)
+    genotype = genotype.loc[idx]
+    sv = sv.loc[idx]
+
+    # filter down to variable variants
+    genotype = genotype.iloc[:, genotype.var(0) > 0]
+    sv = sv.iloc[:, sv.var(0) > 0]
 
     # clean up
     # subprocess.run('rm {}*'.format(genotype_path[:-4]), shell=True)
-    print(genotype.loc[idx].shape)
-    print(sv.loc[idx].shape)
-    return genotype.loc[idx], sv.loc[idx]
+
+    return genotype, sv
 
 def compute_ldscore(X):
     n_samples = X.shape[0]
