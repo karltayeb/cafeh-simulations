@@ -39,9 +39,9 @@ full_genotype_sv: data.py + Python(gene=sv_gene_list[DSC_REPLICATE % 200]; G=loa
   tag: "full"
   subset: None
   dense: True
-  $X: X
-  $afreq: afreq
-  $ldscore: ldscore
+  $X_snp: X
+  $afreq_snp: afreq
+  $ldscore_snp: ldscore
   $X_sv: X_sv
   $afreq_sv: afreq_sv
   $ldscore_sv: ldscore_sv
