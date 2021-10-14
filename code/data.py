@@ -122,7 +122,7 @@ def make_plink_beagle_cmd_sv(gene, save_path):
     return cmd
 
 def load_genotype_sv(gene, subset=None, dense=True):
-    if not os.path.isdir('.tmp/genotype'):
+    if not os.path.isdir('.tmp/genotype_sv'):
         os.makedirs('.tmp/genotype_sv')
     genotype_path = '.tmp/genotype_sv/{}.raw'.format(gene)
     map_path = '.tmp/genotype_sv/{}.chr-{}.map'.format(gene, get_chr(gene)[3:])
