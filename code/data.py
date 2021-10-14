@@ -158,6 +158,8 @@ def load_genotype_sv(gene, subset=None, dense=True):
 
     # clean up
     # subprocess.run('rm {}*'.format(genotype_path[:-4]), shell=True)
+    print(genotype.loc[idx].shape)
+    print(sv.loc[idx].shape)
     return genotype.loc[idx], sv.loc[idx]
 
 def compute_ldscore(X):
