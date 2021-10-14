@@ -142,10 +142,10 @@ block_study_sim_sv(block_study_sim):
   X: $X_sv
   afreq: $afreq_sv
   ldscore: $ldscore_sv
-
   n_study: 4
   n_blocks: 2
-  pve: 0.2
+  pve: 0.01, 0.05, 0.1, 0.2
+
   n_causal_per_block: 1, 2, 3
   effect_distribution: 'normal'
 
@@ -153,9 +153,9 @@ block_study_sim_snp(block_study_sim):
   X: $X_snp
   afreq: $afreq_snp
   ldscore: $ldscore_snp
-
   n_study: 4
   n_blocks: 2
-  pve: 0.2
+  pve: 0.01, 0.05, 0.1, 0.2
+
   n_causal_per_block: 1, 2, 3
   effect_distribution: 'normal'
