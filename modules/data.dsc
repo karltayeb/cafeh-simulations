@@ -35,6 +35,17 @@ large_genotype(full_genotype):
   tag: '5k_genotype'
   subset: 5000
 
+full_genotype_sv: data.py + Python(gene=sv_gene_list[DSC_REPLICATE % 200]; G=load_genotype_sv(gene, subset, dense); X=center_mean_impute(G[0]).values; X_sv=center_mean_impute(G[1])
+  tag: "full"
+  subset: None
+  dense: True
+  $X: X
+  $X_sv: X_sv
+  $n_sample: X.shape[0]
+  $n_variants: X.shape[1]
+  $n_structural_variants: X_sv.shape[1]
+  $gene: gene
+
 genotype2ld: Python(LD = numpy.corrcoef(X, rowvar=False))
   @CONF: python_modules = (numpy)
   X: $X
