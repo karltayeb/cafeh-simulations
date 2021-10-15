@@ -66,13 +66,13 @@ fit_cafeh_genotype_fixed_var(fit_cafeh_genotype):
   w_prior_variance: 0.1
 
 
-fit_cafeh_genotype_small_w_var(fit_cafeh_genotype):
+fit_cafeh_genotype_vary_w(fit_cafeh_genotype):
   p0k: 0.1
   standardize: True
   update_ard: True
   update_active: True
   update_variance: True
-  w_prior_variance: 0.001, 0.0001
+  w_prior_variance: 0.0001, 0.001, 0.01, 0.1
 
 
 fit_cafeh_genotype_no_ard(fit_cafeh_genotype):
@@ -136,7 +136,7 @@ fit_cafeh_summary: fitting.py + Python(model = fit_cafeh_summary(LD, B, se, S, K
   $study_pip: model.get_study_pip().values
   $pi: model.pi
   $active: model.active
-  $m: model
+  $fit_model: model
 
 fit_cafeh_summary_suggested(fit_cafeh_summary):
   p0k: 0.1
