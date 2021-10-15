@@ -5,7 +5,7 @@ score_coloc_cafeh: scoring.py + Python(results = score_coloc_cafeh(active))
 
 cafeh_elbo: Python()
   fit_model: $fit_model
-  $elbos: fit_model.elbos
+  $elbo: fit_model.elbos[-1]
 
 score_coloc_coloc: scoring.py + Python(results = score_coloc_coloc(coloc_out))
   coloc_out: $coloc_out
