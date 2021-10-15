@@ -3,6 +3,10 @@ score_coloc_cafeh: scoring.py + Python(results = score_coloc_cafeh(active))
   $p_coloc: results['p_coloc']
   $maxmin: results['maxmin']
 
+cafeh_elbo:
+  fit_model: $fit_model
+  $elbos: fit_model.elbos
+
 score_coloc_coloc: scoring.py + Python(results = score_coloc_coloc(coloc_out))
   coloc_out: $coloc_out
   $p_coloc: results['p_coloc']
