@@ -54,9 +54,10 @@ def sim_expression_single_study(X, afreq, causal, pve, effect_distribution='norm
             size=np.atleast_1d(causal).size)
 
     elif effect_distribution == 'point-normal':
+        p = np.min([(1/np.atleast_1d(causal).size) * 2, 1.0])
         true_effects[causal] = \
             np.random.normal(size=np.atleast_1d(causal).size) * \
-            np.random.binomial(1, 0.5, np.atleast_1d(causal).size)
+            np.random.binomial(1, p, np.atleast_1d(causal).size)
 
     elif effect_distribution == 'normal-mixture':
         true_effects[causal] = np.random.normal(
