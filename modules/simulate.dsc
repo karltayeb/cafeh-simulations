@@ -135,7 +135,7 @@ point_normal_sim(block_study_sim):
   n_study: 10
   n_blocks: 1
   pve: 0.01, 0.05, 0.1
-  n_causal_per_block: 5
+  n_causal_per_block: 5, 10
   effect_distribution: 'point-normal'
 
 allelic_het_mixture_sim(block_study_sim):
